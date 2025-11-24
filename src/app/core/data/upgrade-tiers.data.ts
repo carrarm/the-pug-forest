@@ -2,11 +2,19 @@ import { UpgradeTier } from '@model';
 
 export const UPGRADE_TIERS: UpgradeTier[] = [
   {
+    code: 'TRAVELER_AURA',
+    name: 'Traveler’s Aura',
+    description: 'Click value x2',
+    affects: [],
+    baseCost: 250,
+    multiplier: 2,
+  },
+  {
     code: 'BARK_RESONANCE',
     name: 'Bark of Resonance',
     description: 'Neighborhood Kids + Bike Cart production x2',
     affects: ['NEIGHBORHOOD_KIDS', 'BIKE_CART'],
-    baseCost: 250,
+    baseCost: 900,
     multiplier: 2,
   },
   {

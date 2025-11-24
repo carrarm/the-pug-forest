@@ -1,0 +1,79 @@
+:host {
+  display: block;
+  max-width: 1000px;
+  margin: auto;
+}
+
+header {
+  background-color: #775331;
+  padding: 0.5rem 2rem;
+
+  color: #FFBB59;
+  font-family: 'Finger Paint', Verdana, Geneva, Tahoma, sans-serif;
+  font-size: xx-large;
+  text-align: center;
+}
+
+main {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.main-panel {
+  background-image: url('/pug-forest-background.png');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  padding: 1rem;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  .game-state {
+    background-color: var(--light-background);
+    padding: 0.5rem 1rem;
+
+    font-size: x-large;
+    font-weight: bold;
+
+    hr {
+      border: solid 1px #D2AB6A;
+      border-radius: 10px;
+    }
+
+    .subsection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .owned-pugs {
+      font-size: 2em;
+      line-height: 0.75em;
+    }
+  }
+
+  button {
+    background-color: #247119;
+    border: solid 3px #112f11;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+
+    color: white;
+    font-size: large;
+  }
+}
+
+.tiers-panel {
+  width: 350px;
+  background-color: var(--light-background);
+  padding: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

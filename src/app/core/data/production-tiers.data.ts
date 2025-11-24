@@ -6,14 +6,14 @@ export const PRODUCTION_TIERS: ProductionTier[] = [
     name: 'Neighborhood Kids',
     description: 'A couple kids who wander the forest and return with pugs they find',
     baseCost: 10,
-    production: 0.1,
+    production: 1,
   },
   {
     code: 'BIKE_CART',
     name: 'Bike Cart',
     description: "Attach a little cart to the kids' bikes so they can carry more pugs",
     baseCost: 75,
-    production: 1,
+    production: 2,
   },
   {
     code: 'PUG_WHISPERER',

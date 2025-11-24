@@ -88,7 +88,8 @@ Cost scaling uses: **base_cost × 4^(upgrade_level)**
 
 | Upgrade                  | Affects   | Base Cost  | Effect        |
 |--------------------------|-----------|------------|---------------|
-| Bark of Resonance        | Tiers 1–2 | 250        | ×2 production |
+| Traveler's Aura          | Click     | 250        | ×2 production |
+| Bark of Resonance        | Tiers 1–2 | 900        | ×2            |
 | Whisperer’s Charm        | Tier 3    | 2,000      | ×2            |
 | Lantern Glow Enhancement | Tier 6    | 30,000     | ×2            |
 | Guild Master Training    | Tier 7    | 300,000    | ×2            |
@@ -104,18 +105,18 @@ Prestige resets progress but awards permanent bonuses.
 
 1. **Pug Essence**
 
-  * Requirement: 1 billion lifetime pugs
-  * Bonus: +5% global production
+* Requirement: 1 billion lifetime pugs
+* Bonus: +5% global production
 
 2. **Spirit of the Elder Pug**
 
-  * Requirement: 10 billion lifetime pugs
-  * Bonus: +25% global
+* Requirement: 10 billion lifetime pugs
+* Bonus: +25% global
 
 3. **Pug Realm Ascension**
 
-  * Requirement: 100 billion lifetime pugs
-  * Bonus: Start each run with 1 Elder Tree of Pugs
+* Requirement: 100 billion lifetime pugs
+* Bonus: Start each run with 1 Elder Tree of Pugs
 
 ---
 

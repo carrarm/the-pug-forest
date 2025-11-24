@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  --border: solid 3px #43290E;
+  --border-radius: 5px;
+  --light-background: #F5CF8E;
+  --font-family: 'Sour Gummy', Verdana, Arial, Helvetica, sans-serif;
+  --font-color: #54361E;
+
+  background-color: #9A6B3F;
+
+  font-family: 'Sour Gummy', Verdana, Arial, Helvetica, sans-serif;
+  color: var(--font-color);
+}
+
+.app-bordered-panel {
+  border: var(--border);
+  border-radius: var(--border-radius);
+}
+
+button {
+  font-family: var(--font-family), serif;
+  cursor: pointer;
+
+  &.light-button {
+    background-color: #E6BD7D;
+    border: solid 2px #43290E;
+    border-radius: var(--border-radius);
+    padding: 2px 8px;
+
+    font-size: small;
+    font-weight: bold;
+  }
+}
+
+
+/* TODO: separate file*/
+.u-flex {
+  display: flex;
+}
+
+.u-items-center {
+  align-items: center;
+}
+
+.u-justify-between {
+  justify-content: space-between;
+}

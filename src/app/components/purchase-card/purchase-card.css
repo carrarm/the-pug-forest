@@ -1,0 +1,32 @@
+.app-bordered-panel {
+  padding: 5px 10px;
+  display: flex;
+  gap: 0.5rem;
+
+  font-size: small;
+}
+
+img {
+  width: 50px;
+}
+
+.tier-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  .title {
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .description {
+    font-style: italic;
+  }
+}
+
+.purchase-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

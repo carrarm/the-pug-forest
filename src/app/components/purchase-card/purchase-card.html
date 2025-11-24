@@ -1,0 +1,33 @@
+<div class="app-bordered-panel">
+  <div>
+    <img src="production-tiers/{{ image() }}" [alt]="title()" />
+  </div>
+  <div class="tier-info">
+    <span class="title">{{ title() }}</span>
+    <span class="description">{{ description() }}</span>
+    <span
+      >Owned: <strong>{{ owned() }} (1M pugs/s)</strong></span
+    >
+    <div class="u-flex u-items-center u-justify-between">
+      <span
+        >Cost: <strong>{{ cost() | number }} pugs</strong></span
+      >
+      <span
+        >Produces: <strong>{{ production() }} pugs/s</strong></span
+      >
+    </div>
+    <div class="purchase-buttons">
+      <span>Purchase:</span>
+      @for (amount of amounts(); track amount.label) {
+        <button
+          class="light-button"
+          [title]="amount.tooltip"
+          [disabled]="!amount.canPurchase"
+          (click)="purchase.emit(amount.value)"
+        >
+          {{ amount.label }}
+        </button>
+      }
+    </div>
+  </div>
+</div>
