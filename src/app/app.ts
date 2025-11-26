@@ -1,34 +1,40 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+
+import { PRODUCTION_TIERS } from '@data/production-tiers.data';
+import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+import { GameStateService } from '@core/services/game-state.service';
+import { ProductionTier } from '@model';
+
 import { PurchaseCard } from './components/purchase-card/purchase-card';
-import { PRODUCTION_TIERS } from './core/data/production-tiers.data';
-import { GameState } from '@model';
 
 @Component({
   selector: 'app-root',
-  imports: [PurchaseCard],
+  imports: [PurchaseCard, ShortNumberPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
-  // TODO: split in separate state props
-  protected readonly gameState = signal<GameState>(this.getStartingGameState());
+export class App implements OnInit {
   protected readonly productionTiers = PRODUCTION_TIERS;
 
-  protected visitForest(): void {
-    this.gameState.update((state) => ({ ...state, ownedPugs: state.ownedPugs + 1 }));
+  protected readonly gameState = inject(GameStateService);
+
+  public ngOnInit() {
+    setInterval(() => {
+      this.gameState.ownedPugs.update((owned) => owned + this.gameState.pugsPerSecond());
+      this.gameState.saveState();
+    }, 1000);
   }
 
-  private getStartingGameState(): GameState {
-    // TODO Check if there's already one in storage
-    return {
-      achievements: {},
-      lastProductionDate: '',
-      ownedPugs: 0,
-      prestiges: {},
-      productionTiers: {},
-      totalSpent: 0,
-      upgradeTiers: {},
-    };
+  protected purchaseProductionTier(tier: ProductionTier, amount: number): void {
+    this.gameState.productionTiers.update((tiers) => {
+      return { ...tiers, [tier.code]: (tiers[tier.code] ?? 0) + amount };
+    });
+    const totalPurchaseCost = tier.baseCost * amount;
+    this.gameState.ownedPugs.update((owned) => owned - totalPurchaseCost);
+    this.gameState.totalSpent.update((total) => total + totalPurchaseCost);
+  }
+
+  protected visitForest(): void {
+    this.gameState.ownedPugs.update((owned) => owned + 1);
   }
 }

@@ -72,3 +72,8 @@ export const PRODUCTION_TIERS: ProductionTier[] = [
     production: 900000,
   },
 ];
+
+export const PRODUCTION_TIER_BY_CODE: Record<string, ProductionTier> = {};
+PRODUCTION_TIERS.forEach((tier) => {
+  PRODUCTION_TIER_BY_CODE[tier.code] = tier;
+});

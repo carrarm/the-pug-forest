@@ -4,12 +4,12 @@
     <div class="game-state app-bordered-panel">
       <div class="subsection">
         <span>PUGS</span>
-        <span class="owned-pugs">{{ gameState().ownedPugs }}</span>
+        <span class="owned-pugs">{{ gameState.ownedPugs() | shortNumber }}</span>
       </div>
       <hr />
       <div class="subsection">
         <span>PRODUCTION</span>
-        <span>3.1 pugs/s</span>
+        <span>{{ gameState.pugsPerSecond() | shortNumber }} pugs/s</span>
       </div>
     </div>
 
@@ -22,10 +22,10 @@
         [title]="tier.name"
         [description]="tier.description"
         [cost]="tier.baseCost"
-        [owned]="10"
+        [owned]="gameState.productionTiers()[tier.code] ?? 0"
         [production]="tier.production"
-        [gameState]="gameState()"
         [image]="tier.code + '.png'"
+        (purchase)="purchaseProductionTier(tier, $event)"
       />
     }
   </div>
