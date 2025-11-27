@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 
 import { PRODUCTION_TIERS } from '@data/production-tiers.data';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
@@ -6,10 +6,13 @@ import { GameStateService } from '@core/services/game-state.service';
 import { ProductionTier } from '@model';
 
 import { PurchaseCard } from './components/purchase-card/purchase-card';
+import { NgClass } from '@angular/common';
+
+type Panel = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE';
 
 @Component({
   selector: 'app-root',
-  imports: [PurchaseCard, ShortNumberPipe],
+  imports: [NgClass, PurchaseCard, ShortNumberPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -17,6 +20,8 @@ export class App implements OnInit {
   protected readonly productionTiers = PRODUCTION_TIERS;
 
   protected readonly gameState = inject(GameStateService);
+
+  protected activePanel = signal<Panel>('PRODUCTION');
 
   public ngOnInit() {
     setInterval(() => {

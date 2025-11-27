@@ -76,4 +76,22 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  .switch-buttons {
+    display: flex;
+    justify-content: space-evenly;
+
+    button {
+      background-color: #C59568;
+      border: solid 1px #43290E;
+      border-radius: var(--border-radius);
+      padding: 0.2rem 0.75rem;
+
+      color: white;
+    }
+
+    .active {
+      background-color: #775331;
+    }
+  }
 }

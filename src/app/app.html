@@ -16,16 +16,41 @@
   </div>
 
   <div class="tiers-panel app-bordered-panel">
-    @for (tier of productionTiers; track tier.code) {
-      <app-purchase-card
-        [title]="tier.name"
-        [description]="tier.description"
-        [cost]="tier.baseCost"
-        [owned]="gameState.productionTiers()[tier.code] ?? 0"
-        [production]="tier.production"
-        [image]="tier.code + '.png'"
-        (purchase)="purchaseProductionTier(tier, $event)"
-      />
+    <div class="switch-buttons">
+      <button
+        [ngClass]="{ active: activePanel() === 'PRODUCTION' }"
+        (click)="activePanel.set('PRODUCTION')"
+      >
+        Production
+      </button>
+      <button
+        [ngClass]="{ active: activePanel() === 'UPGRADE' }"
+        (click)="activePanel.set('UPGRADE')"
+      >
+        Upgrades
+      </button>
+      <button
+        [ngClass]="{ active: activePanel() === 'PRESTIGE' }"
+        (click)="activePanel.set('PRESTIGE')"
+      >
+        Prestige
+      </button>
+    </div>
+
+    @switch (activePanel()) {
+      @case ('PRODUCTION') {
+        @for (tier of productionTiers; track tier.code) {
+          <app-purchase-card
+            [title]="tier.name"
+            [description]="tier.description"
+            [cost]="tier.baseCost"
+            [owned]="gameState.productionTiers()[tier.code] ?? 0"
+            [production]="tier.production"
+            [image]="tier.code + '.png'"
+            (purchase)="purchaseProductionTier(tier, $event)"
+          />
+        }
+      }
     }
   </div>
 </main>
