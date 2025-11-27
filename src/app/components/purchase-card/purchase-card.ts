@@ -19,9 +19,6 @@ interface Amount {
   providers: [ShortNumberPipe],
 })
 export class PurchaseCard {
-  //public readonly type = input.required<'production' | 'upgrade'>();
-  //public readonly tier = input.required<ProductionTier | UpgradeTier>();
-
   public readonly title = input.required<string>();
   public readonly image = input<string>();
   public readonly description = input.required<string>();
@@ -55,6 +52,13 @@ export class PurchaseCard {
   protected readonly currentProduction = computed(() => {
     return this.production() * this.owned();
   });
+
+  protected detailExpanded = false;
+
+  protected purchaseTier(howMany: number, event: Event): void {
+    event.stopImmediatePropagation();
+    this.purchase.emit(howMany);
+  }
 
   private canPurchase(amount: Amount, cost: number, pugs: number): boolean {
     const totalCost = amount.value * cost;

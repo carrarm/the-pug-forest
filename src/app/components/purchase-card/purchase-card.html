@@ -1,13 +1,19 @@
-<div class="app-bordered-panel">
+<div class="app-bordered-panel" (click)="detailExpanded = !detailExpanded">
   <div>
     <img src="production-tiers/{{ image() }}" [alt]="title()" />
   </div>
   <div class="tier-info">
-    <span class="title">{{ title() }}</span>
-    <span class="description">{{ description() }}</span>
-    <span
-      >Owned: <strong>{{ owned() }} ({{ currentProduction() | shortNumber }} pugs/s)</strong></span
-    >
+    <div class="title">
+      <span>{{ title() }}</span>
+      <span class="owned-badge">{{ owned() | shortNumber }}</span>
+    </div>
+    @if (detailExpanded) {
+      <span class="description">{{ description() }}</span>
+      <span
+        >Owned:
+        <strong>{{ owned() }} ({{ currentProduction() | shortNumber }} pugs/s)</strong></span
+      >
+    }
     <div class="u-flex u-items-center u-justify-between">
       <span
         >Cost: <strong>{{ currentCost() | shortNumber }} pugs</strong></span
@@ -23,7 +29,7 @@
           class="light-button"
           [title]="amount.tooltip"
           [disabled]="!amount.canPurchase"
-          (click)="purchase.emit(amount.value)"
+          (click)="purchaseTier(amount.value, $event)"
         >
           {{ amount.label }}
         </button>
