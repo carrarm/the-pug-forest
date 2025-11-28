@@ -36,6 +36,11 @@ export class GameStateService {
       const producedOffline = (elapsedTimeMs / 1000) * this.pugsPerSecond();
       console.log(`Your team adopted ${producedOffline} more pugs while you were offline!`);
       this.ownedPugs.set(gameState.ownedPugs + producedOffline);
+    } else {
+      this.productionTiers.update((tiers) => {
+        Object.keys(PRODUCTION_TIER_BY_CODE).forEach((code) => (tiers[code] = 0));
+        return { ...tiers };
+      });
     }
   }
 

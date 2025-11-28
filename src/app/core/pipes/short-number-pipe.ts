@@ -12,7 +12,6 @@ const SUFFIXES = [
 })
 export class ShortNumberPipe implements PipeTransform {
   transform(value: number): string {
-    console.log(value, Number.isFinite(value));
     if (!Number.isFinite(value)) {
       return '';
     }

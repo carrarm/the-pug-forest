@@ -44,7 +44,7 @@
             [title]="tier.name"
             [description]="tier.description"
             [cost]="tier.baseCost"
-            [owned]="gameState.productionTiers()[tier.code] ?? 0"
+            [owned]="gameState.productionTiers()[tier.code]"
             [production]="tier.production"
             [image]="tier.code + '.png'"
             (purchase)="purchaseProductionTier(tier, $event)"

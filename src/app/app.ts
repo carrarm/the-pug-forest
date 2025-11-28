@@ -7,6 +7,7 @@ import { ProductionTier } from '@model';
 
 import { PurchaseCard } from './components/purchase-card/purchase-card';
 import { NgClass } from '@angular/common';
+import { TierService } from '@core/services/tier.service';
 
 type Panel = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE';
 
@@ -21,6 +22,8 @@ export class App implements OnInit {
 
   protected readonly gameState = inject(GameStateService);
 
+  private readonly tierService = inject(TierService);
+
   protected activePanel = signal<Panel>('PRODUCTION');
 
   public ngOnInit() {
@@ -31,10 +34,11 @@ export class App implements OnInit {
   }
 
   protected purchaseProductionTier(tier: ProductionTier, amount: number): void {
+    const owned = this.gameState.productionTiers()[tier.code];
     this.gameState.productionTiers.update((tiers) => {
       return { ...tiers, [tier.code]: (tiers[tier.code] ?? 0) + amount };
     });
-    const totalPurchaseCost = tier.baseCost * amount;
+    const totalPurchaseCost = this.tierService.computeCurrentCost(tier.baseCost, owned) * amount;
     this.gameState.ownedPugs.update((owned) => owned - totalPurchaseCost);
     this.gameState.totalSpent.update((total) => total + totalPurchaseCost);
   }
