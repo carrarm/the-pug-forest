@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <button (click)="visitForest()">Visit the forest</button>
+    <button (click)="visitForest()" title="1 pug/click">Visit the forest</button>
   </div>
 
   <div class="tiers-panel app-bordered-panel">
@@ -39,17 +39,7 @@
 
     @switch (activePanel()) {
       @case ('PRODUCTION') {
-        @for (tier of productionTiers; track tier.code) {
-          <app-purchase-card
-            [title]="tier.name"
-            [description]="tier.description"
-            [cost]="tier.baseCost"
-            [owned]="gameState.productionTiers()[tier.code]"
-            [production]="tier.production"
-            [image]="tier.code + '.png'"
-            (purchase)="purchaseProductionTier(tier, $event)"
-          />
-        }
+        <app-production-panel />
       }
     }
   </div>

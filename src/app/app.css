@@ -73,11 +73,8 @@ main {
   background-color: var(--light-background);
   padding: 0.5rem;
 
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
   .switch-buttons {
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-evenly;
 

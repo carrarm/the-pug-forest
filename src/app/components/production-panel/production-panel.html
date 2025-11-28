@@ -1,0 +1,11 @@
+@for (tier of productionTiers; track tier.code) {
+  <app-purchase-card
+    [title]="tier.name"
+    [description]="tier.description"
+    [cost]="tier.baseCost"
+    [owned]="gameState.productionTiers()[tier.code]"
+    [production]="tier.production"
+    [image]="tier.code + '.png'"
+    (purchase)="purchaseProductionTier(tier, $event)"
+  />
+}
