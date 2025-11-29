@@ -10,16 +10,15 @@
     @if (detailExpanded) {
       <span class="description">{{ description() }}</span>
       <span
-        >Owned:
-        <strong>{{ owned() }} ({{ currentProduction() | shortNumber }} pugs/s)</strong></span
+        >Owned: <strong>{{ owned() }} ({{ currentProduction() | shortNumber }} p/s)</strong></span
       >
     }
     <div class="u-flex u-items-center u-justify-between">
       <span
-        >Cost: <strong>{{ currentCost() | shortNumber }} pugs</strong></span
+        >Cost: <strong>{{ currentCost() | shortNumber: 1000 }}</strong></span
       >
       <span
-        >Produces: <strong>{{ production() | shortNumber }} pugs/s</strong></span
+        >Produces: <strong>{{ production() | shortNumber: 1000 }} p/s</strong></span
       >
     </div>
     <div class="purchase-buttons">

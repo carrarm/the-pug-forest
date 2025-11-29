@@ -1,0 +1,49 @@
+.main-panel {
+  grid-area: main;
+  background-image: url('/pug-forest-background.png');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  padding: 1rem;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.game-state {
+  background-color: var(--light-background);
+  padding: 0.5rem 1rem;
+  width: 200px;
+
+  font-size: x-large;
+  font-weight: bold;
+
+  hr {
+    border: solid 1px #D2AB6A;
+    border-radius: 10px;
+  }
+
+  .subsection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .owned-pugs {
+    font-size: 2em;
+    line-height: 0.75em;
+  }
+}
+
+button {
+  background-color: #247119;
+  border: solid 3px #112f11;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+
+  color: white;
+  font-size: large;
+}

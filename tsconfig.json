@@ -19,6 +19,9 @@
       "@model": [
         "src/app/core/model.ts"
       ],
+      "@components/*": [
+        "src/app/components/*"
+      ],
       "@core/*": [
         "src/app/core/*"
       ],

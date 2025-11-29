@@ -1,0 +1,34 @@
+<app-header />
+<main>
+  <app-main-panel />
+  <app-achievement-panel />
+
+  <div class="tiers-panel app-bordered-panel">
+    <div class="switch-buttons">
+      <button
+        [ngClass]="{ active: activePanel() === 'PRODUCTION' }"
+        (click)="activePanel.set('PRODUCTION')"
+      >
+        Production
+      </button>
+      <button
+        [ngClass]="{ active: activePanel() === 'UPGRADE' }"
+        (click)="activePanel.set('UPGRADE')"
+      >
+        Upgrades
+      </button>
+      <button
+        [ngClass]="{ active: activePanel() === 'PRESTIGE' }"
+        (click)="activePanel.set('PRESTIGE')"
+      >
+        Prestige
+      </button>
+    </div>
+
+    @switch (activePanel()) {
+      @case ('PRODUCTION') {
+        <app-production-panel />
+      }
+    }
+  </div>
+</main>

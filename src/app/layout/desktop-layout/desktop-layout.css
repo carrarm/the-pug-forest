@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  max-width: 1200px;
+  margin: auto;
+}
+
+main {
+  display: grid;
+  margin-top: 2rem;
+  gap: 1rem;
+  grid-template-areas:
+  'main         panels'
+  'achievements panels';
+  grid-template-columns: 1fr 350px;
+}
+
+app-achievement-panel {
+  grid-area: achievements;
+}
+
+.tiers-panel {
+  grid-area: panels;
+  background-color: var(--light-background);
+  padding: 0.5rem;
+
+  .switch-buttons {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+
+    button {
+      background-color: #C59568;
+      border: solid 1px #43290E;
+      border-radius: var(--border-radius);
+      padding: 0.2rem 0.75rem;
+
+      color: white;
+    }
+
+    .active {
+      background-color: #775331;
+    }
+  }
+}

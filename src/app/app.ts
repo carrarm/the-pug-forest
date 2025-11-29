@@ -1,26 +1,18 @@
-import { NgClass } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
-import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state.service';
-
-import { ProductionPanel } from './components/production-panel/production-panel';
-import { AchievementPanel } from './components/achievement-panel/achievement-panel';
-import { GameState } from '@model';
 import { ACHIEVEMENTS } from '@data/achievements.data';
 
-type Panel = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE';
+import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 
 @Component({
   selector: 'app-root',
-  imports: [AchievementPanel, NgClass, ProductionPanel, ShortNumberPipe],
+  imports: [DesktopLayout],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App implements OnInit {
   protected readonly gameState = inject(GameStateService);
-
-  protected activePanel = signal<Panel>('PRODUCTION');
 
   public ngOnInit() {
     setInterval(() => {
@@ -28,10 +20,6 @@ export class App implements OnInit {
       this.trackAchievements();
       this.gameState.saveState();
     }, 1000);
-  }
-
-  protected visitForest(): void {
-    this.gameState.ownedPugs.update((owned) => owned + 1);
   }
 
   private trackAchievements() {
