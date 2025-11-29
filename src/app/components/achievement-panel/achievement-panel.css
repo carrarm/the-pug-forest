@@ -1,0 +1,31 @@
+.container {
+  background-color: #977D54;
+  padding: 0.5rem;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, auto));
+  gap: 0.5rem;
+}
+
+.achievement {
+  background-color: #756143;
+  padding: 2px 5px;
+  
+  display: flex;
+  gap: 0.5rem;
+
+  font-size: small;
+
+  img {
+    height: 50px;
+  }
+
+  .img-placeholder {
+    height: 50px;
+    width: 50px;
+  }
+
+  &.unlocked {
+    background-color: var(--light-background);
+  }
+}
