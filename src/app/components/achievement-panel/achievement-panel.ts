@@ -13,16 +13,10 @@ import { GameState } from '@model';
 })
 export class AchievementPanel {
   protected readonly achievements = computed(() => {
-    const state: GameState = {
-      ownedPugs: this.gameState.ownedPugs(),
-      prestiges: this.gameState.prestiges(),
-      productionTiers: this.gameState.productionTiers(),
-      totalSpent: this.gameState.totalSpent(),
-      upgradeTiers: this.gameState.upgradeTiers(),
-    };
+    const state: GameState = this.gameState.getGameState();
     return ACHIEVEMENTS.map((achievement) => ({
       ...achievement,
-      isUnlocked: achievement.unlocked(state),
+      isUnlocked: state.achievements[achievement.name],
     }));
   });
 

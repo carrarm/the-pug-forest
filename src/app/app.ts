@@ -6,6 +6,8 @@ import { GameStateService } from '@core/services/game-state.service';
 
 import { ProductionPanel } from './components/production-panel/production-panel';
 import { AchievementPanel } from './components/achievement-panel/achievement-panel';
+import { GameState } from '@model';
+import { ACHIEVEMENTS } from '@data/achievements.data';
 
 type Panel = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE';
 
@@ -23,11 +25,24 @@ export class App implements OnInit {
   public ngOnInit() {
     setInterval(() => {
       this.gameState.ownedPugs.update((owned) => owned + this.gameState.pugsPerSecond());
+      this.trackAchievements();
       this.gameState.saveState();
     }, 1000);
   }
 
   protected visitForest(): void {
     this.gameState.ownedPugs.update((owned) => owned + 1);
+  }
+
+  private trackAchievements() {
+    const gameState = this.gameState.getGameState();
+    this.gameState.achievements.update((currentAchievements) => {
+      ACHIEVEMENTS.forEach((achievement) => {
+        if (achievement.unlocked(gameState)) {
+          currentAchievements[achievement.name] = true;
+        }
+      });
+      return { ...currentAchievements };
+    });
   }
 }

@@ -45,6 +45,7 @@ app-achievement-panel {
   .game-state {
     background-color: var(--light-background);
     padding: 0.5rem 1rem;
+    width: 200px;
 
     font-size: x-large;
     font-weight: bold;
