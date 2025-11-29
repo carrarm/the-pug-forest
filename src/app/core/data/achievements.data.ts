@@ -34,12 +34,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     unlockText: 'Hire your first Pug Whisperer',
     unlocked: (state: GameState) => hasTier(state, 'PUG_WHISPERER', 1),
   },
-  {
-    name: 'Hundredfold Cuddles',
-    description: "You've gathered your first true pug pile",
-    unlockText: 'Accumulate 100 pugs total (without spending)',
-    unlocked: (state: GameState) => state.ownedPugs >= 100 && !state.totalSpent,
-  },
   // Mid-game (50k to 5M pugs)
   {
     name: 'Rest Stop',

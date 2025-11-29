@@ -15,12 +15,21 @@ header {
 }
 
 main {
+  display: grid;
   margin-top: 2rem;
-  display: flex;
   gap: 1rem;
+  grid-template-areas:
+  'main         panels'
+  'achievements panels';
+  grid-template-columns: 1fr 350px;
+}
+
+app-achievement-panel {
+  grid-area: achievements;
 }
 
 .main-panel {
+  grid-area: main;
   background-image: url('/pug-forest-background.png');
   background-size: cover;
   background-position: center;
@@ -69,7 +78,7 @@ main {
 }
 
 .tiers-panel {
-  width: 350px;
+  grid-area: panels;
   background-color: var(--light-background);
   padding: 0.5rem;
 

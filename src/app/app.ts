@@ -5,12 +5,13 @@ import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state.service';
 
 import { ProductionPanel } from './components/production-panel/production-panel';
+import { AchievementPanel } from './components/achievement-panel/achievement-panel';
 
 type Panel = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE';
 
 @Component({
   selector: 'app-root',
-  imports: [NgClass, ProductionPanel, ShortNumberPipe],
+  imports: [AchievementPanel, NgClass, ProductionPanel, ShortNumberPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
