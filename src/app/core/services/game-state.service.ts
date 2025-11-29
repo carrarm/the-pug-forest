@@ -1,6 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 
 import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
+import { GameState } from '@model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class GameStateService {
   public readonly productionTiers = signal<Record<string, number>>({});
   public readonly upgradeTiers = signal<Record<string, number>>({});
   public readonly prestiges = signal<Record<string, number>>({});
-  public readonly achievements = signal<Record<string, number>>({});
+  public readonly achievements = signal<Record<string, boolean>>({});
 
   public readonly pugsPerSecond = computed(() => {
     let production = 0;
@@ -44,8 +45,8 @@ export class GameStateService {
     }
   }
 
-  public saveState(): void {
-    const gameState = {
+  public getGameState(): GameState {
+    return {
       ownedPugs: this.ownedPugs(),
       totalSpent: this.totalSpent(),
       lastProductionDate: Date.now(),
@@ -54,6 +55,9 @@ export class GameStateService {
       prestiges: this.prestiges(),
       achievements: this.achievements(),
     };
-    localStorage.setItem('gameState', JSON.stringify(gameState));
+  }
+
+  public saveState(): void {
+    localStorage.setItem('gameState', JSON.stringify(this.getGameState()));
   }
 }
