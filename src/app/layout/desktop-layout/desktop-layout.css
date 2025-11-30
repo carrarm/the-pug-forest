@@ -8,18 +8,20 @@ main {
   display: grid;
   margin-top: 2rem;
   gap: 1rem;
-  grid-template-areas:
-  'main         panels'
-  'achievements panels';
   grid-template-columns: 1fr 350px;
 }
 
-app-achievement-panel {
-  grid-area: achievements;
+.secondary-panel {
+  background-color: #977D54;
+  padding: 0.5rem 1rem;
+  margin-top: 1.5rem;
+
+  app-content-panel {
+    margin-top: 1rem;
+  }
 }
 
 .tiers-panel {
-  grid-area: panels;
   background-color: var(--light-background);
   padding: 0.5rem;
 

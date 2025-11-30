@@ -22,7 +22,12 @@ export class App implements OnInit {
     this.changeLayout();
 
     setInterval(() => {
-      this.gameState.ownedPugs.update((owned) => owned + this.gameState.pugsPerSecond());
+      const addedPugs = this.gameState.pugsPerSecond();
+      this.gameState.ownedPugs.update((owned) => owned + addedPugs);
+      this.gameState.statistics.update((stats) => ({
+        ...stats,
+        totalPugs: stats.totalPugs + addedPugs,
+      }));
       this.trackAchievements();
       this.gameState.saveState();
     }, 1000);

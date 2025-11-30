@@ -25,6 +25,9 @@ export class ProductionPanel {
     });
     const totalPurchaseCost = this.tierService.computeCurrentCost(tier.baseCost, owned) * amount;
     this.gameState.ownedPugs.update((owned) => owned - totalPurchaseCost);
-    this.gameState.totalSpent.update((total) => total + totalPurchaseCost);
+    this.gameState.statistics.update((stats) => ({
+      ...stats,
+      totalSpent: stats.totalSpent + totalPurchaseCost,
+    }));
   }
 }
