@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+
 import { GameStateService } from '@core/services/game-state.service';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+import { Device } from '@model';
 
 @Component({
   selector: 'app-main-panel',
@@ -9,6 +11,8 @@ import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
   styleUrl: './main-panel.css',
 })
 export class MainPanel {
+  public readonly device = input.required<Device>();
+
   protected readonly gameState = inject(GameStateService);
 
   protected visitForest(): void {

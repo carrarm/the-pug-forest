@@ -1,9 +1,13 @@
+:host {
+  display: block;
+}
+
 .main-panel {
   grid-area: main;
   background-image: url('/pug-forest-background.png');
   background-size: cover;
   background-position: center;
-  height: 500px;
+  height: var(--main-panel-height, 500px);
   padding: 1rem;
 
   flex: 1;
@@ -22,7 +26,7 @@
   font-weight: bold;
 
   hr {
-    border: solid 1px #D2AB6A;
+    border: solid 1px #d2ab6a;
     border-radius: 10px;
   }
 
@@ -46,4 +50,10 @@ button {
 
   color: white;
   font-size: large;
+}
+
+.MOBILE {
+  button {
+    font-size: xx-large;
+  }
 }

@@ -1,1 +1,5 @@
-<app-desktop-layout />
+@if (layout() === 'DESKTOP') {
+  <app-desktop-layout />
+} @else {
+  <app-mobile-layout />
+}

@@ -1,25 +1,43 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 
 import { GameStateService } from '@core/services/game-state.service';
 import { ACHIEVEMENTS } from '@data/achievements.data';
+import { Device } from '@model';
 
 import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
+import { MobileLayout } from './layout/mobile-layout/mobile-layout';
 
 @Component({
   selector: 'app-root',
-  imports: [DesktopLayout],
+  imports: [DesktopLayout, MobileLayout],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App implements OnInit {
   protected readonly gameState = inject(GameStateService);
 
+  protected readonly layout = signal<Device>('DESKTOP');
+
   public ngOnInit() {
+    this.changeLayout();
+
     setInterval(() => {
       this.gameState.ownedPugs.update((owned) => owned + this.gameState.pugsPerSecond());
       this.trackAchievements();
       this.gameState.saveState();
     }, 1000);
+  }
+
+  @HostListener('window:resize')
+  public onResize() {
+    this.changeLayout();
+  }
+
+  private changeLayout(): void {
+    const expectedLayout = window.innerWidth > 1000 ? 'DESKTOP' : 'MOBILE';
+    if (expectedLayout !== this.layout()) {
+      this.layout.set(expectedLayout);
+    }
   }
 
   private trackAchievements() {

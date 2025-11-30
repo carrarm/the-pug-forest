@@ -35,6 +35,7 @@ export class GameStateService {
 
       const elapsedTimeMs = Date.now() - gameState.lastProductionDate;
       const producedOffline = (elapsedTimeMs / 1000) * this.pugsPerSecond();
+      // TODO: display as toaster
       console.log(`Your team adopted ${producedOffline} more pugs while you were offline!`);
       this.ownedPugs.set(gameState.ownedPugs + producedOffline);
     } else {
