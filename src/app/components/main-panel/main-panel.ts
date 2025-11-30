@@ -17,5 +17,9 @@ export class MainPanel {
 
   protected visitForest(): void {
     this.gameState.ownedPugs.update((owned) => owned + 1);
+    this.gameState.statistics.update((stats) => {
+      const firstClick = stats.firstClickDate ?? Date.now();
+      return { ...stats, totalClicks: stats.totalClicks + 1, firstClickDate: firstClick };
+    });
   }
 }

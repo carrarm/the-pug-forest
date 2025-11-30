@@ -1,16 +1,14 @@
 import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
+import { ContentPanel } from '@components/content-panel/content-panel';
 import { MainPanel } from '@components/main-panel/main-panel';
-import { AchievementPanel } from '@components/achievement-panel/achievement-panel';
-import { ProductionPanel } from '@components/production-panel/production-panel';
 import { PanelType } from '@model';
 
 import { Header } from '../header/header';
-import { ContentPanel } from '@components/content-panel/content-panel';
-import { FormsModule } from '@angular/forms';
 
-type MenuGroup = 'PURCHASES' | 'ACHIEVEMENTS' | 'PRESTIGE' | 'SETTINGS';
+type MenuGroup = 'PURCHASES' | 'ACHIEVEMENTS' | 'PRESTIGE' | 'SETTINGS' | 'STATS';
 
 @Component({
   selector: 'app-mobile-layout',
@@ -25,21 +23,10 @@ export class MobileLayout {
 
   protected changeActiveMenuGroup(group: MenuGroup): void {
     this.activeMenuGroup.set(group);
-    switch (group) {
-      case 'PURCHASES':
-        this.activePanel.set('PRODUCTION');
-        break;
-      case 'ACHIEVEMENTS':
-        this.activePanel.set('ACHIEVEMENTS');
-        break;
-      case 'PRESTIGE':
-        this.activePanel.set('PRESTIGE');
-        break;
-      case 'SETTINGS':
-        this.activePanel.set('SETTINGS');
-        break;
-      default:
-        break;
+    if (group === 'PURCHASES') {
+      this.activePanel.set('PRODUCTION');
+    } else {
+      this.activePanel.set(group);
     }
   }
 }

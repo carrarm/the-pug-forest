@@ -1,11 +1,13 @@
 import { Component, input } from '@angular/core';
-import { PanelType } from '@model';
+
 import { ProductionPanel } from '@components/production-panel/production-panel';
 import { AchievementPanel } from '@components/achievement-panel/achievement-panel';
+import { StatsPanel } from '@components/stats-panel/stats-panel';
+import { PanelType } from '@model';
 
 @Component({
   selector: 'app-content-panel',
-  imports: [AchievementPanel, ProductionPanel],
+  imports: [AchievementPanel, ProductionPanel, StatsPanel],
   templateUrl: './content-panel.html',
   styleUrl: './content-panel.css',
 })

@@ -1,11 +1,20 @@
 export interface GameState {
   ownedPugs: number;
-  totalSpent: number;
   lastProductionDate: number;
   productionTiers: Record<string, number>;
   upgradeTiers: Record<string, number>;
   prestiges: Record<string, number>;
   achievements: Record<string, boolean>;
+  offlineGainPercent: number;
+  statistics: Statistics;
+}
+
+export interface Statistics {
+  totalPugs: number;
+  totalClicks: number;
+  totalSpent: number;
+  totalPrestiges: number;
+  firstClickDate: number;
 }
 
 export interface ProductionTier {
@@ -39,6 +48,12 @@ export interface Achievement {
   unlocked: (state: GameState) => boolean;
 }
 
-export type PanelType = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE' | 'ACHIEVEMENTS' | 'SETTINGS';
+export type PanelType =
+  | 'PRODUCTION'
+  | 'UPGRADE'
+  | 'PRESTIGE'
+  | 'ACHIEVEMENTS'
+  | 'SETTINGS'
+  | 'STATS';
 
 export type Device = 'MOBILE' | 'DESKTOP';
