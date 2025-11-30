@@ -38,3 +38,7 @@ export interface Achievement {
   unlockText: string;
   unlocked: (state: GameState) => boolean;
 }
+
+export type PanelType = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE' | 'ACHIEVEMENTS' | 'SETTINGS';
+
+export type Device = 'MOBILE' | 'DESKTOP';

@@ -1,0 +1,33 @@
+<app-header />
+<main>
+  <app-main-panel device="DESKTOP" />
+  <app-content-panel activePanel="ACHIEVEMENTS" />
+
+  <div class="tiers-panel app-bordered-panel">
+    <div class="switch-buttons">
+      <button
+        class="cta-button"
+        [ngClass]="{ active: activePanel() === 'PRODUCTION' }"
+        (click)="activePanel.set('PRODUCTION')"
+      >
+        Production
+      </button>
+      <button
+        class="cta-button"
+        [ngClass]="{ active: activePanel() === 'UPGRADE' }"
+        (click)="activePanel.set('UPGRADE')"
+      >
+        Upgrades
+      </button>
+      <button
+        class="cta-button"
+        [ngClass]="{ active: activePanel() === 'PRESTIGE' }"
+        (click)="activePanel.set('PRESTIGE')"
+      >
+        Prestige
+      </button>
+    </div>
+
+    <app-content-panel [activePanel]="activePanel()" />
+  </div>
+</main>

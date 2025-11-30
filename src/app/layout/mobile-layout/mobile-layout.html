@@ -1,0 +1,51 @@
+<app-header size="small" />
+
+<main>
+  <app-main-panel device="MOBILE" />
+
+  @if (menuPanelOpen()) {
+    <div class="menu-panel">
+      <div class="menu-selection">
+        <select [ngModel]="activeMenuGroup()" (ngModelChange)="changeActiveMenuGroup($event)">
+          <option value="PURCHASES">Purchases</option>
+          <option value="PRESTIGE">Prestige</option>
+          <option value="ACHIEVEMENTS">Achievements</option>
+          <option value="SETTINGS">Settings</option>
+        </select>
+
+        @if (activeMenuGroup() === 'PURCHASES') {
+          <span>|</span>
+
+          <button
+            class="cta-button"
+            [ngClass]="{ active: activePanel() === 'PRODUCTION' }"
+            (click)="activePanel.set('PRODUCTION')"
+          >
+            Production
+          </button>
+          <button
+            class="cta-button"
+            [ngClass]="{ active: activePanel() === 'UPGRADE' }"
+            (click)="activePanel.set('UPGRADE')"
+          >
+            Upgrades
+          </button>
+        }
+
+        <span class="u-flex-filler"></span>
+
+        <button class="close-btn" title="Close panel" (click)="menuPanelOpen.set(false)">X</button>
+      </div>
+
+      <app-content-panel [activePanel]="activePanel()" />
+    </div>
+  } @else {
+    <div class="open-submenu-btn" (click)="menuPanelOpen.set(true)">
+      <div class="handle-background"></div>
+      <div class="handle-icon">
+        <img src="icons/arrow-up-open.svg" alt="Open panel" />
+      </div>
+      <div class="text-btn">Purchases, achievements and settings</div>
+    </div>
+  }
+</main>

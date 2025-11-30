@@ -1,28 +1,26 @@
-import { NgClass } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 
-import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state.service';
-
-import { ProductionPanel } from './components/production-panel/production-panel';
-import { AchievementPanel } from './components/achievement-panel/achievement-panel';
-import { GameState } from '@model';
 import { ACHIEVEMENTS } from '@data/achievements.data';
+import { Device } from '@model';
 
-type Panel = 'PRODUCTION' | 'UPGRADE' | 'PRESTIGE';
+import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
+import { MobileLayout } from './layout/mobile-layout/mobile-layout';
 
 @Component({
   selector: 'app-root',
-  imports: [AchievementPanel, NgClass, ProductionPanel, ShortNumberPipe],
+  imports: [DesktopLayout, MobileLayout],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App implements OnInit {
   protected readonly gameState = inject(GameStateService);
 
-  protected activePanel = signal<Panel>('PRODUCTION');
+  protected readonly layout = signal<Device>('DESKTOP');
 
   public ngOnInit() {
+    this.changeLayout();
+
     setInterval(() => {
       this.gameState.ownedPugs.update((owned) => owned + this.gameState.pugsPerSecond());
       this.trackAchievements();
@@ -30,8 +28,16 @@ export class App implements OnInit {
     }, 1000);
   }
 
-  protected visitForest(): void {
-    this.gameState.ownedPugs.update((owned) => owned + 1);
+  @HostListener('window:resize')
+  public onResize() {
+    this.changeLayout();
+  }
+
+  private changeLayout(): void {
+    const expectedLayout = window.innerWidth > 1000 ? 'DESKTOP' : 'MOBILE';
+    if (expectedLayout !== this.layout()) {
+      this.layout.set(expectedLayout);
+    }
   }
 
   private trackAchievements() {

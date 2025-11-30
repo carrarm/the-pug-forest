@@ -11,24 +11,26 @@ const SUFFIXES = [
   name: 'shortNumber',
 })
 export class ShortNumberPipe implements PipeTransform {
-  transform(value: number): string {
+  transform(value: number, maxPlainNumber = 100000): string {
     if (!Number.isFinite(value)) {
       return '';
     }
-    if (value < 100000) {
-      return value.toString();
+
+    const valueAsInt = Math.floor(value);
+    if (valueAsInt < maxPlainNumber) {
+      return valueAsInt.toString();
     }
 
     // Start shortening starting at 100k
 
     for (const item of SUFFIXES) {
-      if (value >= item.value) {
-        const shortened = (value / item.value).toFixed(2);
+      if (valueAsInt >= item.value) {
+        const shortened = (valueAsInt / item.value).toFixed(2);
         return shortened + item.suffix;
       }
     }
 
     // Fallback (should not be reached)
-    return value.toString();
+    return valueAsInt.toString();
   }
 }
