@@ -1,52 +1,58 @@
 <app-header size="small" />
 
-<main>
-  <app-main-panel device="MOBILE" />
-
-  @if (menuPanelOpen()) {
+<main class="u-flex-filler">
+  @if (activePanel() === 'MAIN') {
+    <app-main-panel device="MOBILE" />
+  } @else {
     <div class="menu-panel">
-      <div class="menu-selection">
-        <select [ngModel]="activeMenuGroup()" (ngModelChange)="changeActiveMenuGroup($event)">
-          <option value="PURCHASES">Purchases</option>
-          <option value="PRESTIGE">Prestige</option>
-          <option value="ACHIEVEMENTS">Achievements</option>
-          <option value="STATS">Statistics</option>
-          <option value="SETTINGS">Settings</option>
-        </select>
-
-        @if (activeMenuGroup() === 'PURCHASES') {
-          <span>|</span>
-
-          <button
-            class="cta-button"
-            [ngClass]="{ active: activePanel() === 'PRODUCTION' }"
-            (click)="activePanel.set('PRODUCTION')"
-          >
-            Production
-          </button>
-          <button
-            class="cta-button"
-            [ngClass]="{ active: activePanel() === 'UPGRADE' }"
-            (click)="activePanel.set('UPGRADE')"
-          >
-            Upgrades
-          </button>
-        }
-
-        <span class="u-flex-filler"></span>
-
-        <button class="close-btn" title="Close panel" (click)="menuPanelOpen.set(false)">X</button>
-      </div>
+      @if (activeViewGroup() === 'PURCHASES') {
+        <div class="menu-selection">
+          <ng-container
+            *ngTemplateOutlet="panelMenuBtn; context: { panel: 'PRODUCTION', label: 'Production' }"
+          />
+          <ng-container
+            *ngTemplateOutlet="panelMenuBtn; context: { panel: 'UPGRADE', label: 'Upgrades' }"
+          />
+        </div>
+      } @else if (activeViewGroup() === 'STATS') {
+        <div class="menu-selection">
+          <ng-container
+            *ngTemplateOutlet="panelMenuBtn; context: { panel: 'STATS', label: 'Statistics' }"
+          />
+          <ng-container
+            *ngTemplateOutlet="
+              panelMenuBtn;
+              context: { panel: 'ACHIEVEMENTS', label: 'Achievements' }
+            "
+          />
+        </div>
+      }
 
       <app-content-panel [activePanel]="activePanel()" />
     </div>
-  } @else {
-    <div class="open-submenu-btn" (click)="menuPanelOpen.set(true)">
-      <div class="handle-background"></div>
-      <div class="handle-icon">
-        <img src="icons/arrow-up-open.svg" alt="Open panel" />
-      </div>
-      <div class="text-btn">Purchases, achievements and settings</div>
-    </div>
   }
 </main>
+
+<footer>
+  @for (menu of menuButtons; track menu.label) {
+    <button
+      (click)="changeActiveView(menu.view)"
+      [class.active]="this.activeViewGroup() === menu.view"
+    >
+      <img [src]="menu.icon" [alt]="menu.alt" />
+      @if (this.activeViewGroup() === menu.view) {
+        <span>{{ menu.label }}</span>
+      }
+    </button>
+  }
+</footer>
+
+<ng-template #panelMenuBtn let-panel="panel" let-label="label">
+  <button
+    class="cta-button"
+    [ngClass]="{ active: activePanel() === panel }"
+    (click)="activePanel.set(panel)"
+  >
+    {{ label }}
+  </button>
+</ng-template>

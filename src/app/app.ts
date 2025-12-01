@@ -14,9 +14,9 @@ import { MobileLayout } from './layout/mobile-layout/mobile-layout';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
-  protected readonly gameState = inject(GameStateService);
-
   protected readonly layout = signal<Device>('DESKTOP');
+
+  private readonly gameState = inject(GameStateService);
 
   public ngOnInit() {
     this.changeLayout();
