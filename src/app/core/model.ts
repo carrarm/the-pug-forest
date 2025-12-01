@@ -49,6 +49,7 @@ export interface Achievement {
 }
 
 export type PanelType =
+  | 'MAIN'
   | 'PRODUCTION'
   | 'UPGRADE'
   | 'PRESTIGE'

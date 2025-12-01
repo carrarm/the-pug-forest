@@ -2,13 +2,18 @@ body {
   --border: solid 2px #43290e;
   --border-radius: 5px;
   --light-background: #f5cf8e;
+  --dark-background: #4c2c10;
   --font-family: 'Sour Gummy', Verdana, Arial, Helvetica, sans-serif;
   --font-color: #54361e;
+  --dark-background-contrast-color: #ffbb59;
 
   background-color: #9a6b3f;
 
   font-family: 'Sour Gummy', Verdana, Arial, Helvetica, sans-serif;
   color: var(--font-color);
+
+  width: 100%;
+  margin: 0;
 }
 
 .app-bordered-panel {

@@ -1,21 +1,26 @@
+:host {
+  --footer-height: 64px;
+  --content-margin-x: 0.5rem;
+
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
 app-header {
-  margin-bottom: 0.5rem;
+  margin: var(--content-margin-x);
 }
 
 app-main-panel {
-  --main-panel-height: calc(100vh - 180px);
+  margin: 0 var(--content-margin-x);
 }
 
 .menu-panel {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
   background-color: var(--light-background);
   padding: 1rem 0.5rem;
   overflow-y: auto;
+  height: 100%;
 }
 
 .menu-selection {
@@ -24,76 +29,44 @@ app-main-panel {
   display: flex;
   gap: 1rem;
   align-items: center;
-
-  .close-btn {
-    justify-self: flex-end;
-  }
 }
 
-.open-submenu-btn {
-  position: fixed;
+footer {
+  position: sticky;
   bottom: 0;
-  left: 0;
-  right: 0;
 
-  --submenu-btn-border: solid 2px #43290e;
-  --submenu-handle-width: 70px;
-  --submenu-handle-radius: 20px;
+  display: flex;
 
-  .text-btn {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
 
-    z-index: 10;
-    border: var(--submenu-btn-border);
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
-    background-color: var(--light-background);
-    padding-top: 5px;
-    height: 40px;
+  button {
+    height: var(--footer-height);
+    background-color: var(--dark-background);
+    border: var(--border);
+    border-left: none;
+    border-bottom: none;
+    border-radius: 0;
 
+    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .handle-background {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    z-index: 1;
-
-    border: var(--submenu-btn-border);
-    border-radius: var(--submenu-handle-radius);
-    width: var(--submenu-handle-width);
-    margin: -10px auto 2px auto;
-    background-color: var(--light-background);
-
-    padding: 3px;
-    height: 15px;
-  }
-
-  .handle-icon {
-    position: absolute;
-    bottom: 38px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    z-index: 11;
-
-    margin: -10px auto 2px auto;
-    background-color: var(--light-background);
-    border-radius: var(--submenu-handle-radius);
-    width: calc(var(--submenu-handle-width) + 6px);
-
-    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    img {
-      height: 15px;
+    font-size: 1rem;
+    color: var(--dark-background-contrast-color);
+
+    &.active {
+      img {
+        height: 30px;
+      }
     }
+  }
+
+  button:last-child {
+    border-right: none;
+  }
+
+  img {
+    height: 100%;
   }
 }
