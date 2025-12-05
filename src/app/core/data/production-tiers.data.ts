@@ -6,7 +6,7 @@ export const PRODUCTION_TIERS: ProductionTier[] = [
     name: 'Neighborhood Kids',
     description: 'A couple kids who wander the forest and return with pugs they find',
     baseCost: 10,
-    production: 1,
+    production: 0.5,
   },
   {
     code: 'BIKE_CART',

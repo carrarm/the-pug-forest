@@ -11,12 +11,12 @@ const SUFFIXES = [
   name: 'shortNumber',
 })
 export class ShortNumberPipe implements PipeTransform {
-  transform(value: number, maxPlainNumber = 100000): string {
+  transform(value: number, maxPlainNumber = 100000, allowDecimals = false): string {
     if (!Number.isFinite(value)) {
       return '';
     }
 
-    const valueAsInt = Math.floor(value);
+    const valueAsInt = allowDecimals ? value : Math.floor(value);
     if (valueAsInt < maxPlainNumber) {
       return valueAsInt.toString();
     }

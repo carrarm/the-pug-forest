@@ -1,11 +1,9 @@
+<app-purchase-multiplier [(multiplier)]="purchaseMultiplier" />
 @for (tier of productionTiers; track tier.code) {
   <app-production-tier-card
-    [title]="tier.name"
-    [description]="tier.description"
-    [cost]="tier.baseCost"
+    [tier]="tier"
     [owned]="gameState.productionTiers()[tier.code] ?? 0"
-    [production]="tier.production"
-    [image]="tier.code + '.png'"
-    (purchase)="purchaseProductionTier(tier, $event)"
+    [multiplier]="purchaseMultiplier()"
+    (purchase)="purchaseProductionTier(tier)"
   />
 }

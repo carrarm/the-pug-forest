@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-const COST_SCALING_FACTOR = 1.2;
+const COST_SCALING_FACTOR = 1.07;
 
 @Injectable({
   providedIn: 'root',

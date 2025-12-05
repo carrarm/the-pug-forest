@@ -95,13 +95,10 @@ select {
   }
 
   .app-pc-purchase-buttons {
+    margin-top: 3px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-
-    span {
-      font-style: italic;
-    }
   }
 }
 
