@@ -1,11 +1,11 @@
 import { Achievement, GameState } from '@model';
 
 function hasTier(state: GameState, tierCode: string, howMany: number): boolean {
-  return state.productionTiers[tierCode] >= howMany;
+  return (state.productionTiers[tierCode] ?? 0) >= howMany;
 }
 
 function hasPrestige(state: GameState, prestigeCode: string, howMany: number): boolean {
-  return state.prestiges[prestigeCode] >= howMany;
+  return (state.prestiges[prestigeCode] ?? 0) >= howMany;
 }
 
 export const ACHIEVEMENTS: Achievement[] = [
@@ -58,7 +58,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: 'Your pug-collecting efficiency is beginning to soar',
     unlockText: 'Purchase any 3 upgrades',
     unlocked: (state: GameState) => {
-      const totalOwned = Object.values(state.upgradeTiers).reduce((total, nb) => total + nb, 0);
+      const totalOwned = (Object.values(state.upgradeTiers) as number[]).reduce(
+        (total, nb) => total + nb,
+        0,
+      );
       return totalOwned >= 3;
     },
   },
@@ -129,7 +132,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: 'You are eternally committed to collecting all the pugs',
     unlockText: 'Complete 5 total prestige resets',
     unlocked: (state: GameState) => {
-      const totalOwned = Object.values(state.prestiges).reduce((total, nb) => total + nb, 0);
+      const totalOwned = (Object.values(state.prestiges) as number[]).reduce(
+        (total, nb) => total + nb,
+        0,
+      );
       return totalOwned >= 5;
     },
   },

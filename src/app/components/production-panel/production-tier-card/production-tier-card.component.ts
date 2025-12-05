@@ -12,13 +12,13 @@ interface Amount {
 }
 
 @Component({
-  selector: 'app-purchase-card',
+  selector: 'app-production-tier-card',
   imports: [ShortNumberPipe],
-  templateUrl: './purchase-card.html',
-  styleUrl: './purchase-card.css',
+  templateUrl: './production-tier-card.component.html',
+  styleUrl: './production-tier-card.component.css',
   providers: [ShortNumberPipe],
 })
-export class PurchaseCard {
+export class ProductionTierCard {
   public readonly title = input.required<string>();
   public readonly image = input<string>();
   public readonly description = input.required<string>();
@@ -38,11 +38,18 @@ export class PurchaseCard {
       { label: 'x1', value: 1, tooltip: '', canPurchase: false },
       { label: 'x10', value: 10, tooltip: '', canPurchase: false },
       { label: 'x25', value: 25, tooltip: '', canPurchase: false },
-    ].map((amount) => ({
-      ...amount,
-      tooltip: this.getTooltip(amount, currentCost),
-      canPurchase: this.canPurchase(amount, currentCost, ownedPugs),
-    }));
+    ].map((amount) => {
+      const amountCost = this.tierService.computeAmountCost(
+        amount.value,
+        this.cost(),
+        this.owned(),
+      );
+      return {
+        ...amount,
+        tooltip: this.getTooltip(amount, amountCost),
+        canPurchase: this.canPurchase(amount, amountCost, ownedPugs),
+      };
+    });
   });
 
   protected readonly currentCost = computed(() =>

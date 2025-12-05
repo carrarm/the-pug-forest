@@ -1,0 +1,24 @@
+<div class="app-bordered-panel app-purchase-card">
+  <div>
+    <img src="upgrade-tiers/{{ image() }}" [alt]="title()" />
+  </div>
+  <div class="app-pc-tier-info">
+    <div class="app-pc-title">
+      <span>{{ title() }} (lvl {{ owned() + 1 }})</span>
+    </div>
+    <span class="app-pc-description">{{ description() }}</span>
+    <div class="app-pc-purchase-buttons">
+      <span>
+        Cost: <strong>{{ currentCost() | shortNumber: 1000 }}</strong>
+      </span>
+      <button
+        class="light-button"
+        title="Purchase upgrade"
+        [disabled]="gameState.ownedPugs() < currentCost()"
+        (click)="purchase.emit()"
+      >
+        Purchase
+      </button>
+    </div>
+  </div>
+</div>

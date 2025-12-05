@@ -8,9 +8,9 @@ import { GameState, Statistics } from '@model';
 })
 export class GameStateService {
   public readonly ownedPugs = signal(0);
-  public readonly productionTiers = signal<Record<string, number>>({});
-  public readonly upgradeTiers = signal<Record<string, number>>({});
-  public readonly prestiges = signal<Record<string, number>>({});
+  public readonly productionTiers = signal<Record<string, number | undefined>>({});
+  public readonly upgradeTiers = signal<Record<string, number | undefined>>({});
+  public readonly prestiges = signal<Record<string, number | undefined>>({});
   public readonly achievements = signal<Record<string, boolean>>({});
   public readonly offlineGainPercent = signal(100);
   public readonly statistics = signal<Statistics>({
@@ -25,7 +25,7 @@ export class GameStateService {
     let production = 0;
     const productionTiers = this.productionTiers();
     for (const tier in productionTiers) {
-      production += productionTiers[tier] * PRODUCTION_TIER_BY_CODE[tier].production;
+      production += (productionTiers[tier] ?? 0) * PRODUCTION_TIER_BY_CODE[tier].production;
     }
     return production;
   });

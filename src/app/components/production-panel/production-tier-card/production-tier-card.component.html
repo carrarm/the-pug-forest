@@ -1,14 +1,14 @@
-<div class="app-bordered-panel" (click)="detailExpanded = !detailExpanded">
+<div class="app-bordered-panel app-purchase-card" (click)="detailExpanded = !detailExpanded">
   <div>
     <img src="production-tiers/{{ image() }}" [alt]="title()" />
   </div>
-  <div class="tier-info">
-    <div class="title">
+  <div class="app-pc-tier-info">
+    <div class="app-pc-title">
       <span>{{ title() }}</span>
       <span class="owned-badge">{{ owned() | shortNumber }}</span>
     </div>
     @if (detailExpanded) {
-      <span class="description">{{ description() }}</span>
+      <span class="app-pc-description">{{ description() }}</span>
       <span
         >Owned: <strong>{{ owned() }} ({{ currentProduction() | shortNumber }} p/s)</strong></span
       >
@@ -21,7 +21,7 @@
         >Produces: <strong>{{ production() | shortNumber: 1000 }} p/s</strong></span
       >
     </div>
-    <div class="purchase-buttons">
+    <div class="app-pc-purchase-buttons">
       <span>Purchase:</span>
       @for (amount of amounts(); track amount.label) {
         <button

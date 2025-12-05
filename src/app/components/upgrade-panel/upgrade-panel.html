@@ -1,0 +1,10 @@
+@for (tier of upgradeTiers; track tier.code) {
+  <app-upgrade-tier-card
+    [title]="tier.name"
+    [description]="tier.description"
+    [cost]="tier.baseCost"
+    [owned]="gameState.upgradeTiers()[tier.code] ?? 0"
+    [image]="tier.code + '.png'"
+    (purchase)="purchaseUpgradeTier(tier)"
+  />
+}
