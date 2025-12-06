@@ -6,16 +6,13 @@ const COST_SCALING_FACTOR = 1.07;
   providedIn: 'root',
 })
 export class TierService {
-  public computeCurrentCost(baseCost: number, owned: number): number {
-    const exactCost = baseCost * Math.pow(COST_SCALING_FACTOR, owned);
-    return Math.round(exactCost);
-  }
-
-  public computeAmountCost(amount: number, baseCost: number, owned: number): number {
-    let totalCost = 0;
-    for (let i = 0; i < amount; i++) {
-      totalCost += this.computeCurrentCost(baseCost, owned + i);
-    }
-    return totalCost;
+  public computeCost(amount: number, baseCost: number, owned: number): number {
+    // cost(n) + cost(n+1) + ... is a geometric-series
+    // Geometric-series formula: S =  (r^(n+1) - 1) / (r - 1) with r = scaling factor
+    // Use n instead of n+1 to consider "n" a single term rather than an offset (base convention)
+    // and avoid to double-count n = 1
+    const geometricSeriesCost =
+      (Math.pow(COST_SCALING_FACTOR, amount) - 1) / (COST_SCALING_FACTOR - 1);
+    return Math.round(baseCost * Math.pow(COST_SCALING_FACTOR, owned) * geometricSeriesCost);
   }
 }
