@@ -3,3 +3,11 @@
   border-radius: 5px;
   padding: 1px 3px;
 }
+
+.title {
+  width: 100%;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

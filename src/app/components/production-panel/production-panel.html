@@ -1,4 +1,5 @@
 <app-purchase-multiplier [(multiplier)]="purchaseMultiplier" />
+
 @for (tier of productionTiers; track tier.code) {
   <app-production-tier-card
     [tier]="tier"

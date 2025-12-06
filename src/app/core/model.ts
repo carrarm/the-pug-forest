@@ -17,20 +17,20 @@ export interface Statistics {
   firstClickDate: number;
 }
 
-export interface ProductionTier {
+export interface Tier {
   code: string;
   name: string;
   description: string;
   baseCost: number;
+}
+
+export interface ProductionTier extends Tier {
   production: number;
 }
 
-export interface UpgradeTier {
-  code: string;
-  name: string;
-  description: string;
-  affects: string[];
-  baseCost: number;
+export interface UpgradeTier extends Tier {
+  effect: string;
+  affects: string;
   multiplier: number;
 }
 

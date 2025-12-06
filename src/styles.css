@@ -56,55 +56,13 @@ select {
   font-family: var(--font-family), serif;
 }
 
-.app-purchase-card {
-  padding: 5px 10px;
-  display: flex;
-  gap: 0.5rem;
-  background-color: #e8d1ae;
-
-  cursor: pointer;
-
-  font-size: small;
-
-  img {
-    width: 50px;
-  }
-
-  .app-pc-tier-info {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-
-    .app-pc-title {
-      margin-bottom: 2px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 5px;
-
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-
-    .app-pc-description {
-      font-style: italic;
-    }
-  }
-
-  .app-pc-purchase-buttons {
-    margin-top: 3px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-}
-
 /* TODO: separate file*/
 .u-flex {
   display: flex;
+}
+
+.u-flex-col {
+  flex-direction: column;
 }
 
 .u-flex-filler {
@@ -117,4 +75,8 @@ select {
 
 .u-justify-between {
   justify-content: space-between;
+}
+
+.u-font-bold {
+  font-weight: bold;
 }

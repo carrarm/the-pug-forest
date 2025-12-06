@@ -25,17 +25,13 @@ export class ProductionPanel {
   protected purchaseProductionTier(tier: ProductionTier): void {
     const owned = this.gameState.productionTiers()[tier.code] ?? 0;
     this.gameState.productionTiers.update((tiers) => {
-      return { ...tiers, [tier.code]: (tiers[tier.code] ?? 0) + this.purchaseMultiplier() };
+      return { ...tiers, [tier.code]: owned + this.purchaseMultiplier() };
     });
     const totalPurchaseCost = this.tierService.computeAmountCost(
       this.purchaseMultiplier(),
       tier.baseCost,
       owned,
     );
-    this.gameState.ownedPugs.update((owned) => owned - totalPurchaseCost);
-    this.gameState.statistics.update((stats) => ({
-      ...stats,
-      totalSpent: stats.totalSpent + totalPurchaseCost,
-    }));
+    this.gameState.buy(totalPurchaseCost);
   }
 }

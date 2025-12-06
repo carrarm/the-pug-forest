@@ -1,7 +1,7 @@
 :host {
   display: block;
   max-width: 1200px;
-  margin: auto;
+  margin: 1rem auto;
 }
 
 main {

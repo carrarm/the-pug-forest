@@ -1,27 +1,29 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+
+import { PurchaseCard } from '@components/purchase-card/purchase-card';
 import { GameStateService } from '@core/services/game-state.service';
 import { TierService } from '@core/services/tier.service';
+import { UpgradeTier } from '@model';
 
 @Component({
   selector: 'app-upgrade-tier-card',
-  imports: [ShortNumberPipe],
+  imports: [PurchaseCard],
   templateUrl: './upgrade-tier-card.html',
   styleUrl: './upgrade-tier-card.css',
 })
 export class UpgradeTierCard {
-  public readonly title = input.required<string>();
-  public readonly image = input<string>();
-  public readonly description = input.required<string>();
-  public readonly cost = input.required<number>();
+  public readonly tier = input.required<UpgradeTier>();
   public readonly owned = input.required<number>();
+  public readonly multiplier = input.required<number>();
   public readonly purchase = output<void>();
 
   protected readonly gameState = inject(GameStateService);
 
   private readonly tierService = inject(TierService);
 
-  protected readonly currentCost = computed(() =>
-    this.tierService.computeCurrentCost(this.cost(), this.owned()),
+  protected readonly image = computed(() => `upgrade-tiers/${this.tier().code}.png`);
+
+  protected readonly cost = computed(() =>
+    this.tierService.computeAmountCost(this.multiplier(), this.tier().baseCost, this.owned()),
   );
 }

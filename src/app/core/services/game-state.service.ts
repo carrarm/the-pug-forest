@@ -57,6 +57,14 @@ export class GameStateService {
     }
   }
 
+  public buy(price: number): void {
+    this.ownedPugs.update((owned) => owned - price);
+    this.statistics.update((stats) => ({
+      ...stats,
+      totalSpent: stats.totalSpent + price,
+    }));
+  }
+
   public getGameState(): GameState {
     return {
       ownedPugs: this.ownedPugs(),

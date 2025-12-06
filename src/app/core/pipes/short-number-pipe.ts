@@ -18,7 +18,7 @@ export class ShortNumberPipe implements PipeTransform {
 
     const valueAsInt = allowDecimals ? value : Math.floor(value);
     if (valueAsInt < maxPlainNumber) {
-      return valueAsInt.toString();
+      return valueAsInt.toLocaleString('en-US', { minimumFractionDigits: 0 });
     }
 
     // Start shortening starting at 100k

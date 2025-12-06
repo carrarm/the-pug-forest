@@ -1,35 +1,19 @@
-<div class="app-bordered-panel app-purchase-card" (click)="detailExpanded = !detailExpanded">
-  <div>
-    <img src="production-tiers/{{ tier().code }}.png" [alt]="tier().name" />
+<app-purchase-card
+  [tier]="tier()"
+  [cost]="cost()"
+  [multiplier]="multiplier()"
+  [image]="image()"
+  (purchase)="purchase.emit()"
+>
+  <div title class="title">
+    <span>{{ tier().name }}</span>
+    <span class="owned-badge">{{ owned() | shortNumber }}</span>
   </div>
-  <div class="app-pc-tier-info">
-    <div class="app-pc-title">
-      <span>{{ tier().name }}</span>
-      <span class="owned-badge">{{ owned() | shortNumber }}</span>
-    </div>
-    @if (detailExpanded) {
-      <span class="app-pc-description">{{ tier().description }}</span>
-      <span>
-        Owned: <strong>{{ owned() }} ({{ currentProduction() | shortNumber }} p/s)</strong>
-      </span>
-    }
-    <div class="u-flex u-items-center u-justify-between">
-      <span>
-        Cost: <strong>{{ cost() | shortNumber: 1000 }}</strong>
-      </span>
-      <span>
-        Produces: <strong>{{ tier().production | shortNumber: 1000 : true }} p/s</strong>
-      </span>
-    </div>
-    <div class="app-pc-purchase-buttons">
-      <button
-        class="light-button"
-        [title]="tooltip()"
-        [disabled]="!canPurchase()"
-        (click)="purchaseTier($event)"
-      >
-        Purchase
-      </button>
-    </div>
-  </div>
-</div>
+
+  <span expandedDetail>
+    Owned: <strong>{{ owned() }} (produce {{ currentProduction() | shortNumber }} p/s)</strong>
+  </span>
+  <span detail>
+    Base production: <strong>{{ tier().production | shortNumber: 1000 : true }} p/s</strong>
+  </span>
+</app-purchase-card>
