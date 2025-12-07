@@ -10,6 +10,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     affects: '',
     baseCost: 250,
     multiplier: 2,
+    owned: 0,
   },
   {
     code: 'BARK_RESONANCE',
@@ -20,6 +21,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     affects: 'NEIGHBORHOOD_KIDS',
     baseCost: 900,
     multiplier: 2,
+    owned: 0,
   },
   {
     code: 'GRIP_GATHERERS',
@@ -30,6 +32,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     affects: 'BIKE_CART',
     baseCost: 900,
     multiplier: 2,
+    owned: 0,
   },
   {
     code: 'WHISPERER_CHARM',
@@ -40,6 +43,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     affects: 'PUG_WHISPERER',
     baseCost: 2000,
     multiplier: 2,
+    owned: 0,
   },
   {
     code: 'LANTERN_GLOW',
@@ -50,6 +54,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     affects: 'ENCHANTED_LANTERN',
     baseCost: 30000,
     multiplier: 2,
+    owned: 0,
   },
   {
     code: 'GUILD_MASTER_TRAINING',
@@ -60,6 +65,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     affects: 'FOREST_RANGERS_GUILD',
     baseCost: 300000,
     multiplier: 2,
+    owned: 0,
   },
   {
     code: 'PORTAL_STABILIZER',
@@ -70,5 +76,11 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     affects: 'PORTAL_DEEP_FOREST',
     baseCost: 4000000,
     multiplier: 2,
+    owned: 0,
   },
 ];
+
+export const UPGRADE_TIER_BY_CODE: Record<string, UpgradeTier> = {};
+UPGRADE_TIERS.forEach((tier) => {
+  UPGRADE_TIER_BY_CODE[tier.code] = tier;
+});

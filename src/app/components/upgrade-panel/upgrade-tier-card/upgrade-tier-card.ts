@@ -24,6 +24,6 @@ export class UpgradeTierCard {
   protected readonly image = computed(() => `upgrade-tiers/${this.tier().code}.png`);
 
   protected readonly cost = computed(() =>
-    this.tierService.computeAmountCost(this.multiplier(), this.tier().baseCost, this.owned()),
+    this.tierService.computeCost(this.multiplier(), this.tier().baseCost, this.owned()),
   );
 }

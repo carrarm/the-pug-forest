@@ -1,7 +1,7 @@
 import { Achievement, GameState } from '@model';
 
-function hasTier(state: GameState, tierCode: string, howMany: number): boolean {
-  return (state.productionTiers[tierCode] ?? 0) >= howMany;
+function hasTierAmount(state: GameState, tierCode: string, howMany: number): boolean {
+  return state.productionTiers[tierCode].owned >= howMany;
 }
 
 function hasPrestige(state: GameState, prestigeCode: string, howMany: number): boolean {
@@ -20,48 +20,47 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Neighborhood Watch',
     description: 'The local children are starting to patrol the forest for pugs',
     unlockText: 'Own 5 Neighborhood Kids',
-    unlocked: (state: GameState) => hasTier(state, 'NEIGHBORHOOD_KIDS', 5),
+    unlocked: (state: GameState) => hasTierAmount(state, 'NEIGHBORHOOD_KIDS', 5),
   },
   {
     name: 'Two Wheels, Many Pugs',
     description: "Now we're transporting pugs in style",
     unlockText: 'Buy your first Bike Cart',
-    unlocked: (state: GameState) => hasTier(state, 'BIKE_CART', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'BIKE_CART', 1),
   },
   {
     name: 'A Whisper in the Leaves',
     description: 'Some people just have a gift for attracting pugs...',
     unlockText: 'Hire your first Pug Whisperer',
-    unlocked: (state: GameState) => hasTier(state, 'PUG_WHISPERER', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'PUG_WHISPERER', 1),
   },
   // Mid-game (50k to 5M pugs)
   {
     name: 'Rest Stop',
     description: 'Volunteers have taken up the noble pug-finding mission',
     unlockText: 'Build your first Forest Scout Hut',
-    unlocked: (state: GameState) => hasTier(state, 'FOREST_SCOUT_HUT', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'FOREST_SCOUT_HUT', 1),
   },
   {
     name: 'Wagon Wrangler',
     description: 'Your growing fleet roams the forest in search of fluff',
     unlockText: 'Own 3 Pug Rescue Wagons',
-    unlocked: (state: GameState) => hasTier(state, 'PUG_RESCUE_WAGON', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'PUG_RESCUE_WAGON', 1),
   },
   {
     name: 'Light in the Deep',
     description: 'Let the glow guide magical pugs to you',
     unlockText: 'Acquire the Enchanted Lantern',
-    unlocked: (state: GameState) => hasTier(state, 'ENCHANTED_LANTERN', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'ENCHANTED_LANTERN', 1),
   },
   {
     name: 'Master of Multipliers',
     description: 'Your pug-collecting efficiency is beginning to soar',
     unlockText: 'Purchase any 3 upgrades',
     unlocked: (state: GameState) => {
-      const totalOwned = (Object.values(state.upgradeTiers) as number[]).reduce(
-        (total, nb) => total + nb,
-        0,
-      );
+      const totalOwned = Object.values(state.upgradeTiers)
+        .map((tier) => tier.owned)
+        .reduce((total, nb) => total + nb, 0);
       return totalOwned >= 3;
     },
   },
@@ -76,25 +75,25 @@ export const ACHIEVEMENTS: Achievement[] = [
     name: 'Ranger Commander',
     description: 'Your forest operations are now fully coordinated',
     unlockText: 'Own 10 Forest Rangers Guild units',
-    unlocked: (state: GameState) => hasTier(state, 'FOREST_RANGERS_GUILD', 10),
+    unlocked: (state: GameState) => hasTierAmount(state, 'FOREST_RANGERS_GUILD', 10),
   },
   {
     name: 'Portal Pioneer',
     description: 'You’ve reached the magical regions of infinite pugdom',
     unlockText: 'Activate your first Portal to the Deep Forest',
-    unlocked: (state: GameState) => hasTier(state, 'PORTAL_DEEP_FOREST', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'PORTAL_DEEP_FOREST', 1),
   },
   {
     name: 'Village Elder (of Pugs)',
     description: 'A peaceful community dedicated to pug prosperity',
     unlockText: 'Establish your first Pug Sanctuary Village',
-    unlocked: (state: GameState) => hasTier(state, 'PUG_SANCTUARY', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'PUG_SANCTUARY', 1),
   },
   {
     name: 'Heartwood Awakening',
     description: 'An ancient force awakens to help gather pugs',
     unlockText: 'Grow the Elder Tree of Pugs',
-    unlocked: (state: GameState) => hasTier(state, 'ELDER_TREE', 1),
+    unlocked: (state: GameState) => hasTierAmount(state, 'ELDER_TREE', 1),
   },
   {
     name: 'A Billion Barks',

@@ -1,15 +1,16 @@
 import { computed, Injectable, signal } from '@angular/core';
 
 import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
-import { GameState, Statistics } from '@model';
+import { GameState, ProductionTier, Statistics, UpgradeTier } from '@model';
+import { UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameStateService {
   public readonly ownedPugs = signal(0);
-  public readonly productionTiers = signal<Record<string, number | undefined>>({});
-  public readonly upgradeTiers = signal<Record<string, number | undefined>>({});
+  public readonly productionTiers = signal<Record<string, ProductionTier>>({});
+  public readonly upgradeTiers = signal<Record<string, UpgradeTier>>({});
   public readonly prestiges = signal<Record<string, number | undefined>>({});
   public readonly achievements = signal<Record<string, boolean>>({});
   public readonly offlineGainPercent = signal(100);
@@ -20,40 +21,14 @@ export class GameStateService {
     totalPrestiges: 0,
     totalSpent: 0,
   });
-
-  public readonly pugsPerSecond = computed(() => {
-    let production = 0;
-    const productionTiers = this.productionTiers();
-    for (const tier in productionTiers) {
-      production += (productionTiers[tier] ?? 0) * PRODUCTION_TIER_BY_CODE[tier].production;
-    }
-    return production;
-  });
+  public readonly lastProductionDate = signal(0);
 
   constructor() {
     const storedState = localStorage.getItem('gameState');
     if (storedState) {
-      const gameState = JSON.parse(storedState);
-      this.productionTiers.set(gameState.productionTiers);
-      this.upgradeTiers.set(gameState.upgradeTiers);
-      this.prestiges.set(gameState.prestiges);
-      this.achievements.set(gameState.achievements);
-      this.offlineGainPercent.set(gameState.offlineGainPercent);
-      if (!gameState.statistics.firstClickDate) {
-        gameState.statistics.firstClickDate = Date.now();
-      }
-      this.statistics.set(gameState.statistics);
-
-      const elapsedTimeMs = Date.now() - gameState.lastProductionDate;
-      const producedOffline = (elapsedTimeMs / 1000) * this.pugsPerSecond();
-      // TODO: display as toaster
-      console.log(`Your team adopted ${producedOffline} more pugs while you were offline!`);
-      this.ownedPugs.set(gameState.ownedPugs + producedOffline);
+      this.restoreGameState(JSON.parse(storedState));
     } else {
-      this.productionTiers.update((tiers) => {
-        Object.keys(PRODUCTION_TIER_BY_CODE).forEach((code) => (tiers[code] = 0));
-        return { ...tiers };
-      });
+      this.initGameState();
     }
   }
 
@@ -80,5 +55,23 @@ export class GameStateService {
 
   public saveState(): void {
     localStorage.setItem('gameState', JSON.stringify(this.getGameState()));
+  }
+
+  private initGameState(): void {
+    this.productionTiers.set(PRODUCTION_TIER_BY_CODE);
+    this.upgradeTiers.set(UPGRADE_TIER_BY_CODE);
+  }
+
+  private restoreGameState(gameState: GameState): void {
+    this.productionTiers.set(gameState.productionTiers);
+    this.upgradeTiers.set(gameState.upgradeTiers);
+    this.prestiges.set(gameState.prestiges);
+    this.achievements.set(gameState.achievements);
+    this.offlineGainPercent.set(gameState.offlineGainPercent);
+    if (!gameState.statistics.firstClickDate) {
+      gameState.statistics.firstClickDate = Date.now();
+    }
+    this.statistics.set(gameState.statistics);
+    this.lastProductionDate.set(gameState.lastProductionDate);
   }
 }

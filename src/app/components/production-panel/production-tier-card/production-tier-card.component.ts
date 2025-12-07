@@ -30,8 +30,12 @@ export class ProductionTierCard {
   protected readonly image = computed(() => `production-tiers/${this.tier().code}.png`);
 
   protected readonly cost = computed(() =>
-    this.tierService.computeAmountCost(this.multiplier(), this.tier().baseCost, this.owned()),
+    this.tierService.computeCost(this.multiplier(), this.tier().baseCost, this.owned()),
   );
+
+  protected readonly baseProduction = computed(() => {
+    return this.tierService.computeBaseProduction(this.tier());
+  });
 
   protected readonly currentProduction = computed(() => {
     return this.tier().production * this.owned();

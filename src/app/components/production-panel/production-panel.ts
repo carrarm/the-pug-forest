@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
 import { ProductionTierCard } from '@components/production-panel/production-tier-card/production-tier-card.component';
 import { GameStateService } from '@core/services/game-state.service';
@@ -14,20 +14,24 @@ import { PurchaseMultiplier } from '@components/purchase-multiplier/purchase-mul
   styleUrl: './production-panel.css',
 })
 export class ProductionPanel {
-  protected readonly productionTiers = PRODUCTION_TIERS;
-
   protected readonly gameState = inject(GameStateService);
 
   private readonly tierService = inject(TierService);
 
+  protected readonly productionTiers = computed(() =>
+    Object.values(this.gameState.productionTiers()),
+  );
+
   protected readonly purchaseMultiplier = signal(1);
 
   protected purchaseProductionTier(tier: ProductionTier): void {
-    const owned = this.gameState.productionTiers()[tier.code] ?? 0;
+    const owned = this.gameState.productionTiers()[tier.code].owned;
     this.gameState.productionTiers.update((tiers) => {
-      return { ...tiers, [tier.code]: owned + this.purchaseMultiplier() };
+      const updatedTiers = { ...tiers };
+      updatedTiers[tier.code].owned += this.purchaseMultiplier();
+      return updatedTiers;
     });
-    const totalPurchaseCost = this.tierService.computeAmountCost(
+    const totalPurchaseCost = this.tierService.computeCost(
       this.purchaseMultiplier(),
       tier.baseCost,
       owned,

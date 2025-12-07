@@ -1,8 +1,8 @@
 export interface GameState {
   ownedPugs: number;
   lastProductionDate: number;
-  productionTiers: Record<string, number | undefined>;
-  upgradeTiers: Record<string, number | undefined>;
+  productionTiers: Record<string, ProductionTier>;
+  upgradeTiers: Record<string, UpgradeTier>;
   prestiges: Record<string, number | undefined>;
   achievements: Record<string, boolean>;
   offlineGainPercent: number;
@@ -22,6 +22,7 @@ export interface Tier {
   name: string;
   description: string;
   baseCost: number;
+  owned: number;
 }
 
 export interface ProductionTier extends Tier {
