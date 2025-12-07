@@ -13,22 +13,25 @@
       <ng-content select="[expandedDetail]" />
     }
     <ng-content select="[detail]" />
-    <div class="purchase-buttons">
-      <span>
-        Cost: <strong>{{ cost() | shortNumber: 1000 }}</strong>
-      </span>
-      @if (maxReached()) {
-        Max reached!
-      } @else {
+    @if (maxReached()) {
+      <div class="max-reached">Max reached!</div>
+    } @else {
+      <div class="purchase-buttons">
+        <span>
+          Cost:
+          <span class="cost" [class.matched]="requiredCostMatched()">{{
+            cost() | shortNumber: 1000
+          }}</span>
+        </span>
         <button
           class="light-button"
           [title]="tooltip()"
-          [disabled]="!canPurchase()"
+          [disabled]="!canPurchaseNext()"
           (click)="purchaseTier($event)"
         >
           Purchase
         </button>
-      }
-    </div>
+      </div>
+    }
   </div>
 </div>

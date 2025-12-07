@@ -16,6 +16,7 @@ export class PurchaseCard {
   public readonly multiplier = input.required<number>();
   public readonly image = input.required<string>();
   public readonly maxOwned = input(0, { transform: numberAttribute });
+  public readonly canPurchase = input(true);
   public readonly purchase = output<void>();
 
   protected readonly gameState = inject(GameStateService);
@@ -26,8 +27,11 @@ export class PurchaseCard {
   protected readonly maxReached = computed(
     () => !!this.maxOwned() && this.tier().owned >= this.maxOwned()!,
   );
-  protected readonly canPurchase = computed(
-    () => this.gameState.ownedPugs() >= this.cost() && !this.maxReached(),
+  protected readonly requiredCostMatched = computed(
+    () => this.gameState.ownedPugs() >= this.cost(),
+  );
+  protected readonly canPurchaseNext = computed(
+    () => this.canPurchase() && this.requiredCostMatched() && !this.maxReached(),
   );
   protected readonly tooltip = computed(
     () => `Purchase x${this.multiplier()} for ${this.shortNumberPipe.transform(this.cost())} pugs`,

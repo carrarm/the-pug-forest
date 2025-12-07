@@ -4,7 +4,7 @@ import { PurchaseCard } from '@components/purchase-card/purchase-card';
 import { GameStateService } from '@core/services/game-state.service';
 import { TierService } from '@core/services/tier.service';
 import { UpgradeTier } from '@model';
-import { UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
+import { MAX_LEVEL, UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
 
 @Component({
   selector: 'app-upgrade-tier-card',
@@ -27,9 +27,23 @@ export class UpgradeTierCard {
     tier.description = UPGRADE_TIER_BY_CODE[this.tier().code].levelDescription[this.owned()];
     return tier;
   });
-  protected readonly totalEffect = computed(() => this.tier().multiplier * this.owned());
-
-  protected readonly cost = computed(() =>
-    this.tierService.computeCost(this.multiplier(), this.tier().baseCost, this.owned()),
+  protected readonly requiredUnits = computed(() =>
+    this.tierService.computeUpgradeTierRequirement(this.owned()),
   );
+  protected readonly requirementMatched = computed(() => {
+    if (this.owned() >= MAX_LEVEL) {
+      return false;
+    }
+    const ownedUnits = this.gameState.productionTiers()[this.tier().affects].owned;
+    return ownedUnits >= this.requiredUnits();
+  });
+  protected readonly totalEffect = computed(() => this.tier().multiplier * this.owned());
+  protected readonly cost = computed(() =>
+    this.tierService.computeUpgradeTierCost(
+      UPGRADE_TIER_BY_CODE[this.tier().code].baseCost,
+      this.owned(),
+    ),
+  );
+
+  protected readonly maxOwned = MAX_LEVEL;
 }

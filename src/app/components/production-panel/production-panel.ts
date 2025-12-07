@@ -30,7 +30,7 @@ export class ProductionPanel {
       updatedTiers[tier.code].owned += this.purchaseMultiplier();
       return updatedTiers;
     });
-    const totalPurchaseCost = this.tierService.computeCost(
+    const totalPurchaseCost = this.tierService.computeProductionTierCost(
       this.purchaseMultiplier(),
       tier.baseCost,
       owned,

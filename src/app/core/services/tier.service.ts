@@ -1,10 +1,10 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { ProductionTier } from '@model';
 import { GameStateService } from '@core/services/game-state.service';
-import { UPGRADE_TIERS } from '@data/upgrade-tiers.data';
-import { PRODUCTION_TIERS } from '@data/production-tiers.data';
 
-const COST_SCALING_FACTOR = 1.07;
+const PRODUCTION_COST_SCALING_FACTOR = 1.07;
+const UPGRADE_COST_SCALING_FACTOR = 3;
+const REQUIRED_OWNED_UPGRADES = [10, 50, 100, 150, 200, 300, 400, 500, 800, 1000];
 
 @Injectable({
   providedIn: 'root',
@@ -21,16 +21,6 @@ export class TierService {
     return production;
   });
 
-  public computeCost(amount: number, baseCost: number, owned: number): number {
-    // cost(n) + cost(n+1) + ... is a geometric-series
-    // Geometric-series formula: S =  (r^(n+1) - 1) / (r - 1) with r = scaling factor
-    // Use n instead of n+1 to consider "n" a single term rather than an offset (base convention)
-    // and avoid to double-count n = 1
-    const geometricSeriesCost =
-      (Math.pow(COST_SCALING_FACTOR, amount) - 1) / (COST_SCALING_FACTOR - 1);
-    return Math.round(baseCost * Math.pow(COST_SCALING_FACTOR, owned) * geometricSeriesCost);
-  }
-
   public computeBaseProduction(tier: ProductionTier): number {
     const upgrade = Object.values(this.gameState.upgradeTiers()).find(
       (upgrade) => upgrade.affects === tier.code,
@@ -41,5 +31,25 @@ export class TierService {
     return upgrade.owned > 0
       ? tier.production * upgrade.multiplier * upgrade.owned
       : tier.production;
+  }
+
+  public computeProductionTierCost(amount: number, baseCost: number, owned: number): number {
+    // cost(n) + cost(n+1) + ... is a geometric-series
+    // Geometric-series formula: S =  (r^(n+1) - 1) / (r - 1) with r = scaling factor
+    // Use n instead of n+1 to consider "n" a single term rather than an offset (base convention)
+    // and avoid to double-count n = 1
+    const geometricSeriesCost =
+      (Math.pow(PRODUCTION_COST_SCALING_FACTOR, amount) - 1) / (PRODUCTION_COST_SCALING_FACTOR - 1);
+    return Math.round(
+      baseCost * Math.pow(PRODUCTION_COST_SCALING_FACTOR, owned) * geometricSeriesCost,
+    );
+  }
+
+  public computeUpgradeTierCost(baseCost: number, owned: number): number {
+    return baseCost * Math.pow(UPGRADE_COST_SCALING_FACTOR, owned);
+  }
+
+  public computeUpgradeTierRequirement(ownedUpgrades: number): number {
+    return REQUIRED_OWNED_UPGRADES[ownedUpgrades];
   }
 }

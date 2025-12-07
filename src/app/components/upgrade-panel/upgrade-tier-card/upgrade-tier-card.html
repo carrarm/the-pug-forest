@@ -3,7 +3,8 @@
   [cost]="cost()"
   [multiplier]="multiplier()"
   [image]="image()"
-  maxOwned="10"
+  [maxOwned]="maxOwned"
+  [canPurchase]="requirementMatched()"
   (purchase)="purchase.emit()"
 >
   <div title class="title">
@@ -17,5 +18,11 @@
     <div>
       Total multiplier: <span class="u-font-bold">x{{ totalEffect() }}</span>
     </div>
+    @if (levelTier().owned < maxOwned) {
+      <div class="requirement">
+        Requires
+        <span [class.matched]="requirementMatched()">{{ requiredUnits() }} units</span>
+      </div>
+    }
   </div>
 </app-purchase-card>

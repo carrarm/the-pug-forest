@@ -41,4 +41,17 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .max-reached {
+    text-align: right;
+  }
+
+  .cost {
+    font-weight: bold;
+    color: #bd0000;
+
+    &.matched {
+      color: green;
+    }
+  }
 }

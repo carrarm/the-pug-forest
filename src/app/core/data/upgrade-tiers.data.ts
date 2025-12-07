@@ -20,7 +20,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     ],
     effect: 'Click value x2',
     affects: '',
-    baseCost: 250,
+    baseCost: 300,
     multiplier: 2,
     owned: 0,
   },
@@ -43,7 +43,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     ],
     effect: 'Neighborhood Kids x2',
     affects: 'NEIGHBORHOOD_KIDS',
-    baseCost: 900,
+    baseCost: 1000,
     multiplier: 2,
     owned: 0,
   },
@@ -66,7 +66,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     ],
     effect: 'Bike Cart production x2',
     affects: 'BIKE_CART',
-    baseCost: 900,
+    baseCost: 5000,
     multiplier: 2,
     owned: 0,
   },
@@ -89,7 +89,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     ],
     effect: 'Pug Whisperer x2',
     affects: 'PUG_WHISPERER',
-    baseCost: 2000,
+    baseCost: 10000,
     multiplier: 2,
     owned: 0,
   },
@@ -112,7 +112,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     ],
     effect: 'Enchanted Lantern x2',
     affects: 'ENCHANTED_LANTERN',
-    baseCost: 30000,
+    baseCost: 25000,
     multiplier: 2,
     owned: 0,
   },
@@ -136,7 +136,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     ],
     effect: 'Forest Rangers Guild x2',
     affects: 'FOREST_RANGERS_GUILD',
-    baseCost: 300000,
+    baseCost: 50000,
     multiplier: 2,
     owned: 0,
   },
@@ -158,7 +158,7 @@ export const UPGRADE_TIERS: UpgradeTier[] = [
     ],
     effect: 'Portal to the Deep Forest x2',
     affects: 'PORTAL_DEEP_FOREST',
-    baseCost: 4000000,
+    baseCost: 100000,
     multiplier: 2,
     owned: 0,
   },
@@ -168,3 +168,5 @@ export const UPGRADE_TIER_BY_CODE: Record<string, UpgradeTier> = {};
 UPGRADE_TIERS.forEach((tier) => {
   UPGRADE_TIER_BY_CODE[tier.code] = tier;
 });
+
+export const MAX_LEVEL = 10;
