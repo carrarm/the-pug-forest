@@ -1,22 +1,16 @@
-.app-bordered-panel {
+.purchase-card {
   padding: 5px 10px;
   display: flex;
   gap: 0.5rem;
-  background-color: #E8d1AE;
+  background-color: #e8d1ae;
 
   cursor: pointer;
 
   font-size: small;
-}
 
-.owned-badge {
-  background-color: white;
-  border-radius: 5px;
-  padding: 1px 3px;
-}
-
-img {
-  width: 50px;
+  img {
+    width: 50px;
+  }
 }
 
 .tier-info {
@@ -41,10 +35,23 @@ img {
   .description {
     font-style: italic;
   }
-}
 
-.purchase-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  .purchase-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .max-reached {
+    text-align: right;
+  }
+
+  .cost {
+    font-weight: bold;
+    color: #bd0000;
+
+    &.matched {
+      color: green;
+    }
+  }
 }

@@ -1,0 +1,28 @@
+<app-purchase-card
+  [tier]="levelTier()"
+  [cost]="cost()"
+  [multiplier]="multiplier()"
+  [image]="image()"
+  [maxOwned]="maxOwned"
+  [canPurchase]="requirementMatched()"
+  (purchase)="purchase.emit()"
+>
+  <div title class="title">
+    <span>{{ tier().name }} (lvl {{ owned() }})</span>
+  </div>
+
+  <div detail>
+    <div>
+      Effect: <span class="u-font-bold">{{ tier().effect }}</span>
+    </div>
+    <div>
+      Total multiplier: <span class="u-font-bold">x{{ totalEffect() }}</span>
+    </div>
+    @if (levelTier().owned < maxOwned) {
+      <div class="requirement">
+        Requires
+        <span [class.matched]="requirementMatched()">{{ requiredUnits() }} units</span>
+      </div>
+    }
+  </div>
+</app-purchase-card>

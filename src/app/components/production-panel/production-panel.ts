@@ -1,33 +1,40 @@
-import { Component, inject } from '@angular/core';
-import { PurchaseCard } from '../purchase-card/purchase-card';
+import { Component, computed, inject, signal } from '@angular/core';
+
+import { ProductionTierCard } from '@components/production-panel/production-tier-card/production-tier-card.component';
+import { PurchaseMultiplier } from '@components/purchase-multiplier/purchase-multiplier';
 import { GameStateService } from '@core/services/game-state.service';
-import { ProductionTier } from '@model';
 import { TierService } from '@core/services/tier.service';
-import { PRODUCTION_TIERS } from '@data/production-tiers.data';
+import { ProductionTier } from '@model';
 
 @Component({
   selector: 'app-production-panel',
-  imports: [PurchaseCard],
+  imports: [ProductionTierCard, PurchaseMultiplier],
   templateUrl: './production-panel.html',
   styleUrl: './production-panel.css',
 })
 export class ProductionPanel {
-  protected readonly productionTiers = PRODUCTION_TIERS;
-
   protected readonly gameState = inject(GameStateService);
 
   private readonly tierService = inject(TierService);
 
-  protected purchaseProductionTier(tier: ProductionTier, amount: number): void {
-    const owned = this.gameState.productionTiers()[tier.code];
+  protected readonly productionTiers = computed(() =>
+    Object.values(this.gameState.productionTiers()),
+  );
+
+  protected readonly purchaseMultiplier = signal(1);
+
+  protected purchaseProductionTier(tier: ProductionTier): void {
+    const owned = this.gameState.productionTiers()[tier.code].owned;
     this.gameState.productionTiers.update((tiers) => {
-      return { ...tiers, [tier.code]: (tiers[tier.code] ?? 0) + amount };
+      const updatedTiers = { ...tiers };
+      updatedTiers[tier.code].owned += this.purchaseMultiplier();
+      return updatedTiers;
     });
-    const totalPurchaseCost = this.tierService.computeCurrentCost(tier.baseCost, owned) * amount;
-    this.gameState.ownedPugs.update((owned) => owned - totalPurchaseCost);
-    this.gameState.statistics.update((stats) => ({
-      ...stats,
-      totalSpent: stats.totalSpent + totalPurchaseCost,
-    }));
+    const totalPurchaseCost = this.tierService.computeProductionTierCost(
+      this.purchaseMultiplier(),
+      tier.baseCost,
+      owned,
+    );
+    this.gameState.buy(totalPurchaseCost);
   }
 }

@@ -1,9 +1,9 @@
 export interface GameState {
   ownedPugs: number;
   lastProductionDate: number;
-  productionTiers: Record<string, number>;
-  upgradeTiers: Record<string, number>;
-  prestiges: Record<string, number>;
+  productionTiers: Record<string, ProductionTier>;
+  upgradeTiers: Record<string, UpgradeTier>;
+  prestiges: Record<string, number | undefined>;
   achievements: Record<string, boolean>;
   offlineGainPercent: number;
   statistics: Statistics;
@@ -17,21 +17,23 @@ export interface Statistics {
   firstClickDate: number;
 }
 
-export interface ProductionTier {
+export interface Tier {
   code: string;
   name: string;
   description: string;
   baseCost: number;
+  owned: number;
+}
+
+export interface ProductionTier extends Tier {
   production: number;
 }
 
-export interface UpgradeTier {
-  code: string;
-  name: string;
-  description: string;
-  affects: string[];
-  baseCost: number;
+export interface UpgradeTier extends Tier {
+  effect: string;
+  affects: string;
   multiplier: number;
+  levelDescription: string[];
 }
 
 export interface Prestige {

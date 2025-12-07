@@ -1,0 +1,17 @@
+.effect {
+  font-weight: bold;
+}
+
+.requirement {
+  margin-top: 5px;
+  font-weight: bold;
+  font-style: italic;
+
+  span {
+    color: #bd0000;
+
+    &.matched {
+      color: green;
+    }
+  }
+}

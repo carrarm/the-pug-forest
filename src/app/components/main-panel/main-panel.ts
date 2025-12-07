@@ -1,8 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 
 import { GameStateService } from '@core/services/game-state.service';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { Device } from '@model';
+import { TierService } from '@core/services/tier.service';
 
 @Component({
   selector: 'app-main-panel',
@@ -14,6 +15,7 @@ export class MainPanel {
   public readonly device = input.required<Device>();
 
   protected readonly gameState = inject(GameStateService);
+  protected readonly tierService = inject(TierService);
 
   protected visitForest(): void {
     this.gameState.ownedPugs.update((owned) => owned + 1);

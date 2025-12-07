@@ -1,38 +1,37 @@
-<div class="app-bordered-panel" (click)="detailExpanded = !detailExpanded">
+<div class="app-bordered-panel purchase-card" (click)="detailExpanded.set(!detailExpanded())">
   <div>
-    <img src="production-tiers/{{ image() }}" [alt]="title()" />
+    <img [src]="image()" [alt]="tier().name" />
   </div>
   <div class="tier-info">
     <div class="title">
-      <span>{{ title() }}</span>
-      <span class="owned-badge">{{ owned() | shortNumber }}</span>
+      <ng-content select="[title]" />
     </div>
-    @if (detailExpanded) {
-      <span class="description">{{ description() }}</span>
-      <span
-        >Owned: <strong>{{ owned() }} ({{ currentProduction() | shortNumber }} p/s)</strong></span
-      >
+    @if (textDescriptionVisible()) {
+      <span class="description">{{ tier().description }}</span>
     }
-    <div class="u-flex u-items-center u-justify-between">
-      <span
-        >Cost: <strong>{{ currentCost() | shortNumber: 1000 }}</strong></span
-      >
-      <span
-        >Produces: <strong>{{ production() | shortNumber: 1000 }} p/s</strong></span
-      >
-    </div>
-    <div class="purchase-buttons">
-      <span>Purchase:</span>
-      @for (amount of amounts(); track amount.label) {
+    @if (detailExpanded()) {
+      <ng-content select="[expandedDetail]" />
+    }
+    <ng-content select="[detail]" />
+    @if (maxReached()) {
+      <div class="max-reached">Max reached!</div>
+    } @else {
+      <div class="purchase-buttons">
+        <span>
+          Cost:
+          <span class="cost" [class.matched]="requiredCostMatched()">{{
+            cost() | shortNumber: 1000
+          }}</span>
+        </span>
         <button
           class="light-button"
-          [title]="amount.tooltip"
-          [disabled]="!amount.canPurchase"
-          (click)="purchaseTier(amount.value, $event)"
+          [title]="tooltip()"
+          [disabled]="!canPurchaseNext()"
+          (click)="purchaseTier($event)"
         >
-          {{ amount.label }}
+          Purchase
         </button>
-      }
-    </div>
+      </div>
+    }
   </div>
 </div>

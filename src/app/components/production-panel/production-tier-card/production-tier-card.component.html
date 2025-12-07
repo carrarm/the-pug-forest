@@ -1,0 +1,19 @@
+<app-purchase-card
+  [tier]="tier()"
+  [cost]="cost()"
+  [multiplier]="multiplier()"
+  [image]="image()"
+  (purchase)="purchase.emit()"
+>
+  <div title class="title">
+    <span>{{ tier().name }}</span>
+    <span class="owned-badge">{{ owned() | shortNumber }}</span>
+  </div>
+
+  <span expandedDetail>
+    Owned: <strong>{{ owned() }} (produce {{ currentProduction() | shortNumber }} p/s)</strong>
+  </span>
+  <span detail>
+    Base production: <strong>{{ baseProduction() | shortNumber: 1000 : true }} p/s</strong>
+  </span>
+</app-purchase-card>

@@ -1,15 +1,7 @@
-import { Component, computed, inject, input, output } from '@angular/core';
-
-import { GameStateService } from '@core/services/game-state.service';
-import { TierService } from '@core/services/tier.service';
+import { Component, computed, inject, input, numberAttribute, output, signal } from '@angular/core';
+import { Tier } from '@model';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
-
-interface Amount {
-  label: string;
-  value: number;
-  tooltip: string;
-  canPurchase: boolean;
-}
+import { GameStateService } from '@core/services/game-state.service';
 
 @Component({
   selector: 'app-purchase-card',
@@ -19,54 +11,38 @@ interface Amount {
   providers: [ShortNumberPipe],
 })
 export class PurchaseCard {
-  public readonly title = input.required<string>();
-  public readonly image = input<string>();
-  public readonly description = input.required<string>();
+  public readonly tier = input.required<Tier>();
   public readonly cost = input.required<number>();
-  public readonly owned = input.required<number>();
-  public readonly production = input.required<number>();
-  public readonly purchase = output<number>();
+  public readonly multiplier = input.required<number>();
+  public readonly image = input.required<string>();
+  public readonly maxOwned = input(0, { transform: numberAttribute });
+  public readonly canPurchase = input(true);
+  public readonly purchase = output<void>();
 
-  private readonly gameState = inject(GameStateService);
-  private readonly tierService = inject(TierService);
+  protected readonly gameState = inject(GameStateService);
+
   private readonly shortNumberPipe = inject(ShortNumberPipe);
 
-  protected readonly amounts = computed(() => {
-    const currentCost = this.currentCost();
-    const ownedPugs = this.gameState.ownedPugs();
-    return [
-      { label: 'x1', value: 1, tooltip: '', canPurchase: false },
-      { label: 'x10', value: 10, tooltip: '', canPurchase: false },
-      { label: 'x25', value: 25, tooltip: '', canPurchase: false },
-    ].map((amount) => ({
-      ...amount,
-      tooltip: this.getTooltip(amount, currentCost),
-      canPurchase: this.canPurchase(amount, currentCost, ownedPugs),
-    }));
-  });
-
-  protected readonly currentCost = computed(() =>
-    this.tierService.computeCurrentCost(this.cost(), this.owned()),
+  protected readonly detailExpanded = signal(false);
+  protected readonly maxReached = computed(
+    () => !!this.maxOwned() && this.tier().owned >= this.maxOwned()!,
+  );
+  protected readonly requiredCostMatched = computed(
+    () => this.gameState.ownedPugs() >= this.cost(),
+  );
+  protected readonly canPurchaseNext = computed(
+    () => this.canPurchase() && this.requiredCostMatched() && !this.maxReached(),
+  );
+  protected readonly tooltip = computed(
+    () => `Purchase x${this.multiplier()} for ${this.shortNumberPipe.transform(this.cost())} pugs`,
   );
 
-  protected readonly currentProduction = computed(() => {
-    return this.production() * this.owned();
-  });
+  // TODO: change through settings
+  protected readonly textDescriptionVisible = signal(true);
 
-  protected detailExpanded = false;
-
-  protected purchaseTier(howMany: number, event: Event): void {
+  protected purchaseTier(event: Event): void {
+    // Cancel event to prevent detail expansion/collapse
     event.stopImmediatePropagation();
-    this.purchase.emit(howMany);
-  }
-
-  private canPurchase(amount: Amount, cost: number, pugs: number): boolean {
-    const totalCost = amount.value * cost;
-    return pugs >= totalCost;
-  }
-
-  private getTooltip(amount: Amount, cost: number): string {
-    const totalCost = this.shortNumberPipe.transform(amount.value * cost);
-    return `Purchase ${amount.label} for ${totalCost} pugs`;
+    this.purchase.emit();
   }
 }

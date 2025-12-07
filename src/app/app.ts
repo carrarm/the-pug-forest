@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, HostListener, inject, OnInit, signal } from '@angular/core';
 
 import { GameStateService } from '@core/services/game-state.service';
 import { ACHIEVEMENTS } from '@data/achievements.data';
@@ -6,6 +6,7 @@ import { Device } from '@model';
 
 import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 import { MobileLayout } from './layout/mobile-layout/mobile-layout';
+import { TierService } from '@core/services/tier.service';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +15,18 @@ import { MobileLayout } from './layout/mobile-layout/mobile-layout';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
-  protected readonly layout = signal<Device>('DESKTOP');
-
   private readonly gameState = inject(GameStateService);
+  private readonly tierService = inject(TierService);
+
+  protected readonly layout = signal<Device>('DESKTOP');
 
   public ngOnInit() {
     this.changeLayout();
 
+    this.gameState.ownedPugs.update((owned) => owned + this.computeOfflinePugs());
+
     setInterval(() => {
-      const addedPugs = this.gameState.pugsPerSecond();
+      const addedPugs = this.tierService.productionPerSecond();
       this.gameState.ownedPugs.update((owned) => owned + addedPugs);
       this.gameState.statistics.update((stats) => ({
         ...stats,
@@ -43,6 +47,16 @@ export class App implements OnInit {
     if (expectedLayout !== this.layout()) {
       this.layout.set(expectedLayout);
     }
+  }
+
+  private computeOfflinePugs(): number {
+    const elapsedTimeMs = Date.now() - this.gameState.lastProductionDate();
+    const producedOffline = (elapsedTimeMs / 1000) * this.tierService.productionPerSecond();
+
+    // TODO: display as toaster
+    console.log(`Your team adopted ${producedOffline} more pugs while you were offline!`);
+
+    return producedOffline;
   }
 
   private trackAchievements() {

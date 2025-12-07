@@ -1,7 +1,7 @@
 :host {
   display: block;
   max-width: 1200px;
-  margin: auto;
+  margin: 1rem auto;
 }
 
 main {
@@ -30,5 +30,8 @@ main {
     display: flex;
     justify-content: space-evenly;
 
+    button {
+      font-size: 1rem;
+    }
   }
 }

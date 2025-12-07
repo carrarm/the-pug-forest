@@ -61,6 +61,10 @@ select {
   display: flex;
 }
 
+.u-flex-col {
+  flex-direction: column;
+}
+
 .u-flex-filler {
   flex: 1;
 }
@@ -71,4 +75,8 @@ select {
 
 .u-justify-between {
   justify-content: space-between;
+}
+
+.u-font-bold {
+  font-weight: bold;
 }
