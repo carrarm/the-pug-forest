@@ -33,6 +33,7 @@ export interface UpgradeTier extends Tier {
   effect: string;
   affects: string;
   multiplier: number;
+  levelDescription: string[];
 }
 
 export interface Prestige {

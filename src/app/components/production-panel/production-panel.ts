@@ -1,11 +1,10 @@
 import { Component, computed, inject, signal } from '@angular/core';
 
 import { ProductionTierCard } from '@components/production-panel/production-tier-card/production-tier-card.component';
+import { PurchaseMultiplier } from '@components/purchase-multiplier/purchase-multiplier';
 import { GameStateService } from '@core/services/game-state.service';
 import { TierService } from '@core/services/tier.service';
-import { PRODUCTION_TIERS } from '@data/production-tiers.data';
 import { ProductionTier } from '@model';
-import { PurchaseMultiplier } from '@components/purchase-multiplier/purchase-multiplier';
 
 @Component({
   selector: 'app-production-panel',

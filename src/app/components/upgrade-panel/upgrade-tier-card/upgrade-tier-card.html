@@ -1,15 +1,21 @@
 <app-purchase-card
-  [tier]="tier()"
+  [tier]="levelTier()"
   [cost]="cost()"
   [multiplier]="multiplier()"
   [image]="image()"
+  maxOwned="10"
   (purchase)="purchase.emit()"
 >
   <div title class="title">
-    <span>{{ tier().name }} (lvl {{ owned() + 1 }})</span>
+    <span>{{ tier().name }} (lvl {{ owned() }})</span>
   </div>
 
-  <div detail class="u-font-bold">
-    <span>{{ tier().effect }}</span>
+  <div detail>
+    <div>
+      Effect: <span class="u-font-bold">{{ tier().effect }}</span>
+    </div>
+    <div>
+      Total multiplier: <span class="u-font-bold">x{{ totalEffect() }}</span>
+    </div>
   </div>
 </app-purchase-card>

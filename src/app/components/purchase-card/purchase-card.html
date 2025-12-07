@@ -6,9 +6,10 @@
     <div class="title">
       <ng-content select="[title]" />
     </div>
-    @if (detailExpanded()) {
+    @if (textDescriptionVisible()) {
       <span class="description">{{ tier().description }}</span>
-
+    }
+    @if (detailExpanded()) {
       <ng-content select="[expandedDetail]" />
     }
     <ng-content select="[detail]" />
@@ -16,14 +17,18 @@
       <span>
         Cost: <strong>{{ cost() | shortNumber: 1000 }}</strong>
       </span>
-      <button
-        class="light-button"
-        [title]="tooltip()"
-        [disabled]="gameState.ownedPugs() < cost()"
-        (click)="purchaseTier($event)"
-      >
-        Purchase
-      </button>
+      @if (maxReached()) {
+        Max reached!
+      } @else {
+        <button
+          class="light-button"
+          [title]="tooltip()"
+          [disabled]="!canPurchase()"
+          (click)="purchaseTier($event)"
+        >
+          Purchase
+        </button>
+      }
     </div>
   </div>
 </div>
