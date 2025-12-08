@@ -1,8 +1,0 @@
-@for (tier of upgradeTiers(); track tier.code) {
-  <app-upgrade-tier-card
-    [tier]="tier"
-    [owned]="tier.owned"
-    [multiplier]="1"
-    (purchase)="purchaseUpgradeTier(tier)"
-  />
-}
