@@ -28,9 +28,16 @@ export class TierService {
     if (!upgrade) {
       return 0;
     }
-    return upgrade.owned > 0
-      ? tier.production * upgrade.multiplier * upgrade.owned
-      : tier.production;
+    return tier.production * Math.pow(upgrade.multiplier, upgrade.owned);
+  }
+
+  public computeOfflineProduction(): number {
+    const elapsedTimeMs = Date.now() - this.gameState.lastProductionDate();
+    return (
+      (elapsedTimeMs / 1000) *
+      this.productionPerSecond() *
+      (this.gameState.offlineGainPercent() / 100)
+    );
   }
 
   public computeProductionTierCost(amount: number, baseCost: number, owned: number): number {

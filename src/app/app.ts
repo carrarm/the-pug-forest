@@ -50,8 +50,7 @@ export class App implements OnInit {
   }
 
   private computeOfflinePugs(): number {
-    const elapsedTimeMs = Date.now() - this.gameState.lastProductionDate();
-    const producedOffline = (elapsedTimeMs / 1000) * this.tierService.productionPerSecond();
+    const producedOffline = this.tierService.computeOfflineProduction();
 
     // TODO: display as toaster
     console.log(`Your team adopted ${producedOffline} more pugs while you were offline!`);
