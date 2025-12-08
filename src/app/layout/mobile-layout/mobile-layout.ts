@@ -17,8 +17,8 @@ type View = 'MAIN' | 'PURCHASES' | 'PRESTIGE' | 'SETTINGS' | 'STATS';
   styleUrl: './mobile-layout.css',
 })
 export class MobileLayout {
-  protected activeViewGroup = signal<View>('PURCHASES');
-  protected activePanel = signal<PanelType>('PRODUCTION');
+  protected activeViewGroup = signal<View>('MAIN');
+  protected activePanel = signal<PanelType>('MAIN');
 
   protected readonly menuButtons = [
     { icon: 'icons/MENU_PUGS.png', alt: 'Pugs menu', label: 'Pugs', view: 'MAIN' },
