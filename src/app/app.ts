@@ -1,4 +1,12 @@
-import { Component, computed, HostListener, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 
 import { GameStateService } from '@core/services/game-state.service';
 import { ACHIEVEMENTS } from '@data/achievements.data';
@@ -7,10 +15,12 @@ import { Device } from '@model';
 import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 import { MobileLayout } from './layout/mobile-layout/mobile-layout';
 import { TierService } from '@core/services/tier.service';
+import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+import { Toaster } from '@components/toaster/toaster';
 
 @Component({
   selector: 'app-root',
-  imports: [DesktopLayout, MobileLayout],
+  imports: [DesktopLayout, MobileLayout, ShortNumberPipe, Toaster],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -18,7 +28,10 @@ export class App implements OnInit {
   private readonly gameState = inject(GameStateService);
   private readonly tierService = inject(TierService);
 
+  protected readonly toaster = viewChild.required(Toaster);
+
   protected readonly layout = signal<Device>('DESKTOP');
+  protected readonly offlineGains = signal(0);
 
   public ngOnInit() {
     this.changeLayout();
@@ -50,11 +63,10 @@ export class App implements OnInit {
   }
 
   private computeOfflinePugs(): number {
-    const elapsedTimeMs = Date.now() - this.gameState.lastProductionDate();
-    const producedOffline = (elapsedTimeMs / 1000) * this.tierService.productionPerSecond();
+    const producedOffline = this.tierService.computeOfflineProduction();
 
-    // TODO: display as toaster
-    console.log(`Your team adopted ${producedOffline} more pugs while you were offline!`);
+    this.toaster().showToaster();
+    this.offlineGains.set(producedOffline);
 
     return producedOffline;
   }

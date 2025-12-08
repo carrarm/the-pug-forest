@@ -13,7 +13,7 @@ export class GameStateService {
   public readonly upgradeTiers = signal<Record<string, UpgradeTier>>({});
   public readonly prestiges = signal<Record<string, number | undefined>>({});
   public readonly achievements = signal<Record<string, boolean>>({});
-  public readonly offlineGainPercent = signal(100);
+  public readonly offlineGainPercent = signal(60);
   public readonly statistics = signal<Statistics>({
     totalPugs: 0,
     totalClicks: 0,
@@ -63,6 +63,7 @@ export class GameStateService {
   }
 
   private restoreGameState(gameState: GameState): void {
+    this.ownedPugs.set(gameState.ownedPugs);
     this.productionTiers.set(gameState.productionTiers);
     this.upgradeTiers.set(gameState.upgradeTiers);
     this.prestiges.set(gameState.prestiges);

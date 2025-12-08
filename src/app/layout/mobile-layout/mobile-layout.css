@@ -1,5 +1,6 @@
 :host {
   --footer-height: 64px;
+  --header-height: 50px;
   --content-margin-x: 0.5rem;
 
   height: 100vh;
@@ -14,6 +15,8 @@ app-header {
 
 app-main-panel {
   margin: 0 var(--content-margin-x);
+  /* Subtract header/footer/margin to the full height */
+  --main-panel-height: calc(100vh - 180px);
 }
 
 .menu-panel {
