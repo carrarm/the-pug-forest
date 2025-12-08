@@ -63,6 +63,7 @@ export class GameStateService {
   }
 
   private restoreGameState(gameState: GameState): void {
+    this.ownedPugs.set(gameState.ownedPugs);
     this.productionTiers.set(gameState.productionTiers);
     this.upgradeTiers.set(gameState.upgradeTiers);
     this.prestiges.set(gameState.prestiges);
