@@ -34,6 +34,9 @@ export class UpgradeTierCard {
     if (this.owned() >= MAX_LEVEL) {
       return false;
     }
+    if (!this.tier().affects) {
+      return true;
+    }
     const ownedUnits = this.gameState.productionTiers()[this.tier().affects].owned;
     return ownedUnits >= this.requiredUnits();
   });

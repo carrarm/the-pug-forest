@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 
 import { GameStateService } from '@core/services/game-state.service';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
@@ -18,7 +18,7 @@ export class MainPanel {
   protected readonly tierService = inject(TierService);
 
   protected visitForest(): void {
-    this.gameState.ownedPugs.update((owned) => owned + 1);
+    this.gameState.ownedPugs.update((owned) => owned + this.tierService.clickProduction());
     this.gameState.statistics.update((stats) => {
       const firstClick = stats.firstClickDate ?? Date.now();
       return { ...stats, totalClicks: stats.totalClicks + 1, firstClickDate: firstClick };
