@@ -53,13 +53,30 @@ export class GameStateService {
     };
   }
 
+  public resetGame(): void {
+    this.initGameState();
+    this.saveState();
+  }
+
   public saveState(): void {
     localStorage.setItem('gameState', JSON.stringify(this.getGameState()));
   }
 
   private initGameState(): void {
-    this.productionTiers.set(PRODUCTION_TIER_BY_CODE);
-    this.upgradeTiers.set(UPGRADE_TIER_BY_CODE);
+    this.ownedPugs.set(0);
+    this.productionTiers.set(structuredClone(PRODUCTION_TIER_BY_CODE));
+    this.upgradeTiers.set(structuredClone(UPGRADE_TIER_BY_CODE));
+    this.prestiges.set({});
+    this.achievements.set({});
+    this.offlineGainPercent.set(60);
+    this.statistics.set({
+      totalPugs: 0,
+      totalClicks: 0,
+      firstClickDate: Date.now(),
+      totalPrestiges: 0,
+      totalSpent: 0,
+    });
+    this.lastProductionDate.set(Date.now());
   }
 
   private restoreGameState(gameState: GameState): void {

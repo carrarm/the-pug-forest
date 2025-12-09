@@ -5,10 +5,11 @@ import { AchievementPanel } from '@components/achievement-panel/achievement-pane
 import { StatsPanel } from '@components/stats-panel/stats-panel';
 import { PanelType } from '@model';
 import { UpgradePanel } from '@components/upgrade-panel/upgrade-panel';
+import { SettingsPanel } from '@components/settings-panel/settings-panel';
 
 @Component({
   selector: 'app-content-panel',
-  imports: [AchievementPanel, ProductionPanel, StatsPanel, UpgradePanel],
+  imports: [AchievementPanel, ProductionPanel, SettingsPanel, StatsPanel, UpgradePanel],
   templateUrl: './content-panel.html',
   styleUrl: './content-panel.css',
 })
