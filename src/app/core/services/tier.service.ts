@@ -12,6 +12,11 @@ const REQUIRED_OWNED_UPGRADES = [10, 50, 100, 150, 200, 300, 400, 500, 800, 1000
 export class TierService {
   private readonly gameState = inject(GameStateService);
 
+  public readonly clickProduction = computed(() => {
+    const clickUpgrade = this.gameState.upgradeTiers()['TRAVELER_AURA'];
+    return Math.pow(clickUpgrade.multiplier, clickUpgrade.owned);
+  });
+
   public readonly productionPerSecond = computed(() => {
     let production = 0;
     const productionTiers = this.gameState.productionTiers();
