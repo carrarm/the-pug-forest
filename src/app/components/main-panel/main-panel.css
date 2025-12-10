@@ -4,7 +4,7 @@
 
 .main-panel {
   grid-area: main;
-  background-image: url('/pug-forest-background.png');
+  background-image: url('../../../../public/pug-forest-background.png');
   background-size: cover;
   background-position: center;
   height: var(--main-panel-height, 500px);
