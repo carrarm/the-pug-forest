@@ -64,9 +64,11 @@ export class App implements OnInit {
 
   private computeOfflinePugs(): number {
     const producedOffline = this.tierService.computeOfflineProduction();
-
-    this.toaster().showToaster();
     this.offlineGains.set(producedOffline);
+
+    if (producedOffline > 0) {
+      this.toaster().showToaster();
+    }
 
     return producedOffline;
   }
