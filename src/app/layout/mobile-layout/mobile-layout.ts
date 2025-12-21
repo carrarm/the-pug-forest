@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
 
@@ -19,6 +19,10 @@ type View = 'MAIN' | 'PURCHASES' | 'PRESTIGE' | 'SETTINGS' | 'STATS';
 export class MobileLayout {
   protected activeViewGroup = signal<View>('MAIN');
   protected activePanel = signal<PanelType>('MAIN');
+
+  protected readonly showPanelTitle = computed(() =>
+    ['PRESTIGE', 'SETTINGS'].includes(this.activeViewGroup()),
+  );
 
   protected readonly menuButtons = [
     { icon: 'icons/MENU_PUGS.png', alt: 'Pugs menu', label: 'Pugs', view: 'MAIN' },

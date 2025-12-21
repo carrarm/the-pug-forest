@@ -1,3 +1,7 @@
+@if (withTitle()) {
+  <div class="panel-title">{{ panelTitle() }}</div>
+}
+
 @switch (activePanel()) {
   @case ('PRODUCTION') {
     <app-production-panel />
