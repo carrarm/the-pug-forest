@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state';
@@ -14,14 +14,33 @@ import { Device } from '@model';
 export class MainPanel {
   public readonly device = input.required<Device>();
 
+  protected readonly visitForestText = viewChild.required<ElementRef>('visitForestText');
+
   protected readonly gameState = inject(GameStateService);
   protected readonly tierService = inject(TierService);
 
   protected visitForest(): void {
+    this.animateGainsText();
     this.gameState.ownedPugs.update((owned) => owned + this.tierService.clickProduction());
     this.gameState.statistics.update((stats) => {
       const firstClick = stats.firstClickDate ?? Date.now();
       return { ...stats, totalClicks: stats.totalClicks + 1, firstClickDate: firstClick };
     });
+  }
+
+  private animateGainsText(): void {
+    const animatedText = this.visitForestText().nativeElement as HTMLDivElement;
+    animatedText.animate(
+      [
+        { transform: 'translate(-50%, 0)', opacity: 0 },
+        { opacity: 1, offset: 0.3 },
+        { transform: 'translate(-50%, -20px)', opacity: 0 },
+      ],
+      {
+        duration: 1000,
+        easing: 'ease',
+        fill: 'none',
+      },
+    );
   }
 }

@@ -10,5 +10,10 @@
     </div>
   </div>
 
-  <button (click)="visitForest()" title="1 pug/click">Visit the forest</button>
+  <div class="visit-forest-container">
+    <button (click)="visitForest()" title="1 pug/click">Visit the forest</button>
+    <div class="gained-pug-animation" #visitForestText>
+      +{{ tierService.clickProduction() }} pug(s)
+    </div>
+  </div>
 </div>
