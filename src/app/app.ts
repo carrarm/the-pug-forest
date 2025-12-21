@@ -69,6 +69,11 @@ export class App implements OnInit {
     this.changeLayout();
   }
 
+  protected closePopup(): void {
+    this.popupOpen = false;
+    this.musicService.startMusic();
+  }
+
   private changeLayout(): void {
     const expectedLayout = window.innerWidth > 1000 ? 'DESKTOP' : 'MOBILE';
     if (expectedLayout !== this.layout()) {
