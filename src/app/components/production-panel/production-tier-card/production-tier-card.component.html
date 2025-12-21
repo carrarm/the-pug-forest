@@ -14,6 +14,6 @@
     Owned: <strong>{{ owned() }} (produce {{ currentProduction() | shortNumber }} p/s)</strong>
   </span>
   <span detail>
-    Base production: <strong>{{ baseProduction() | shortNumber: 1000 : true }} p/s</strong>
+    Base production: <strong>{{ baseProduction() | shortNumber: true : 1000 }} p/s</strong>
   </span>
 </app-purchase-card>
