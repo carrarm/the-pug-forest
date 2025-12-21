@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, signal, viewChild } from '@angular/core';
+import { Component, effect, HostListener, inject, OnInit, signal, viewChild } from '@angular/core';
 
 import { Toaster } from '@components/toaster/toaster';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
@@ -9,6 +9,8 @@ import { Device } from '@model';
 
 import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 import { MobileLayout } from './layout/mobile-layout/mobile-layout';
+import { SettingsService } from '@core/services/settings.service';
+import { MusicService } from '@core/services/music';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +20,24 @@ import { MobileLayout } from './layout/mobile-layout/mobile-layout';
 })
 export class App implements OnInit {
   private readonly gameState = inject(GameStateService);
+  private readonly musicService = inject(MusicService);
+  private readonly settings = inject(SettingsService);
   private readonly tierService = inject(TierService);
 
   protected readonly toaster = viewChild.required(Toaster);
 
   protected readonly layout = signal<Device>('DESKTOP');
   protected readonly offlineGains = signal(0);
+
+  constructor() {
+    effect(() => {
+      if (this.settings.musicEnabled()) {
+        this.musicService.startMusic();
+      } else {
+        this.musicService.stopMusic();
+      }
+    });
+  }
 
   public ngOnInit() {
     this.changeLayout();
