@@ -20,7 +20,7 @@
         <span>
           Cost:
           <span class="cost" [class.matched]="requiredCostMatched()">{{
-            cost() | shortNumber: 1000
+            cost() | shortNumber: false : 1000
           }}</span>
         </span>
         <button

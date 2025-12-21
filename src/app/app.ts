@@ -11,10 +11,11 @@ import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 import { MobileLayout } from './layout/mobile-layout/mobile-layout';
 import { SettingsService } from '@core/services/settings.service';
 import { MusicService } from '@core/services/music';
+import { Popup } from '@components/popup/popup';
 
 @Component({
   selector: 'app-root',
-  imports: [DesktopLayout, MobileLayout, ShortNumberPipe, Toaster],
+  imports: [DesktopLayout, MobileLayout, Popup, ShortNumberPipe, Toaster],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -24,10 +25,11 @@ export class App implements OnInit {
   private readonly settings = inject(SettingsService);
   private readonly tierService = inject(TierService);
 
-  protected readonly toaster = viewChild.required(Toaster);
-
   protected readonly layout = signal<Device>('DESKTOP');
   protected readonly offlineGains = signal(0);
+
+  protected popupType: 'firstConnection' | 'offlineGains' | 'noGains' = 'firstConnection';
+  protected popupOpen = true;
 
   constructor() {
     effect(() => {
@@ -42,7 +44,13 @@ export class App implements OnInit {
   public ngOnInit() {
     this.changeLayout();
 
-    this.gameState.ownedPugs.update((owned) => owned + this.computeOfflinePugs());
+    const offlinePugs = this.computeOfflinePugs();
+
+    this.gameState.ownedPugs.update((owned) => owned + offlinePugs);
+
+    if (this.gameState.statistics().totalClicks > 0) {
+      this.popupType = offlinePugs === 0 ? 'noGains' : 'offlineGains';
+    }
 
     setInterval(() => {
       const addedPugs = this.tierService.productionPerSecond();
@@ -71,11 +79,6 @@ export class App implements OnInit {
   private computeOfflinePugs(): number {
     const producedOffline = this.tierService.computeOfflineProduction();
     this.offlineGains.set(producedOffline);
-
-    if (producedOffline > 0) {
-      this.toaster().showToaster();
-    }
-
     return producedOffline;
   }
 
