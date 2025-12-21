@@ -1,22 +1,14 @@
-import {
-  Component,
-  computed,
-  HostListener,
-  inject,
-  OnInit,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal, viewChild } from '@angular/core';
 
-import { GameStateService } from '@core/services/game-state.service';
+import { Toaster } from '@components/toaster/toaster';
+import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+import { GameStateService } from '@core/services/game-state';
+import { TierService } from '@core/services/tier';
 import { ACHIEVEMENTS } from '@data/achievements.data';
 import { Device } from '@model';
 
 import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 import { MobileLayout } from './layout/mobile-layout/mobile-layout';
-import { TierService } from '@core/services/tier.service';
-import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
-import { Toaster } from '@components/toaster/toaster';
 
 @Component({
   selector: 'app-root',

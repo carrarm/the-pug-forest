@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { GameStateService } from '@core/services/game-state.service';
+import { GameStateService } from '@core/services/game-state';
 
 @Component({
   selector: 'app-settings-panel',

@@ -1,8 +1,8 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 
 import { PurchaseCard } from '@components/purchase-card/purchase-card';
-import { GameStateService } from '@core/services/game-state.service';
-import { TierService } from '@core/services/tier.service';
+import { GameStateService } from '@core/services/game-state';
+import { TierService } from '@core/services/tier';
 import { UpgradeTier } from '@model';
 import { MAX_LEVEL, UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
 

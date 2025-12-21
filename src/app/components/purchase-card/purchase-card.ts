@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, numberAttribute, output, signal } from '@angular/core';
 import { Tier } from '@model';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
-import { GameStateService } from '@core/services/game-state.service';
+import { GameStateService } from '@core/services/game-state';
 
 @Component({
   selector: 'app-purchase-card',

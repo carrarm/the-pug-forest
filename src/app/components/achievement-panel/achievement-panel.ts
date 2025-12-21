@@ -1,8 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 
-
 import { ACHIEVEMENTS } from '@data/achievements.data';
-import { GameStateService } from '@core/services/game-state.service';
+import { GameStateService } from '@core/services/game-state';
 import { GameState } from '@model';
 
 @Component({

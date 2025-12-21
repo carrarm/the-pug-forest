@@ -2,8 +2,8 @@ import { Component, computed, inject, signal } from '@angular/core';
 
 import { ProductionTierCard } from '@components/production-panel/production-tier-card/production-tier-card.component';
 import { PurchaseMultiplier } from '@components/purchase-multiplier/purchase-multiplier';
-import { GameStateService } from '@core/services/game-state.service';
-import { TierService } from '@core/services/tier.service';
+import { GameStateService } from '@core/services/game-state';
+import { TierService } from '@core/services/tier';
 import { ProductionTier } from '@model';
 
 @Component({

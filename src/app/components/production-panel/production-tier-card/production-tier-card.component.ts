@@ -1,16 +1,9 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 
-import { TierService } from '@core/services/tier.service';
+import { TierService } from '@core/services/tier';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { ProductionTier } from '@model';
 import { PurchaseCard } from '@components/purchase-card/purchase-card';
-
-interface Amount {
-  label: string;
-  value: number;
-  tooltip: string;
-  canPurchase: boolean;
-}
 
 @Component({
   selector: 'app-production-tier-card',

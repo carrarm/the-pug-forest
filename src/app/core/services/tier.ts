@@ -1,6 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { ProductionTier } from '@model';
-import { GameStateService } from '@core/services/game-state.service';
+import { GameStateService } from '@core/services/game-state';
 
 const PRODUCTION_COST_SCALING_FACTOR = 1.07;
 const UPGRADE_COST_SCALING_FACTOR = 3;
