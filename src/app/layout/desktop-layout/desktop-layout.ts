@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { Header } from '../header/header';
 
 @Component({
   selector: 'app-desktop-layout',
-  imports: [ContentPanel, FormsModule, Header, MainPanel, NgClass],
+  imports: [ContentPanel, FormsModule, Header, MainPanel],
   templateUrl: './desktop-layout.html',
   styleUrl: './desktop-layout.css',
 })

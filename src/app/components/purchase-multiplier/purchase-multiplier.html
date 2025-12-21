@@ -2,7 +2,7 @@
 @for (option of multiplierOptions; track option) {
   <button
     class="cta-button"
-    [ngClass]="{ active: multiplier() === option }"
+    [class.active]="multiplier() === option"
     (click)="multiplier.set(option)"
   >
     x{{ option }}

@@ -1,6 +1,6 @@
 <div class="container">
   @for (achievement of achievements(); track achievement.name) {
-    <div class="app-bordered-panel achievement" [ngClass]="{ unlocked: achievement.isUnlocked }">
+    <div class="app-bordered-panel achievement" [class.unlocked]="achievement.isUnlocked">
       @if (achievement.isUnlocked) {
         <img src="generic-achievement.png" alt="Achievement" />
       } @else {
