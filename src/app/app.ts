@@ -1,6 +1,5 @@
-import { Component, effect, HostListener, inject, OnInit, signal, viewChild } from '@angular/core';
+import { Component, effect, HostListener, inject, OnInit, signal } from '@angular/core';
 
-import { Toaster } from '@components/toaster/toaster';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state';
 import { TierService } from '@core/services/tier';
@@ -15,7 +14,7 @@ import { Popup } from '@components/popup/popup';
 
 @Component({
   selector: 'app-root',
-  imports: [DesktopLayout, MobileLayout, Popup, ShortNumberPipe, Toaster],
+  imports: [DesktopLayout, MobileLayout, Popup, ShortNumberPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
