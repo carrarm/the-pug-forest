@@ -10,7 +10,7 @@
       <app-popup
         actionBtnText="Enter the Pug Forest!"
         popupTitle="Explore, Adopt, Repeat"
-        (closed)="popupOpen = false"
+        (closed)="closePopup()"
       >
         <span>
           You have discovered a hidden forest full of playful pugs! Adopt them one by one and watch
@@ -23,7 +23,7 @@
       <app-popup
         actionBtnText="Meet them all"
         popupTitle="Your pug family grew"
-        (closed)="popupOpen = false"
+        (closed)="closePopup()"
       >
         <span>
           Your team adopted <strong>{{ offlineGains() | shortNumber }}</strong> more pugs while you
@@ -36,7 +36,7 @@
       <app-popup
         actionBtnText="Get some helpers"
         popupTitle="Your empire needs help!"
-        (closed)="popupOpen = false"
+        (closed)="closePopup()"
       >
         <span>
           The forest stayed quiet while you were away… Time to recruit some help and let the pugs
