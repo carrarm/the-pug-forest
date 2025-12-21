@@ -1,9 +1,9 @@
 import { Component, inject, input } from '@angular/core';
 
-import { GameStateService } from '@core/services/game-state.service';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+import { GameStateService } from '@core/services/game-state';
+import { TierService } from '@core/services/tier';
 import { Device } from '@model';
-import { TierService } from '@core/services/tier.service';
 
 @Component({
   selector: 'app-main-panel',

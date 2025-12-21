@@ -28,7 +28,7 @@
         </div>
       }
 
-      <app-content-panel [activePanel]="activePanel()" />
+      <app-content-panel [activePanel]="activePanel()" [withTitle]="showPanelTitle()" />
     </div>
   }
 </main>
@@ -50,7 +50,7 @@
 <ng-template #panelMenuBtn let-panel="panel" let-label="label">
   <button
     class="cta-button"
-    [ngClass]="{ active: activePanel() === panel }"
+    [class.active]="activePanel() === panel"
     (click)="activePanel.set(panel)"
   >
     {{ label }}

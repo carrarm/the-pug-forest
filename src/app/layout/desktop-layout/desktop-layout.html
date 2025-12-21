@@ -17,21 +17,21 @@
     <div class="switch-buttons">
       <button
         class="cta-button"
-        [ngClass]="{ active: activePurchasePanel() === 'PRODUCTION' }"
+        [class.active]="activePurchasePanel() === 'PRODUCTION'"
         (click)="activePurchasePanel.set('PRODUCTION')"
       >
         Production
       </button>
       <button
         class="cta-button"
-        [ngClass]="{ active: activePurchasePanel() === 'UPGRADE' }"
+        [class.active]="activePurchasePanel() === 'UPGRADE'"
         (click)="activePurchasePanel.set('UPGRADE')"
       >
         Upgrades
       </button>
       <button
         class="cta-button"
-        [ngClass]="{ active: activePurchasePanel() === 'PRESTIGE' }"
+        [class.active]="activePurchasePanel() === 'PRESTIGE'"
         (click)="activePurchasePanel.set('PRESTIGE')"
       >
         Prestige

@@ -1,0 +1,40 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup {
+  background-color: var(--light-background);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border: var(--border);
+
+  width: 600px;
+  max-width: 90vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.title {
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+button {
+  padding: 0.5rem 2rem;
+
+  font-size: large;
+}

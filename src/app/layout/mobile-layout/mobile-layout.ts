@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 import { ContentPanel } from '@components/content-panel/content-panel';
 import { MainPanel } from '@components/main-panel/main-panel';
@@ -12,13 +12,17 @@ type View = 'MAIN' | 'PURCHASES' | 'PRESTIGE' | 'SETTINGS' | 'STATS';
 
 @Component({
   selector: 'app-mobile-layout',
-  imports: [ContentPanel, FormsModule, Header, MainPanel, NgClass, NgTemplateOutlet],
+  imports: [ContentPanel, FormsModule, Header, MainPanel, NgTemplateOutlet],
   templateUrl: './mobile-layout.html',
   styleUrl: './mobile-layout.css',
 })
 export class MobileLayout {
   protected activeViewGroup = signal<View>('MAIN');
   protected activePanel = signal<PanelType>('MAIN');
+
+  protected readonly showPanelTitle = computed(() =>
+    ['PRESTIGE', 'SETTINGS'].includes(this.activeViewGroup()),
+  );
 
   protected readonly menuButtons = [
     { icon: 'icons/MENU_PUGS.png', alt: 'Pugs menu', label: 'Pugs', view: 'MAIN' },

@@ -11,14 +11,17 @@ const SUFFIXES = [
   name: 'shortNumber',
 })
 export class ShortNumberPipe implements PipeTransform {
-  transform(value: number, maxPlainNumber = 100000, allowDecimals = false): string {
+  transform(value: number, allowDecimals = false, maxPlainNumber = 100000): string {
     if (!Number.isFinite(value)) {
       return '';
     }
 
     const valueAsInt = allowDecimals ? value : Math.floor(value);
     if (valueAsInt < maxPlainNumber) {
-      return valueAsInt.toLocaleString('en-US', { minimumFractionDigits: 0 });
+      return valueAsInt.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
     }
 
     // Start shortening starting at 100k

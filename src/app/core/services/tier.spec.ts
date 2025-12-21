@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { TierService } from './tier.service';
-import { GameStateService } from '@core/services/game-state.service';
+import { GameStateService } from '@core/services/game-state';
 import { PRODUCTION_TIERS } from '@data/production-tiers.data';
 import { UPGRADE_TIERS } from '@data/upgrade-tiers.data';
 import { ProductionTier } from '@model';
