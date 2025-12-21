@@ -1,7 +1,7 @@
 import { effect, inject, Injectable } from '@angular/core';
 import { SettingsService } from '@core/services/settings.service';
 
-const USER_INTERACTIONS = ['pointerdown', 'keydown', 'touchstart', 'wheel'];
+const USER_INTERACTIONS = ['click', 'pointerdown', 'keydown', 'touchstart', 'wheel'];
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,6 @@ export class MusicService {
 
   public startMusic(): void {
     if (this.ready && this.settings.musicEnabled()) {
-      this.audio.load();
       this.audio.play().catch(console.error);
     }
   }
