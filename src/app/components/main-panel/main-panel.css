@@ -3,6 +3,9 @@
 }
 
 .main-panel {
+  position: relative;
+  overflow: hidden;
+
   grid-area: main;
   background-image: url('../../../../public/pug-forest-background.png');
   background-size: cover;
@@ -52,12 +55,6 @@ button {
   font-size: large;
 }
 
-.MOBILE {
-  button {
-    font-size: xx-large;
-  }
-}
-
 .visit-forest-container {
   position: relative;
 }
@@ -72,6 +69,39 @@ button {
 
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   color: #e6bd7d;
-  font-size: large;
+  font-size: x-large;
+  font-weight: bold;
+  width: 150px;
+  text-align: center;
 }
 
+/* SVG Positioning */
+
+.main-pug {
+  position: absolute;
+  bottom: 10px;
+  height: 110px;
+}
+
+.side-pugs {
+  position: absolute;
+  bottom: 50px;
+  height: 180px;
+}
+
+
+.MOBILE {
+  button {
+    font-size: xx-large;
+  }
+
+  /* SVG Positioning */
+
+  .main-pug {
+    height: 200px;
+  }
+
+  .side-pugs {
+    height: 300px;
+  }
+}

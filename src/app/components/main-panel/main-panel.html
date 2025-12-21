@@ -16,4 +16,12 @@
       +{{ tierService.clickProduction() }} pug(s)
     </div>
   </div>
+
+  @if (sidePugs()) {
+    <img class="side-pugs" [src]="sidePugs()" />
+  }
+
+  @if (mainPug()) {
+    <img class="main-pug" [src]="mainPug()" />
+  }
 </div>

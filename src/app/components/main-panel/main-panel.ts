@@ -1,9 +1,28 @@
-import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state';
 import { TierService } from '@core/services/tier';
 import { Device } from '@model';
+
+interface PugSvg {
+  path: string;
+  bottom: string;
+  left: string;
+  slot: number;
+}
+
+const MAIN_PUG_SVG = 'pugs/pug-2.svg';
+const PUG_GROUPS = [5, 20, 50, 100, 500];
 
 @Component({
   selector: 'app-main-panel',
@@ -11,13 +30,26 @@ import { Device } from '@model';
   templateUrl: './main-panel.html',
   styleUrl: './main-panel.css',
 })
-export class MainPanel {
+export class MainPanel implements OnInit {
   public readonly device = input.required<Device>();
 
   protected readonly visitForestText = viewChild.required<ElementRef>('visitForestText');
 
   protected readonly gameState = inject(GameStateService);
   protected readonly tierService = inject(TierService);
+
+  protected readonly mainPug = signal(MAIN_PUG_SVG);
+  protected readonly sidePugs = computed(() => {
+    const maxGroup = PUG_GROUPS.at(-1)!;
+    const owned = this.gameState.ownedPugs();
+    const groupIndex =
+      owned > maxGroup ? PUG_GROUPS.length : PUG_GROUPS.findIndex((group) => group > owned);
+    return groupIndex > 0 ? `pugs/pug-group-${PUG_GROUPS[groupIndex - 1]}.svg` : '';
+  });
+
+  public ngOnInit(): void {
+    setInterval(() => this.blink(), 4000);
+  }
 
   protected visitForest(): void {
     this.animateGainsText();
@@ -42,5 +74,16 @@ export class MainPanel {
         fill: 'none',
       },
     );
+  }
+
+  private blink(): void {
+    this.mainPug.set('pugs/pug-2-eyes-closed.svg');
+    setTimeout(() => {
+      this.mainPug.set(MAIN_PUG_SVG);
+    }, 200);
+  }
+
+  private randomValue(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 }
