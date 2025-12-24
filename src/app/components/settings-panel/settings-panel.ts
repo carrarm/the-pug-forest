@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { GameStateService } from '@core/services/game-state';
-import { SettingsService } from '@core/services/settings.service';
 import { FormsModule } from '@angular/forms';
+
+import { GameStateService } from '@core/services/game-state';
+import { SettingsService } from '@core/services/settings';
 
 @Component({
   selector: 'app-settings-panel',
