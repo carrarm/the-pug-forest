@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
 import { GameState, ProductionTier, Statistics, UpgradeTier } from '@model';
@@ -26,7 +26,8 @@ export class GameStateService {
   constructor() {
     const storedState = localStorage.getItem('gameState');
     if (storedState) {
-      this.restoreGameState(JSON.parse(storedState));
+      const validState = this.sanitize(storedState);
+      this.restoreGameState(validState);
     } else {
       this.initGameState();
     }
@@ -59,7 +60,33 @@ export class GameStateService {
   }
 
   public saveState(): void {
-    localStorage.setItem('gameState', JSON.stringify(this.getGameState()));
+    const encryptedState = this.encryptState(this.getGameState());
+    localStorage.setItem('gameState', encryptedState);
+  }
+
+  private decryptState(encryptedText: string): GameState {
+    const bytes = Uint8Array.from(atob(encryptedText), (c) => c.charCodeAt(0));
+    const rawJson = new TextDecoder().decode(bytes);
+    return JSON.parse(rawJson);
+  }
+
+  private encryptState(state: GameState): string {
+    const bytes = new TextEncoder().encode(JSON.stringify(state));
+    return btoa(String.fromCharCode(...bytes));
+  }
+
+  /**
+   * Make sure that the stored state is always valid on newer versions of the app.
+   */
+  private sanitize(storedState: string): GameState {
+    let gameState: GameState;
+    try {
+      gameState = this.decryptState(storedState);
+    } catch (e) {
+      gameState = JSON.parse(storedState);
+      // NB: gameState should be modified if needed to have the correct properties
+    }
+    return gameState;
   }
 
   private initGameState(): void {

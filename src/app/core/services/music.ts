@@ -1,5 +1,6 @@
-import { effect, inject, Injectable } from '@angular/core';
-import { SettingsService } from '@core/services/settings.service';
+import { inject, Injectable } from '@angular/core';
+
+import { SettingsService } from '@core/services/settings';
 
 @Injectable({
   providedIn: 'root',

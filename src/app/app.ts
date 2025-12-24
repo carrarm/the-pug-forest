@@ -3,14 +3,15 @@ import { Component, effect, HostListener, inject, OnInit, signal } from '@angula
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state';
 import { TierService } from '@core/services/tier';
+import { SettingsService } from '@core/services/settings';
+import { MusicService } from '@core/services/music';
+import { Popup } from '@components/popup/popup';
 import { ACHIEVEMENTS } from '@data/achievements.data';
 import { Device } from '@model';
 
 import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 import { MobileLayout } from './layout/mobile-layout/mobile-layout';
-import { SettingsService } from '@core/services/settings.service';
-import { MusicService } from '@core/services/music';
-import { Popup } from '@components/popup/popup';
+import { Debug } from '@core/services/debug';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ import { Popup } from '@components/popup/popup';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
+  private readonly debug = inject(Debug);
   private readonly gameState = inject(GameStateService);
   private readonly musicService = inject(MusicService);
   private readonly settings = inject(SettingsService);
@@ -41,6 +43,8 @@ export class App implements OnInit {
   }
 
   public ngOnInit() {
+    this.debug.enableDebug();
+
     this.changeLayout();
 
     const offlinePugs = this.computeOfflinePugs();
