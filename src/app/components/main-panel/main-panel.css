@@ -9,7 +9,7 @@
   grid-area: main;
   background-image: url('../../../../public/pug-forest-background.png');
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
   height: var(--main-panel-height, 500px);
   padding: 1rem;
 
@@ -86,11 +86,15 @@ button {
 .side-pugs {
   position: absolute;
   bottom: 50px;
-  height: 180px;
+  height: 190px;
 }
 
 
 .MOBILE {
+  &.main-panel {
+    background-size: unset;
+  }
+
   button {
     font-size: xx-large;
   }
@@ -102,6 +106,6 @@ button {
   }
 
   .side-pugs {
-    height: 300px;
+    height: 400px;
   }
 }
