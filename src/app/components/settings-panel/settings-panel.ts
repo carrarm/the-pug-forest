@@ -14,6 +14,8 @@ export class SettingsPanel {
   private readonly gameState = inject(GameStateService);
   private readonly settings = inject(SettingsService);
 
+  protected readonly version = this.gameState.appVersion();
+
   protected musicEnabled = this.settings.musicEnabled();
 
   protected saveSettings(): void {

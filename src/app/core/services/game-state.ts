@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { version } from '@root/package.json';
 
 import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
 import { GameState, ProductionTier, Statistics, UpgradeTier } from '@model';
@@ -8,6 +9,7 @@ import { UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
   providedIn: 'root',
 })
 export class GameStateService {
+  public readonly appVersion = signal('');
   public readonly ownedPugs = signal(0);
   public readonly productionTiers = signal<Record<string, ProductionTier>>({});
   public readonly upgradeTiers = signal<Record<string, UpgradeTier>>({});
@@ -31,6 +33,7 @@ export class GameStateService {
     } else {
       this.initGameState();
     }
+    this.appVersion.set(version);
   }
 
   public buy(price: number): void {

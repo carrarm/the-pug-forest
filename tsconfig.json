@@ -15,6 +15,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
+    "resolveJsonModule": true,
     "paths": {
       "@model": [
         "src/app/core/model.ts"
@@ -27,7 +28,8 @@
       ],
       "@data/*": [
         "src/app/core/data/*"
-      ]
+      ],
+      "@root/*": ["./*"]
     }
   },
   "angularCompilerOptions": {
