@@ -13,6 +13,7 @@ import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 import { GameStateService } from '@core/services/game-state';
 import { TierService } from '@core/services/tier';
 import { Device } from '@model';
+import { sleep } from '@core/services/utils/general-utils';
 
 interface PugSvg {
   path: string;
@@ -22,6 +23,8 @@ interface PugSvg {
 }
 
 const MAIN_PUG_SVG = 'pugs/pug-2.svg';
+const PUG_BLINK_SVG = 'pugs/pug-2-eyes-closed.svg';
+const PUG_WAG_SVG = 'pugs/pug-2-tail-wag.svg';
 const PUG_GROUPS = [5, 20, 50, 100, 500];
 
 @Component({
@@ -49,6 +52,7 @@ export class MainPanel implements OnInit {
 
   public ngOnInit(): void {
     setInterval(() => this.blink(), 4000);
+    setInterval(() => this.tailWag(), 7000);
   }
 
   protected visitForest(): void {
@@ -76,14 +80,20 @@ export class MainPanel implements OnInit {
     );
   }
 
-  private blink(): void {
-    this.mainPug.set('pugs/pug-2-eyes-closed.svg');
-    setTimeout(() => {
-      this.mainPug.set(MAIN_PUG_SVG);
-    }, 200);
+  private async blink(): Promise<void> {
+    this.mainPug.set(PUG_BLINK_SVG);
+    await sleep(200);
+    this.mainPug.set(MAIN_PUG_SVG);
   }
 
-  private randomValue(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min)) + min;
+  private async tailWag(): Promise<void> {
+    const wag = async () => {
+      this.mainPug.set(PUG_WAG_SVG);
+      await sleep(100);
+      this.mainPug.set(MAIN_PUG_SVG);
+    };
+    await wag();
+    await sleep(100);
+    await wag();
   }
 }
