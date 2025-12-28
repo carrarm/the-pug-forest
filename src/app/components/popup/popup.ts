@@ -8,6 +8,5 @@ import { Component, input, output } from '@angular/core';
 })
 export class Popup {
   public readonly popupTitle = input('');
-  public readonly actionBtnText = input('Close');
   public readonly closed = output<void>();
 }
