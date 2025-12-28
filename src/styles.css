@@ -21,7 +21,7 @@ body {
   border-radius: var(--border-radius);
 }
 
-button {
+button, .button {
   font-family: var(--font-family), serif;
   cursor: pointer;
   border-radius: var(--border-radius);
@@ -79,4 +79,8 @@ select {
 
 .u-font-bold {
   font-weight: bold;
+}
+
+.u-ml-1 {
+  margin-left: 1rem;
 }

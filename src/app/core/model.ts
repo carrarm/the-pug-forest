@@ -3,7 +3,7 @@ export interface GameState {
   lastProductionDate: number;
   productionTiers: Record<string, ProductionTier>;
   upgradeTiers: Record<string, UpgradeTier>;
-  prestiges: Record<string, number | undefined>;
+  prestiges: Record<string, number>;
   achievements: Record<string, boolean>;
   offlineGainPercent: number;
   statistics: Statistics;

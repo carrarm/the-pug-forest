@@ -14,4 +14,39 @@
   </div>
 </div>
 
-<button (click)="resetState()">Reset pug empire</button>
+<div class="export-import-btns">
+  <button class="light-button" (click)="exportGame()">Export game data</button>
+  <button class="light-button" (click)="importPanelVisible.set(true)">Import game data</button>
+</div>
+<button class="reset-btn" (click)="resetState()">Reset the game</button>
+
+@if (importPanelVisible()) {
+  <app-popup popupTitle="Import game data" (closed)="closeImportPanel()">
+    <span>
+      <label for="backup-import" class="select-file-btn button">Select a file</label>
+      @if (pendingBackupDate()) {
+        <strong class="u-ml-1">Backup ready!</strong>
+      }
+    </span>
+    <input id="backup-import" type="file" (change)="readFile($event)" accept=".backup" />
+    @if (pendingBackupDate(); as backupDate) {
+      <span>
+        You are about to import a backup from
+        <strong>{{ backupDate | date }}</strong>
+      </span>
+      <ul>
+        @for (backupInfo of pendingBackupState(); track backupInfo) {
+          <li>{{ backupInfo }}</li>
+        }
+      </ul>
+      <button class="cta-button" (click)="restoreGameData()">Restore game data</button>
+    }
+  </app-popup>
+}
+
+<app-toaster #exportToaster>
+  Your backup file was downloaded. You can restore your game from this file by going on the settings
+  panel and clicking on <strong>Import game data</strong>.
+</app-toaster>
+
+<app-toaster #importToaster> Your pug empire has been restored. </app-toaster>

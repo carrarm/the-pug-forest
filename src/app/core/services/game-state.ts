@@ -2,8 +2,16 @@ import { Injectable, signal } from '@angular/core';
 import { version } from '@root/package.json';
 
 import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
-import { GameState, ProductionTier, Statistics, UpgradeTier } from '@model';
 import { UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
+import { GameState, ProductionTier, Statistics, UpgradeTier } from '@model';
+
+const STORAGE_KEY = 'gameState';
+
+export interface ExportedData {
+  version: string;
+  encoding: string;
+  data: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +21,7 @@ export class GameStateService {
   public readonly ownedPugs = signal(0);
   public readonly productionTiers = signal<Record<string, ProductionTier>>({});
   public readonly upgradeTiers = signal<Record<string, UpgradeTier>>({});
-  public readonly prestiges = signal<Record<string, number | undefined>>({});
+  public readonly prestiges = signal<Record<string, number>>({});
   public readonly achievements = signal<Record<string, boolean>>({});
   public readonly offlineGainPercent = signal(60);
   public readonly statistics = signal<Statistics>({
@@ -26,7 +34,7 @@ export class GameStateService {
   public readonly lastProductionDate = signal(0);
 
   constructor() {
-    const storedState = localStorage.getItem('gameState');
+    const storedState = localStorage.getItem(STORAGE_KEY);
     if (storedState) {
       const validState = this.sanitize(storedState);
       this.restoreGameState(validState);
@@ -42,6 +50,20 @@ export class GameStateService {
       ...stats,
       totalSpent: stats.totalSpent + price,
     }));
+  }
+
+  public decryptState(encryptedText: string): GameState {
+    const bytes = Uint8Array.from(atob(encryptedText), (c) => c.charCodeAt(0));
+    const rawJson = new TextDecoder().decode(bytes);
+    return JSON.parse(rawJson);
+  }
+
+  public exportData(): ExportedData {
+    return {
+      version: this.appVersion(),
+      encoding: 'base64',
+      data: localStorage.getItem(STORAGE_KEY) ?? '',
+    };
   }
 
   public getGameState(): GameState {
@@ -62,15 +84,14 @@ export class GameStateService {
     this.saveState();
   }
 
-  public saveState(): void {
-    const encryptedState = this.encryptState(this.getGameState());
-    localStorage.setItem('gameState', encryptedState);
+  public restoreData(exportedData: ExportedData): void {
+    this.restoreGameState(this.sanitize(exportedData.data));
+    localStorage.setItem(STORAGE_KEY, exportedData.data);
   }
 
-  private decryptState(encryptedText: string): GameState {
-    const bytes = Uint8Array.from(atob(encryptedText), (c) => c.charCodeAt(0));
-    const rawJson = new TextDecoder().decode(bytes);
-    return JSON.parse(rawJson);
+  public saveState(): void {
+    const encryptedState = this.encryptState(this.getGameState());
+    localStorage.setItem(STORAGE_KEY, encryptedState);
   }
 
   private encryptState(state: GameState): string {

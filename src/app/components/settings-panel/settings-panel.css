@@ -1,3 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .settings-options {
   margin-bottom: 1rem;
 
@@ -12,14 +18,31 @@
   gap: 0.5rem;
 }
 
-button {
+.reset-btn {
   background-color: #b90000;
-  padding: 0.5rem 1rem;
+  padding: 0.15rem 1rem;
+  margin-top: 1rem;
 
   color: white;
 }
 
 .version {
   font-size: 0.7rem;
-  margin-bottom: 1rem;
+}
+
+button {
+  width: fit-content;
+}
+
+.export-import-btns {
+  display: flex;
+  gap: 1rem;
+}
+
+#backup-import {
+  display: none;
+}
+
+.select-file-btn {
+  padding: 5px;
 }

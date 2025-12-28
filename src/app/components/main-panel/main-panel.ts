@@ -89,11 +89,11 @@ export class MainPanel implements OnInit {
   private async tailWag(): Promise<void> {
     const wag = async () => {
       this.mainPug.set(PUG_WAG_SVG);
-      await sleep(100);
+      await sleep(200);
       this.mainPug.set(MAIN_PUG_SVG);
     };
     await wag();
-    await sleep(100);
+    await sleep(200);
     await wag();
   }
 }

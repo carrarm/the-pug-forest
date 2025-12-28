@@ -7,41 +7,32 @@
 @if (popupOpen) {
   @switch (popupType) {
     @case ('firstConnection') {
-      <app-popup
-        actionBtnText="Enter the Pug Forest!"
-        popupTitle="Explore, Adopt, Repeat"
-        (closed)="closePopup()"
-      >
+      <app-popup popupTitle="Explore, Adopt, Repeat" (closed)="closePopup()">
         <span>
           You have discovered a hidden forest full of playful pugs! Adopt them one by one and watch
           your cozy pug family grow into a magical empire.
         </span>
+        <button class="cta-button" (click)="closePopup()">Enter the Pug Forest!</button>
       </app-popup>
     }
 
     @case ('offlineGains') {
-      <app-popup
-        actionBtnText="Meet them all"
-        popupTitle="Your pug family grew"
-        (closed)="closePopup()"
-      >
+      <app-popup popupTitle="Your pug family grew" (closed)="closePopup()">
         <span>
           Your team adopted <strong>{{ offlineGains() | shortNumber }}</strong> more pugs while you
           were offline!
         </span>
+        <button class="cta-button" (click)="closePopup()">Meet them all</button>
       </app-popup>
     }
 
     @case ('noGains') {
-      <app-popup
-        actionBtnText="Get some helpers"
-        popupTitle="Your empire needs help!"
-        (closed)="closePopup()"
-      >
+      <app-popup popupTitle="Your empire needs help!" (closed)="closePopup()">
         <span>
           The forest stayed quiet while you were away… Time to recruit some help and let the pugs
           start coming home on their own!
         </span>
+        <button class="cta-button" (click)="closePopup()">Get some helpers</button>
       </app-popup>
     }
   }
