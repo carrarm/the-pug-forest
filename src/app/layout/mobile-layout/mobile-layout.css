@@ -73,3 +73,7 @@ footer {
     height: 100%;
   }
 }
+
+app-pug-counter-panel {
+  margin: 0 auto 10px auto;
+}

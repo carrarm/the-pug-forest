@@ -20,34 +20,10 @@
   gap: 1rem;
 }
 
-.game-state, .visit-forest-container {
+app-pug-counter-panel, .visit-forest-container {
   z-index: 10;
 }
 
-.game-state {
-  background-color: var(--light-background);
-  padding: 0.5rem 1rem;
-  width: 200px;
-
-  font-size: x-large;
-  font-weight: bold;
-
-  hr {
-    border: solid 1px #d2ab6a;
-    border-radius: 10px;
-  }
-
-  .subsection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .owned-pugs {
-    font-size: 2em;
-    line-height: 0.75em;
-  }
-}
 
 button {
   background-color: #247119;

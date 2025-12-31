@@ -4,6 +4,7 @@ import { NgTemplateOutlet } from '@angular/common';
 
 import { ContentPanel } from '@components/content-panel/content-panel';
 import { MainPanel } from '@components/main-panel/main-panel';
+import { PugCounterPanel } from '@components/pug-counter-panel/pug-counter-panel';
 import { PanelType } from '@model';
 
 import { Header } from '../header/header';
@@ -12,7 +13,7 @@ type View = 'MAIN' | 'PURCHASES' | 'PRESTIGE' | 'SETTINGS' | 'STATS';
 
 @Component({
   selector: 'app-mobile-layout',
-  imports: [ContentPanel, FormsModule, Header, MainPanel, NgTemplateOutlet],
+  imports: [ContentPanel, FormsModule, Header, MainPanel, NgTemplateOutlet, PugCounterPanel],
   templateUrl: './mobile-layout.html',
   styleUrl: './mobile-layout.css',
 })

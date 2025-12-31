@@ -1,0 +1,10 @@
+<div class="app-bordered-panel" [class.inline]="inline()">
+  <div class="subsection">
+    <span class="owned-pugs">{{ gameState.ownedPugs() | shortNumber: true : 10000 }}</span>
+    <span>PUGS</span>
+  </div>
+  <hr />
+  <div class="subsection">
+    <span>{{ tierService.productionPerSecond() | shortNumber: true }} pugs/s</span>
+  </div>
+</div>

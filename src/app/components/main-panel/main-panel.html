@@ -1,14 +1,5 @@
 <div class="main-panel app-bordered-panel" [class]="device()">
-  <div class="game-state app-bordered-panel">
-    <div class="subsection">
-      <span>PUGS</span>
-      <span class="owned-pugs">{{ gameState.ownedPugs() | shortNumber }}</span>
-    </div>
-    <hr />
-    <div class="subsection">
-      <span>{{ tierService.productionPerSecond() | shortNumber: true }} pugs/s</span>
-    </div>
-  </div>
+  <app-pug-counter-panel />
 
   <div class="visit-forest-container">
     <button (click)="visitForest()" title="1 pug/click">Visit the forest</button>

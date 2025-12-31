@@ -1,0 +1,55 @@
+:host {
+  display: block;
+  width: 200px;
+}
+
+.app-bordered-panel {
+  background-color: var(--light-background);
+  padding: 0.5rem 1rem;
+
+  font-size: x-large;
+  font-weight: bold;
+
+  hr {
+    border: solid 1px #d2ab6a;
+    border-radius: 10px;
+  }
+
+  .subsection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0 0.5rem;
+  }
+
+  .owned-pugs {
+    font-size: 2em;
+    line-height: 0.75em;
+  }
+
+  &.inline {
+    min-width: 250px;
+    padding: 0 1rem;
+
+    display: flex;
+
+    font-size: 0.9rem;
+
+    .owned-pugs {
+      font-size: 1.6em;
+      width: 55px;
+      min-width: fit-content;
+      text-align: right;
+    }
+
+    hr {
+      height: 15px;
+    }
+
+    .subsection {
+      flex-direction: row;
+      width: 50%;
+      justify-content: center;
+    }
+  }
+}

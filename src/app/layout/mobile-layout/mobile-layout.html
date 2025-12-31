@@ -4,6 +4,7 @@
   @if (activePanel() === 'MAIN') {
     <app-main-panel device="MOBILE" />
   } @else {
+    <app-pug-counter-panel inline />
     <div class="menu-panel">
       @if (activeViewGroup() === 'PURCHASES') {
         <div class="menu-selection">
