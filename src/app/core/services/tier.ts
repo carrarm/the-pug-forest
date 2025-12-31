@@ -30,10 +30,8 @@ export class TierService {
     const upgrade = Object.values(this.gameState.upgradeTiers()).find(
       (upgrade) => upgrade.affects === tier.code,
     );
-    if (!upgrade) {
-      return 0;
-    }
-    return tier.production * Math.pow(upgrade.multiplier, upgrade.owned);
+    const upgradeMultiplier = upgrade ? Math.pow(upgrade.multiplier, upgrade.owned) : 1;
+    return tier.production * upgradeMultiplier;
   }
 
   public computeOfflineProduction(): number {
