@@ -9,18 +9,11 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+import { PugCounterPanel } from '@components/pug-counter-panel/pug-counter-panel';
 import { GameStateService } from '@core/services/game-state';
+import { sleep } from '@core/services/utils/general-utils';
 import { TierService } from '@core/services/tier';
 import { Device } from '@model';
-import { sleep } from '@core/services/utils/general-utils';
-
-interface PugSvg {
-  path: string;
-  bottom: string;
-  left: string;
-  slot: number;
-}
 
 const MAIN_PUG_SVG = 'pugs/pug-2.svg';
 const PUG_BLINK_SVG = 'pugs/pug-2-eyes-closed.svg';
@@ -29,7 +22,7 @@ const PUG_GROUPS = [5, 20, 50, 100, 500];
 
 @Component({
   selector: 'app-main-panel',
-  imports: [ShortNumberPipe],
+  imports: [PugCounterPanel],
   templateUrl: './main-panel.html',
   styleUrl: './main-panel.css',
 })
