@@ -2,25 +2,52 @@ import { inject, Injectable } from '@angular/core';
 
 import { SettingsService } from '@core/services/settings';
 
+const AUDIO_PATH = 'background-music.mp3';
+
 @Injectable({
   providedIn: 'root',
 })
 export class MusicService {
-  private readonly audio = new Audio('background-music.mp3');
-
   private readonly settings = inject(SettingsService);
 
-  constructor() {
-    this.audio.loop = true;
-  }
+  private audioContext?: AudioContext;
+  private gain?: GainNode;
 
-  public startMusic(): void {
-    if (this.settings.musicEnabled()) {
-      this.audio.play().catch(console.error);
+  public async startMusic(): Promise<void> {
+    if (!this.settings.musicEnabled()) {
+      return;
+    }
+
+    await this.loadTrack();
+
+    if (this.audioContext?.state === 'suspended') {
+      await this.audioContext.resume();
     }
   }
 
-  public stopMusic(): void {
-    this.audio.pause();
+  public async stopMusic(): Promise<void> {
+    if (this.audioContext?.state === 'running') {
+      await this.audioContext.suspend();
+    }
+  }
+
+  private async loadTrack(): Promise<void> {
+    if (this.audioContext) {
+      return;
+    }
+
+    this.audioContext = new AudioContext();
+
+    const httpResponse = await fetch(AUDIO_PATH);
+    const arrayBuffer = await httpResponse.arrayBuffer();
+
+    this.gain = this.audioContext.createGain();
+    this.gain.connect(this.audioContext.destination);
+
+    const source = this.audioContext.createBufferSource();
+    source.buffer = await this.audioContext.decodeAudioData(arrayBuffer);
+    source.loop = true;
+    source.connect(this.gain);
+    source.start();
   }
 }
