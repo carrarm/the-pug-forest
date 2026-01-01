@@ -13,6 +13,17 @@ export class MusicService {
   private audioContext?: AudioContext;
   private gain?: GainNode;
 
+  /**
+   * @param volume Between 0 and 1
+   */
+  public setVolume(volume: number): void {
+    if (!this.audioContext || !this.gain || volume > 1) {
+      return;
+    }
+
+    this.gain.gain.value = volume;
+  }
+
   public async startMusic(): Promise<void> {
     if (!this.settings.musicEnabled()) {
       return;
@@ -42,6 +53,7 @@ export class MusicService {
     const arrayBuffer = await httpResponse.arrayBuffer();
 
     this.gain = this.audioContext.createGain();
+    this.gain.gain.value = this.settings.musicVolume();
     this.gain.connect(this.audioContext.destination);
 
     const source = this.audioContext.createBufferSource();

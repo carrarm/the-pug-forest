@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, PercentPipe } from '@angular/common';
 import { Component, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -13,7 +13,7 @@ import { ACHIEVEMENTS } from '@data/achievements.data';
 
 @Component({
   selector: 'app-settings-panel',
-  imports: [FormsModule, Popup, Toaster, DatePipe],
+  imports: [FormsModule, Popup, Toaster, DatePipe, PercentPipe],
   templateUrl: './settings-panel.html',
   styleUrl: './settings-panel.css',
 })
@@ -29,7 +29,11 @@ export class SettingsPanel {
   protected readonly pendingBackupState = signal<string[]>([]);
   protected readonly version = this.gameState.appVersion();
 
+  protected animationsEnabled = this.settings.animationsEnabled();
+  protected animatedBackgroundEnabled = this.settings.animatedBackgroundEnabled();
+  protected compactCardsEnabled = this.settings.compactCards();
   protected musicEnabled = this.settings.musicEnabled();
+  protected musicVolume = this.settings.musicVolume();
 
   private pendingBackupImport?: ExportedData;
 
@@ -78,6 +82,10 @@ export class SettingsPanel {
 
   protected saveSettings(): void {
     this.settings.musicEnabled.set(this.musicEnabled);
+    this.settings.musicVolume.set(this.musicVolume);
+    this.settings.compactCards.set(this.compactCardsEnabled);
+    this.settings.animatedBackgroundEnabled.set(this.animatedBackgroundEnabled);
+    this.settings.animationsEnabled.set(this.animationsEnabled);
     this.settings.saveSettings();
   }
 
