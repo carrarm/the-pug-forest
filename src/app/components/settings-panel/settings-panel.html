@@ -6,12 +6,56 @@
   <div class="setting-row">
     <input
       type="checkbox"
+      id="opt-animation"
+      [(ngModel)]="animationsEnabled"
+      (ngModelChange)="saveSettings()"
+    />
+    <label for="opt-animation">Animations enabled (blink, tail wag)</label>
+  </div>
+  <div class="setting-row">
+    <input
+      type="checkbox"
+      id="opt-animation-bg"
+      [(ngModel)]="animatedBackgroundEnabled"
+      (ngModelChange)="saveSettings()"
+    />
+    <label for="opt-animation-bg">Display pugs in the background</label>
+  </div>
+  <!-- Soon! -->
+  <!--  <div class="setting-row">-->
+  <!--    <input-->
+  <!--      type="checkbox"-->
+  <!--      id="opt-compact"-->
+  <!--      [(ngModel)]="compactCardsEnabled"-->
+  <!--      (ngModelChange)="saveSettings()"-->
+  <!--    />-->
+  <!--    <label for="opt-compact">Use compact cards</label>-->
+  <!--  </div>-->
+  <div class="setting-row">
+    <input
+      type="checkbox"
       id="opt-music"
       [(ngModel)]="musicEnabled"
       (ngModelChange)="saveSettings()"
     />
     <label for="opt-music">Music enabled</label>
   </div>
+  @if (musicEnabled) {
+    <div class="setting-row">
+      <label for="opt-music-volume">Volume</label>
+      <input
+        id="opt-music-volume"
+        type="range"
+        min="0"
+        max="1"
+        step="0.1"
+        [(ngModel)]="musicVolume"
+        (ngModelChange)="saveSettings()"
+      />
+
+      {{ musicVolume | percent }}
+    </div>
+  }
 </div>
 
 <div class="export-import-btns">

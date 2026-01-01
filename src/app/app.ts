@@ -36,6 +36,7 @@ export class App implements OnInit {
     effect(() => {
       if (this.settings.musicEnabled()) {
         this.musicService.startMusic();
+        this.musicService.setVolume(this.settings.musicVolume());
       } else {
         this.musicService.stopMusic();
       }

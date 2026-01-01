@@ -1,10 +1,10 @@
 import {
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   input,
-  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
@@ -14,6 +14,7 @@ import { GameStateService } from '@core/services/game-state';
 import { sleep } from '@core/services/utils/general-utils';
 import { TierService } from '@core/services/tier';
 import { Device } from '@model';
+import { SettingsService } from '@core/services/settings';
 
 const MAIN_PUG_SVG = 'pugs/pug-2.svg';
 const PUG_BLINK_SVG = 'pugs/pug-2-eyes-closed.svg';
@@ -26,16 +27,20 @@ const PUG_GROUPS = [5, 20, 50, 100, 500];
   templateUrl: './main-panel.html',
   styleUrl: './main-panel.css',
 })
-export class MainPanel implements OnInit {
+export class MainPanel {
   public readonly device = input.required<Device>();
 
   protected readonly visitForestText = viewChild.required<ElementRef>('visitForestText');
 
   protected readonly gameState = inject(GameStateService);
   protected readonly tierService = inject(TierService);
+  private readonly settings = inject(SettingsService);
 
   protected readonly mainPug = signal(MAIN_PUG_SVG);
   protected readonly sidePugs = computed(() => {
+    if (!this.settings.animatedBackgroundEnabled()) {
+      return '';
+    }
     const maxGroup = PUG_GROUPS.at(-1)!;
     const owned = this.gameState.ownedPugs();
     const groupIndex =
@@ -43,9 +48,16 @@ export class MainPanel implements OnInit {
     return groupIndex > 0 ? `pugs/pug-group-${PUG_GROUPS[groupIndex - 1]}.svg` : '';
   });
 
-  public ngOnInit(): void {
-    setInterval(() => this.blink(), 4000);
-    setInterval(() => this.tailWag(), 7000);
+  private animationIntervals: number[] = [];
+
+  constructor() {
+    effect(() => {
+      if (this.settings.animationsEnabled()) {
+        this.enableAnimations();
+      } else {
+        this.disableAnimations();
+      }
+    });
   }
 
   protected visitForest(): void {
@@ -88,5 +100,16 @@ export class MainPanel implements OnInit {
     await wag();
     await sleep(200);
     await wag();
+  }
+
+  private enableAnimations(): void {
+    this.animationIntervals.push(setInterval(() => this.blink(), 4000));
+    this.animationIntervals.push(setInterval(() => this.tailWag(), 7000));
+  }
+
+  private disableAnimations(): void {
+    this.animationIntervals.forEach((interval) => clearInterval(interval));
+    this.mainPug.set(MAIN_PUG_SVG);
+    this.animationIntervals = [];
   }
 }
