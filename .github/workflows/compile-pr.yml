@@ -1,13 +1,8 @@
-name: CI and Deploy
+name: Compile PR branch
 
 on:
   pull_request:
-    branches:
-      - develop
-
-  workflow_dispatch:
-    branches:
-      - develop
+    branches: [ develop ]
 
 permissions:
   contents: write
@@ -63,30 +58,3 @@ jobs:
 
       - name: Test application
         run: npm run test
-
-  deploy:
-    name: Deploy to GitHub Pages
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build application
-        run: npm run build:github
-
-      - name: Deploy to Github Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist/pug-forest/browser
-          branch: gh-pages
