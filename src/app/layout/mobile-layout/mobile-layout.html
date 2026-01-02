@@ -24,13 +24,13 @@
       } @else if (activeViewGroup() === 'STATS') {
         <div class="menu-selection">
           <ng-container
-            *ngTemplateOutlet="panelMenuBtn; context: { panel: 'STATS', label: 'Statistics' }"
-          />
-          <ng-container
             *ngTemplateOutlet="
               panelMenuBtn;
               context: { panel: 'ACHIEVEMENTS', label: 'Achievements' }
             "
+          />
+          <ng-container
+            *ngTemplateOutlet="panelMenuBtn; context: { panel: 'STATS', label: 'Statistics' }"
           />
         </div>
       }

@@ -23,6 +23,7 @@ export class SettingsPanel {
 
   private readonly exportToaster = viewChild.required<Toaster>('exportToaster');
   private readonly importToaster = viewChild.required<Toaster>('importToaster');
+  private readonly resetToaster = viewChild.required<Toaster>('resetToaster');
 
   protected readonly importPanelVisible = signal(false);
   protected readonly pendingBackupDate = signal<number | undefined>(undefined);
@@ -67,6 +68,7 @@ export class SettingsPanel {
   protected resetState(): void {
     if (window.confirm('Are you sure you want to reset the game? This action cannot be undone.')) {
       this.gameState.resetGame();
+      this.resetToaster().showToaster();
     }
   }
 
