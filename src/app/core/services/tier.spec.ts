@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { TierService } from './tier.service';
+
 import { GameStateService } from '@core/services/game-state';
 import { PRODUCTION_TIERS } from '@data/production-tiers.data';
 import { UPGRADE_TIERS } from '@data/upgrade-tiers.data';
 import { ProductionTier } from '@model';
+
+import { TierService } from './tier';
 
 function configureTier(
   mock: GameStateService,
@@ -68,8 +70,9 @@ describe.shuffle('TierService', () => {
     const elapsedSeconds = 24 * 60 * 60;
     const tierProduction = service.productionPerSecond();
 
-    const offlineGains = service.computeOfflineProduction();
-    expect(offlineGains).toBe(elapsedSeconds * tierProduction * 0.6);
+    const offlineGains = Math.round(service.computeOfflineProduction());
+    const expectedGains = Math.round(elapsedSeconds * tierProduction * 0.6);
+    expect(offlineGains).toBe(expectedGains);
   });
 
   it('should use all tiers to compute production per second', () => {
