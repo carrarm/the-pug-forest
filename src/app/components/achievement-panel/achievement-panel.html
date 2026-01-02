@@ -1,21 +1,5 @@
 <div class="container">
   @for (achievement of achievements(); track achievement.name) {
-    <div class="app-bordered-panel achievement" [class.unlocked]="achievement.isUnlocked">
-      @if (achievement.isUnlocked) {
-        <img src="generic-achievement.png" alt="Achievement" />
-      } @else {
-        <div class="img-placeholder"></div>
-      }
-      <div class="description">
-        <div>
-          <strong>{{ achievement.name }}</strong>
-        </div>
-        @if (achievement.isUnlocked) {
-          <div>{{ achievement.unlockText }}</div>
-        } @else {
-          <div>???</div>
-        }
-      </div>
-    </div>
+    <app-achievement-card [achievement]="achievement" [unlocked]="achievement.isUnlocked" />
   }
 </div>

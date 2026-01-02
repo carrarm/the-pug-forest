@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { booleanAttribute, Component, effect, input, model, signal } from '@angular/core';
 
 @Component({
   selector: 'app-toaster',
@@ -7,11 +7,23 @@ import { Component, signal } from '@angular/core';
   styleUrl: './toaster.css',
 })
 export class Toaster {
-  protected toasterVisible = signal(false);
+  public readonly visible = model(false);
+  public readonly delay = input(2000);
+  public readonly alwaysVisible = input(false, { transform: booleanAttribute });
 
-  public showToaster(delay = 2000): void {
-    this.toasterVisible.set(true);
+  constructor() {
+    effect(() => {
+      if (this.visible() && !this.alwaysVisible()) {
+        this.showToaster();
+      }
+    });
+  }
 
-    setTimeout(() => this.toasterVisible.set(false), delay);
+  public showToaster(delay = this.delay()): void {
+    if (!this.visible()) {
+      this.visible.set(true);
+    }
+
+    setTimeout(() => this.visible.set(false), delay);
   }
 }
