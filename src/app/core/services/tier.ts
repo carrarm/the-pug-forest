@@ -2,7 +2,7 @@ import { computed, inject, Injectable } from '@angular/core';
 import { ProductionTier } from '@model';
 import { GameStateService } from '@core/services/game-state';
 
-const PRODUCTION_COST_SCALING_FACTOR = 1.07;
+const PRODUCTION_COST_SCALING_FACTOR = 1.2;
 const UPGRADE_COST_SCALING_FACTOR = 3;
 const REQUIRED_OWNED_UPGRADES = [10, 50, 100, 150, 200, 300, 400, 500, 800, 1000];
 
