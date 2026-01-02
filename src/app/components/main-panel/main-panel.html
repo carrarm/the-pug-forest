@@ -2,7 +2,9 @@
   <app-pug-counter-panel />
 
   <div class="visit-forest-container">
-    <button (click)="visitForest()" title="1 pug/click">Visit the forest</button>
+    <button class="app-unselectable-text" (click)="visitForest()" title="1 pug/click">
+      Visit the forest
+    </button>
     <div class="gained-pug-animation" #visitForestText>
       +{{ tierService.clickProduction() }} pug(s)
     </div>

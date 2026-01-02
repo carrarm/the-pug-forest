@@ -17,11 +17,11 @@ export class MusicService {
    * @param volume Between 0 and 1
    */
   public setVolume(volume: number): void {
-    if (!this.audioContext || !this.gain || volume > 1) {
+    if (!this.audioContext || !this.gain) {
       return;
     }
 
-    this.gain.gain.value = volume;
+    this.gain.gain.value = isNaN(volume) || volume > 1 || volume < 0 ? 1 : volume;
   }
 
   public async startMusic(): Promise<void> {

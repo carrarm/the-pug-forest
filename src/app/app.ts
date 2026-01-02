@@ -1,21 +1,23 @@
 import { Component, effect, HostListener, inject, OnInit, signal } from '@angular/core';
 
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
+import { Popup } from '@components/popup/popup';
+import { Toaster } from '@components/toaster/toaster';
+import { Debug } from '@core/services/debug';
 import { GameStateService } from '@core/services/game-state';
+import { MusicService } from '@core/services/music';
 import { TierService } from '@core/services/tier';
 import { SettingsService } from '@core/services/settings';
-import { MusicService } from '@core/services/music';
-import { Popup } from '@components/popup/popup';
 import { ACHIEVEMENTS } from '@data/achievements.data';
-import { Device } from '@model';
+import { Achievement, Device } from '@model';
 
 import { DesktopLayout } from './layout/desktop-layout/desktop-layout';
 import { MobileLayout } from './layout/mobile-layout/mobile-layout';
-import { Debug } from '@core/services/debug';
+import { AchievementCard } from '@components/achievement-card/achievement-card';
 
 @Component({
   selector: 'app-root',
-  imports: [DesktopLayout, MobileLayout, Popup, ShortNumberPipe],
+  imports: [AchievementCard, DesktopLayout, MobileLayout, Popup, ShortNumberPipe, Toaster],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -28,14 +30,15 @@ export class App implements OnInit {
 
   protected readonly layout = signal<Device>('DESKTOP');
   protected readonly offlineGains = signal(0);
+  protected notifiedAchievements = signal<Achievement[]>([]);
 
   protected popupType: 'firstConnection' | 'offlineGains' | 'noGains' = 'firstConnection';
   protected popupOpen = true;
 
   constructor() {
-    effect(() => {
+    effect(async () => {
       if (this.settings.musicEnabled()) {
-        this.musicService.startMusic();
+        await this.musicService.startMusic();
         this.musicService.setVolume(this.settings.musicVolume());
       } else {
         this.musicService.stopMusic();
@@ -91,15 +94,32 @@ export class App implements OnInit {
     return producedOffline;
   }
 
+  private notifyAchievements(notifications: Achievement[]): void {
+    const achievementNames = notifications.map((achievement) => achievement.name);
+    this.notifiedAchievements.update((achievements) => [...achievements, ...notifications]);
+    setTimeout(() => {
+      this.notifiedAchievements.update((achievements) =>
+        achievements.filter((achievement) => !achievementNames.includes(achievement.name)),
+      );
+    }, 3000);
+  }
+
   private trackAchievements() {
     const gameState = this.gameState.getGameState();
+    const notifications: Achievement[] = [];
     this.gameState.achievements.update((currentAchievements) => {
       ACHIEVEMENTS.forEach((achievement) => {
         if (achievement.unlocked(gameState)) {
+          if (!currentAchievements[achievement.name]) {
+            notifications.push(achievement);
+          }
           currentAchievements[achievement.name] = true;
         }
       });
       return { ...currentAchievements };
     });
+    if (notifications.length) {
+      this.notifyAchievements(notifications);
+    }
   }
 }

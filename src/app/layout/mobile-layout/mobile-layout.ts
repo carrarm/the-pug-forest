@@ -40,10 +40,15 @@ export class MobileLayout {
 
   protected changeActiveView(view: View): void {
     this.activeViewGroup.set(view);
-    if (view === 'PURCHASES') {
-      this.activePanel.set('PRODUCTION');
-    } else {
-      this.activePanel.set(view);
+    switch (view) {
+      case 'PURCHASES':
+        this.activePanel.set('PRODUCTION');
+        break;
+      case 'STATS':
+        this.activePanel.set('ACHIEVEMENTS');
+        break;
+      default:
+        this.activePanel.set(view);
     }
   }
 }

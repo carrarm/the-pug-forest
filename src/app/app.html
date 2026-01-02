@@ -37,3 +37,12 @@
     }
   }
 }
+
+<app-toaster [visible]="notifiedAchievements().length > 0" alwaysVisible>
+  <div class="achievement-notifications">
+    <span>New achievement!</span>
+    @for (achievement of notifiedAchievements(); track achievement.name) {
+      <app-achievement-card [achievement]="achievement" unlocked />
+    }
+  </div>
+</app-toaster>
