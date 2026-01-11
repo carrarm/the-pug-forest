@@ -36,6 +36,12 @@ jobs:
           cache: npm
 
       # Version bump
+      - name: Configure git author
+        if: ${{ inputs.release_type != 'current' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Bump version
         if: ${{ inputs.release_type != 'current' }}
         run: |
