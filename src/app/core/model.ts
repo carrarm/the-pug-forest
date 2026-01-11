@@ -10,6 +10,11 @@ export interface GameState {
 }
 
 export interface Statistics {
+  allTimes: RunStatistics;
+  currentRun: RunStatistics;
+}
+
+export interface RunStatistics {
   totalPugs: number;
   totalClicks: number;
   totalSpent: number;

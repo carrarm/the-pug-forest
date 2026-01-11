@@ -3,7 +3,7 @@ import { version } from '@root/package.json';
 
 import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
 import { UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
-import { GameState, ProductionTier, Statistics, UpgradeTier } from '@model';
+import { GameState, ProductionTier, RunStatistics, Statistics, UpgradeTier } from '@model';
 
 const STORAGE_KEY = 'gameState';
 
@@ -25,11 +25,8 @@ export class GameStateService {
   public readonly achievements = signal<Record<string, boolean>>({});
   public readonly offlineGainPercent = signal(60);
   public readonly statistics = signal<Statistics>({
-    totalPugs: 0,
-    totalClicks: 0,
-    firstClickDate: Date.now(),
-    totalPrestiges: 0,
-    totalSpent: 0,
+    allTimes: this.getDefaultRunStats(),
+    currentRun: this.getDefaultRunStats(),
   });
   public readonly lastProductionDate = signal(0);
 
@@ -46,10 +43,17 @@ export class GameStateService {
 
   public buy(price: number): void {
     this.ownedPugs.update((owned) => owned - price);
-    this.statistics.update((stats) => ({
-      ...stats,
-      totalSpent: stats.totalSpent + price,
-    }));
+    this.statistics.update((stats) => {
+      const allTimeStats = {
+        ...stats.allTimes,
+        totalSpent: stats.allTimes.totalSpent + price,
+      };
+      const currentRunStats = {
+        ...stats.currentRun,
+        totalSpent: stats.currentRun.totalSpent + price,
+      };
+      return { allTimes: allTimeStats, currentRun: currentRunStats };
+    });
   }
 
   public decryptState(encryptedText: string): GameState {
@@ -99,6 +103,16 @@ export class GameStateService {
     return btoa(String.fromCharCode(...bytes));
   }
 
+  private getDefaultRunStats(): RunStatistics {
+    return {
+      totalPugs: 0,
+      totalClicks: 0,
+      firstClickDate: Date.now(),
+      totalPrestiges: 0,
+      totalSpent: 0,
+    };
+  }
+
   /**
    * Make sure that the stored state is always valid on newer versions of the app.
    */
@@ -121,11 +135,8 @@ export class GameStateService {
     this.achievements.set({});
     this.offlineGainPercent.set(60);
     this.statistics.set({
-      totalPugs: 0,
-      totalClicks: 0,
-      firstClickDate: Date.now(),
-      totalPrestiges: 0,
-      totalSpent: 0,
+      allTimes: this.getDefaultRunStats(),
+      currentRun: this.getDefaultRunStats(),
     });
     this.lastProductionDate.set(Date.now());
   }
@@ -137,8 +148,10 @@ export class GameStateService {
     this.prestiges.set(gameState.prestiges);
     this.achievements.set(gameState.achievements);
     this.offlineGainPercent.set(gameState.offlineGainPercent);
-    if (!gameState.statistics.firstClickDate) {
-      gameState.statistics.firstClickDate = Date.now();
+    if (!gameState.statistics.allTimes.firstClickDate) {
+      const now = Date.now();
+      gameState.statistics.allTimes.firstClickDate = now;
+      gameState.statistics.currentRun.firstClickDate = now;
     }
     this.statistics.set(gameState.statistics);
     this.lastProductionDate.set(gameState.lastProductionDate);

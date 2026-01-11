@@ -63,10 +63,18 @@ export class MainPanel {
   protected visitForest(): void {
     this.animateGainsText();
     this.gameState.ownedPugs.update((owned) => owned + this.tierService.clickProduction());
-    this.gameState.statistics.update((stats) => {
-      const firstClick = stats.firstClickDate ?? Date.now();
-      return { ...stats, totalClicks: stats.totalClicks + 1, firstClickDate: firstClick };
-    });
+    this.gameState.statistics.update(({ allTimes, currentRun }) => ({
+      allTimes: {
+        ...allTimes,
+        totalClicks: allTimes.totalClicks + 1,
+        firstClickDate: allTimes.firstClickDate ?? Date.now(),
+      },
+      currentRun: {
+        ...currentRun,
+        totalClicks: currentRun.totalClicks + 1,
+        firstClickDate: currentRun.firstClickDate ?? Date.now(),
+      },
+    }));
   }
 
   private animateGainsText(): void {

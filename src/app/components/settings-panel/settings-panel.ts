@@ -95,8 +95,8 @@ export class SettingsPanel {
     const achievements = Object.values(backup.achievements);
 
     return [
-      `Started on ${new Date(backup.statistics.firstClickDate).toDateString()}`,
-      `Prestiged ${backup.statistics.totalPrestiges} time(s)`,
+      `Started on ${new Date(backup.statistics.allTimes.firstClickDate).toDateString()}`,
+      `Prestiged ${backup.statistics.allTimes.totalPrestiges} time(s)`,
       `${countMatching(achievements, identity)}/${ACHIEVEMENTS.length} achievements`,
     ];
   }

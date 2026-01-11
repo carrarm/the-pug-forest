@@ -2,7 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
-    branches: [ develop ]
+    - branches:
+        develop
 
 permissions:
   contents: write
