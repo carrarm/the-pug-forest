@@ -55,16 +55,16 @@ export class App implements OnInit {
 
     this.gameState.ownedPugs.update((owned) => owned + offlinePugs);
 
-    if (this.gameState.statistics().totalClicks > 0) {
+    if (this.gameState.statistics().currentRun.totalClicks > 0) {
       this.popupType = offlinePugs === 0 ? 'noGains' : 'offlineGains';
     }
 
     setInterval(() => {
       const addedPugs = this.tierService.productionPerSecond();
       this.gameState.ownedPugs.update((owned) => owned + addedPugs);
-      this.gameState.statistics.update((stats) => ({
-        ...stats,
-        totalPugs: stats.totalPugs + addedPugs,
+      this.gameState.statistics.update(({ allTimes, currentRun }) => ({
+        allTimes: { ...allTimes, totalPugs: allTimes.totalPugs + addedPugs },
+        currentRun: { ...currentRun, totalPugs: currentRun.totalPugs + addedPugs },
       }));
       this.trackAchievements();
       this.gameState.saveState();
