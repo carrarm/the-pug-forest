@@ -15,6 +15,8 @@ export class PurchaseCard {
   public readonly cost = input.required<number>();
   public readonly multiplier = input.required<number>();
   public readonly image = input.required<string>();
+  public readonly discovered = input(true);
+  public readonly undiscoveredText = input('');
   public readonly maxOwned = input(0, { transform: numberAttribute });
   public readonly canPurchase = input(true);
   public readonly purchase = output<void>();

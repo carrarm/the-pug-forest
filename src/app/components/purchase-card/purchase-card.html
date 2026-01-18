@@ -1,37 +1,44 @@
 <div class="app-bordered-panel purchase-card" (click)="detailExpanded.set(!detailExpanded())">
-  <div>
-    <img [src]="image()" [alt]="tier().name" />
-  </div>
-  <div class="tier-info">
-    <div class="title">
-      <ng-content select="[title]" />
+  @if (discovered()) {
+    <div>
+      <img [src]="image()" [alt]="tier().name" />
     </div>
-    @if (textDescriptionVisible()) {
-      <span class="description">{{ tier().description }}</span>
-    }
-    @if (detailExpanded()) {
-      <ng-content select="[expandedDetail]" />
-    }
-    <ng-content select="[detail]" />
-    @if (maxReached()) {
-      <div class="max-reached">Max reached!</div>
-    } @else {
-      <div class="purchase-buttons">
-        <span>
-          Cost:
-          <span class="cost" [class.matched]="requiredCostMatched()">{{
-            cost() | shortNumber: false : 1000
-          }}</span>
-        </span>
-        <button
-          class="light-button"
-          [title]="tooltip()"
-          [disabled]="!canPurchaseNext()"
-          (click)="purchaseTier($event)"
-        >
-          Purchase
-        </button>
+    <div class="tier-info">
+      <div class="title">
+        <ng-content select="[title]" />
       </div>
-    }
-  </div>
+      @if (textDescriptionVisible()) {
+        <span class="description">{{ tier().description }}</span>
+      }
+      @if (detailExpanded()) {
+        <ng-content select="[expandedDetail]" />
+      }
+      <ng-content select="[detail]" />
+      @if (maxReached()) {
+        <div class="max-reached">Max reached!</div>
+      } @else {
+        <div class="purchase-buttons">
+          <span>
+            Cost:
+            <span class="cost" [class.matched]="requiredCostMatched()">{{
+              cost() | shortNumber: false : 1000
+            }}</span>
+          </span>
+          <button
+            class="light-button"
+            [title]="tooltip()"
+            [disabled]="!canPurchaseNext()"
+            (click)="purchaseTier($event)"
+          >
+            Purchase
+          </button>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="tier-info">
+      <div class="title">?????</div>
+      <span class="description">{{ undiscoveredText() }}</span>
+    </div>
+  }
 </div>

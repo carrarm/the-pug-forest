@@ -5,6 +5,8 @@
   [image]="image()"
   [maxOwned]="maxOwned"
   [canPurchase]="requirementMatched()"
+  [discovered]="discovered()"
+  undiscoveredText="This magic has no one to empower... Discover the right helper and the forest will awaken this spell"
   (purchase)="purchase.emit()"
 >
   <div title class="title">
