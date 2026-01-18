@@ -3,6 +3,8 @@
   [cost]="cost()"
   [multiplier]="multiplier()"
   [image]="image()"
+  [discovered]="discovered()"
+  undiscoveredText="The forest will reveal this helper once the previous one is awakened"
   (purchase)="purchase.emit()"
 >
   <div title class="title">
@@ -14,6 +16,6 @@
     Owned: <strong>{{ owned() }} (produce {{ currentProduction() | shortNumber }} p/s)</strong>
   </span>
   <span detail>
-    Base production: <strong>{{ baseProduction() | shortNumber: 1000 : true }} p/s</strong>
+    Base production: <strong>{{ baseProduction() | shortNumber: true : 1000 }} p/s</strong>
   </span>
 </app-purchase-card>

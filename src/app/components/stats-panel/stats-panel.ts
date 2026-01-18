@@ -1,13 +1,13 @@
 import { Component, computed, inject } from '@angular/core';
-import { DatePipe, PercentPipe } from '@angular/common';
+import { DatePipe, NgTemplateOutlet, PercentPipe } from '@angular/common';
 
-import { GameStateService } from '@core/services/game-state.service';
+import { GameStateService } from '@core/services/game-state';
 import { ACHIEVEMENTS } from '@data/achievements.data';
 import { ShortNumberPipe } from '@core/pipes/short-number-pipe';
 
 @Component({
   selector: 'app-stats-panel',
-  imports: [DatePipe, PercentPipe, ShortNumberPipe],
+  imports: [DatePipe, PercentPipe, ShortNumberPipe, NgTemplateOutlet],
   templateUrl: './stats-panel.html',
   styleUrl: './stats-panel.css',
 })

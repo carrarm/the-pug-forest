@@ -1,13 +1,13 @@
 import { Component, computed, inject } from '@angular/core';
-import { NgClass } from '@angular/common';
 
+import { AchievementCard } from '@components/achievement-card/achievement-card';
+import { GameStateService } from '@core/services/game-state';
 import { ACHIEVEMENTS } from '@data/achievements.data';
-import { GameStateService } from '@core/services/game-state.service';
 import { GameState } from '@model';
 
 @Component({
   selector: 'app-achievement-panel',
-  imports: [NgClass],
+  imports: [AchievementCard],
   templateUrl: './achievement-panel.html',
   styleUrl: './achievement-panel.css',
 })

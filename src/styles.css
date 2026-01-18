@@ -14,6 +14,9 @@ body {
 
   width: 100%;
   margin: 0;
+
+  /* Remove the blue background on click for Chrome */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .app-bordered-panel {
@@ -21,11 +24,18 @@ body {
   border-radius: var(--border-radius);
 }
 
-button {
+button,
+.button {
   font-family: var(--font-family), serif;
   cursor: pointer;
   border-radius: var(--border-radius);
   border: var(--border);
+
+  /* Unselectable by default */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   &.light-button {
     background-color: #e6bd7d;
@@ -79,4 +89,15 @@ select {
 
 .u-font-bold {
   font-weight: bold;
+}
+
+.u-ml-1 {
+  margin-left: 1rem;
+}
+
+.app-unselectable-text {
+  -webkit-user-select: none; /* Safari, Chrome, and newer versions of Edge */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer 10+ and older Edge */
+  user-select: none;
 }

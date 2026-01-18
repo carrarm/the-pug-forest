@@ -3,7 +3,46 @@
 } @else {
   <app-mobile-layout />
 }
-<app-toaster>
-  Your team adopted <strong>{{ offlineGains() | shortNumber }}</strong> more pugs while you were
-  offline!
+
+@if (popupOpen) {
+  @switch (popupType) {
+    @case ('firstConnection') {
+      <app-popup popupTitle="Explore, Adopt, Repeat" (closed)="closePopup()">
+        <span>
+          You have discovered a hidden forest full of playful pugs! Adopt them one by one and watch
+          your cozy pug family grow into a magical empire.
+        </span>
+        <button class="cta-button" (click)="closePopup()">Enter the Pug Forest!</button>
+      </app-popup>
+    }
+
+    @case ('offlineGains') {
+      <app-popup popupTitle="Your pug family grew" (closed)="closePopup()">
+        <span>
+          Your team adopted <strong>{{ offlineGains() | shortNumber }}</strong> more pugs while you
+          were offline!
+        </span>
+        <button class="cta-button" (click)="closePopup()">Meet them all</button>
+      </app-popup>
+    }
+
+    @case ('noGains') {
+      <app-popup popupTitle="Your empire needs help!" (closed)="closePopup()">
+        <span>
+          The forest stayed quiet while you were away… Time to recruit some help and let the pugs
+          start coming home on their own!
+        </span>
+        <button class="cta-button" (click)="closePopup()">Get some helpers</button>
+      </app-popup>
+    }
+  }
+}
+
+<app-toaster [visible]="notifiedAchievements().length > 0" alwaysVisible>
+  <div class="achievement-notifications">
+    <span>New achievement!</span>
+    @for (achievement of notifiedAchievements(); track achievement.name) {
+      <app-achievement-card [achievement]="achievement" unlocked />
+    }
+  </div>
 </app-toaster>

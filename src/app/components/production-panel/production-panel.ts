@@ -2,8 +2,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 
 import { ProductionTierCard } from '@components/production-panel/production-tier-card/production-tier-card.component';
 import { PurchaseMultiplier } from '@components/purchase-multiplier/purchase-multiplier';
-import { GameStateService } from '@core/services/game-state.service';
-import { TierService } from '@core/services/tier.service';
+import { NB_TIERS_TO_DISCOVER } from '@core/game-config';
+import { GameStateService } from '@core/services/game-state';
+import { TierService } from '@core/services/tier';
 import { ProductionTier } from '@model';
 
 @Component({
@@ -17,9 +18,12 @@ export class ProductionPanel {
 
   private readonly tierService = inject(TierService);
 
-  protected readonly productionTiers = computed(() =>
-    Object.values(this.gameState.productionTiers()),
-  );
+  protected readonly productionTiers = computed(() => {
+    return Object.values(this.gameState.productionTiers()).map((tier: ProductionTier) => ({
+      ...tier,
+      isDiscovered: this.tierService.productionTierDiscovered(tier.code),
+    }));
+  });
 
   protected readonly purchaseMultiplier = signal(1);
 

@@ -1,0 +1,9 @@
+<div class="overlay">
+  <div class="popup">
+    <div class="title">
+      {{ popupTitle() }}
+      <button class="close-button cta-button" (click)="closed.emit()">X</button>
+    </div>
+    <ng-content />
+  </div>
+</div>

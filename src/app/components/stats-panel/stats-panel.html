@@ -1,11 +1,10 @@
+<p>Since the beginning...</p>
 <ul>
-  <li>Pug empire started on {{ gameState.statistics().firstClickDate | date }}</li>
-  <li>Number of pugs you've owned: {{ gameState.statistics().totalPugs | shortNumber }}</li>
-  <li>Number of visits to the forest: {{ gameState.statistics().totalClicks | shortNumber }}</li>
-  <li>
-    Number of pugs given up for adoption: {{ gameState.statistics().totalSpent | shortNumber }}
-  </li>
-  <li>Number of prestiges: {{ gameState.statistics().totalPrestiges }}</li>
+  <li>Pug empire started on {{ gameState.statistics().allTimes.firstClickDate | date }}</li>
+  <ng-container
+    *ngTemplateOutlet="statistics; context: { $implicit: gameState.statistics().allTimes }"
+  />
+  <li>Number of prestiges: {{ gameState.statistics().allTimes.totalPrestiges }}</li>
   <li>Offline gains: {{ gameState.offlineGainPercent() }}%</li>
   <li>
     Unlocked achievements: {{ nbUnlockedAchievements() }} / {{ nbAchievements }} ({{
@@ -13,3 +12,19 @@
     }})
   </li>
 </ul>
+
+@if (gameState.statistics().allTimes.totalPrestiges > 0) {
+  <p>Current run</p>
+  <ul>
+    <li>Run started on {{ gameState.statistics().currentRun.firstClickDate | date }}</li>
+    <ng-container
+      *ngTemplateOutlet="statistics; context: { $implicit: gameState.statistics().currentRun }"
+    />
+  </ul>
+}
+
+<ng-template #statistics let-stats>
+  <li>Number of pugs you've owned: {{ stats.totalPugs | shortNumber }}</li>
+  <li>Number of visits to the forest: {{ stats.totalClicks | shortNumber }}</li>
+  <li>Number of pugs given up for adoption: {{ stats.totalSpent | shortNumber }}</li>
+</ng-template>

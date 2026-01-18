@@ -1,5 +1,12 @@
 <app-header size="small" />
 
+@if (activePanel() !== 'MAIN') {
+  <app-pug-counter-panel inline />
+} @else {
+  <!-- Empty element for the grid layout -->
+  <div></div>
+}
+
 <main class="u-flex-filler">
   @if (activePanel() === 'MAIN') {
     <app-main-panel device="MOBILE" />
@@ -17,18 +24,18 @@
       } @else if (activeViewGroup() === 'STATS') {
         <div class="menu-selection">
           <ng-container
-            *ngTemplateOutlet="panelMenuBtn; context: { panel: 'STATS', label: 'Statistics' }"
-          />
-          <ng-container
             *ngTemplateOutlet="
               panelMenuBtn;
               context: { panel: 'ACHIEVEMENTS', label: 'Achievements' }
             "
           />
+          <ng-container
+            *ngTemplateOutlet="panelMenuBtn; context: { panel: 'STATS', label: 'Statistics' }"
+          />
         </div>
       }
 
-      <app-content-panel [activePanel]="activePanel()" />
+      <app-content-panel [activePanel]="activePanel()" [withTitle]="showPanelTitle()" />
     </div>
   }
 </main>
@@ -50,7 +57,7 @@
 <ng-template #panelMenuBtn let-panel="panel" let-label="label">
   <button
     class="cta-button"
-    [ngClass]="{ active: activePanel() === panel }"
+    [class.active]="activePanel() === panel"
     (click)="activePanel.set(panel)"
   >
     {{ label }}

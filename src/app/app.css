@@ -1,0 +1,16 @@
+app-popup button {
+  padding: 0.5rem 1rem;
+
+  font-size: large;
+}
+
+.achievement-notifications {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  span {
+    font-size: large;
+    font-weight: bold;
+  }
+}

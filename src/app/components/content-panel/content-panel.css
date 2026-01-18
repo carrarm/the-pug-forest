@@ -1,3 +1,9 @@
 :host {
   display: block;
 }
+
+.panel-title {
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 0.5em;
+}

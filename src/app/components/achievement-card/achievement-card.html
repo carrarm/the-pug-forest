@@ -1,0 +1,17 @@
+<div class="app-bordered-panel achievement" [class.unlocked]="unlocked()">
+  @if (unlocked()) {
+    <img src="generic-achievement.png" alt="Achievement" />
+  } @else {
+    <div class="img-placeholder"></div>
+  }
+  <div class="description">
+    <div>
+      <strong>{{ achievement().name }}</strong>
+    </div>
+    @if (unlocked()) {
+      <div>{{ achievement().unlockText }}</div>
+    } @else {
+      <div>???</div>
+    }
+  </div>
+</div>

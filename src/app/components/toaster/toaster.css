@@ -2,11 +2,15 @@
   position: fixed;
   top: 20px;
   right: 20px;
+  z-index: 100;
 
   background-color: white;
   padding: 1rem 2rem;
   border-radius: 5px;
   max-width: 75vw;
+  width: 400px;
+
+  font-size: 0.9rem;
 
   &:empty {
     display: none;
