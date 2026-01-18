@@ -142,18 +142,27 @@ export class GameStateService {
   }
 
   private restoreGameState(gameState: GameState): void {
-    this.ownedPugs.set(gameState.ownedPugs);
-    this.productionTiers.set(gameState.productionTiers);
-    this.upgradeTiers.set(gameState.upgradeTiers);
-    this.prestiges.set(gameState.prestiges);
-    this.achievements.set(gameState.achievements);
-    this.offlineGainPercent.set(gameState.offlineGainPercent);
-    if (!gameState.statistics.allTimes.firstClickDate) {
-      const now = Date.now();
-      gameState.statistics.allTimes.firstClickDate = now;
-      gameState.statistics.currentRun.firstClickDate = now;
+    try {
+      this.ownedPugs.set(gameState.ownedPugs);
+      this.productionTiers.set(gameState.productionTiers);
+      this.upgradeTiers.set(gameState.upgradeTiers);
+      this.prestiges.set(gameState.prestiges);
+      this.achievements.set(gameState.achievements);
+      this.offlineGainPercent.set(gameState.offlineGainPercent);
+      if (!gameState.statistics.allTimes.firstClickDate) {
+        const now = Date.now();
+        gameState.statistics.allTimes.firstClickDate = now;
+        gameState.statistics.currentRun.firstClickDate = now;
+      }
+      this.statistics.set(gameState.statistics);
+      this.lastProductionDate.set(gameState.lastProductionDate);
+    } catch (error) {
+      if (version.includes('dev')) {
+        alert('The game data must be reset');
+        this.resetGame();
+      } else {
+        alert('An error occurred while loading the game');
+      }
     }
-    this.statistics.set(gameState.statistics);
-    this.lastProductionDate.set(gameState.lastProductionDate);
   }
 }
