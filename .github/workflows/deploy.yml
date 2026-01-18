@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: .github/actions/common-setup.yml
+      - uses: ./.github/actions/common-setup
 
       # Build and deploy
       - name: Install dependencies
