@@ -1,0 +1,22 @@
+name: Tag Production Release
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    name: Tag the current version
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./.github/workflows/common-setup.yml
+
+      - name: Create tag from package.json version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
