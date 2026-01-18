@@ -1,10 +1,14 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { ProductionTier } from '@model';
-import { GameStateService } from '@core/services/game-state';
 
-const PRODUCTION_COST_SCALING_FACTOR = 1.2;
-const UPGRADE_COST_SCALING_FACTOR = 3;
-const REQUIRED_OWNED_UPGRADES = [10, 50, 100, 150, 200, 300, 400, 500, 800, 1000];
+import { GameStateService } from '@core/services/game-state';
+import {
+  NB_TIERS_TO_DISCOVER,
+  PRODUCTION_COST_SCALING_FACTOR,
+  REQUIRED_OWNED_UPGRADES,
+  UPGRADE_COST_SCALING_FACTOR,
+} from '@core/game-config';
+import { PRODUCTION_TIERS } from '@data/production-tiers.data';
+import { ProductionTier } from '@model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,5 +65,15 @@ export class TierService {
 
   public computeUpgradeTierRequirement(ownedUpgrades: number): number {
     return REQUIRED_OWNED_UPGRADES[ownedUpgrades];
+  }
+
+  public productionTierDiscovered(tierCode: string): boolean {
+    const previousTierIndex = PRODUCTION_TIERS.findIndex((t) => t.code === tierCode) - 1;
+    if (previousTierIndex < 0) {
+      // Below 0 means that `tier` is the first available tier
+      return true;
+    }
+    const previousCode = PRODUCTION_TIERS[previousTierIndex].code;
+    return this.gameState.productionTiers()[previousCode].owned >= NB_TIERS_TO_DISCOVER;
   }
 }

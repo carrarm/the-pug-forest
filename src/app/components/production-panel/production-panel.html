@@ -5,6 +5,7 @@
     [tier]="tier"
     [owned]="tier.owned"
     [multiplier]="purchaseMultiplier()"
+    [discovered]="tier.isDiscovered"
     (purchase)="purchaseProductionTier(tier)"
   />
 }

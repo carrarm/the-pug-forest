@@ -16,6 +16,7 @@ export class UpgradeTierCard {
   public readonly tier = input.required<UpgradeTier>();
   public readonly owned = input.required<number>();
   public readonly multiplier = input.required<number>();
+  public readonly discovered = input(true);
   public readonly purchase = output<void>();
 
   protected readonly gameState = inject(GameStateService);
