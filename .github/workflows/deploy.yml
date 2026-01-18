@@ -2,17 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
-    inputs:
-      release_type:
-        description: "Deployment type"
-        required: true
-        type: choice
-        default: current
-        options:
-          - current
-          - patch
-          - minor
-          - major
+
 
 permissions:
   contents: write
