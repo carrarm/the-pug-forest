@@ -12,7 +12,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/common-setup.yml
+      - uses: .github/actions/common-setup.yml
 
       - name: Install dependencies
         run: npm ci
@@ -31,7 +31,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/common-setup.yml
+      - uses: .github/actions/common-setup.yml
 
       - name: Install dependencies
         run: npm ci --prefer-offline
