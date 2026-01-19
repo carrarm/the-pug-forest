@@ -2,9 +2,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 
 import { ProductionTierCard } from '@components/production-panel/production-tier-card/production-tier-card.component';
 import { PurchaseMultiplier } from '@components/purchase-multiplier/purchase-multiplier';
-import { NB_TIERS_TO_DISCOVER } from '@core/game-config';
 import { GameStateService } from '@core/services/game-state';
 import { TierService } from '@core/services/tier';
+import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
 import { ProductionTier } from '@model';
 
 @Component({
@@ -19,19 +19,23 @@ export class ProductionPanel {
   private readonly tierService = inject(TierService);
 
   protected readonly productionTiers = computed(() => {
-    return Object.values(this.gameState.productionTiers()).map((tier: ProductionTier) => ({
-      ...tier,
-      isDiscovered: this.tierService.productionTierDiscovered(tier.code),
-    }));
+    return Object.entries(this.gameState.productionTiers()).map(([tierCode, owned]) => {
+      const tierInfo = PRODUCTION_TIER_BY_CODE[tierCode];
+      return {
+        ...tierInfo,
+        owned,
+        isDiscovered: this.tierService.productionTierDiscovered(tierCode),
+      };
+    });
   });
 
   protected readonly purchaseMultiplier = signal(1);
 
   protected purchaseProductionTier(tier: ProductionTier): void {
-    const owned = this.gameState.productionTiers()[tier.code].owned;
+    const owned = this.gameState.productionTiers()[tier.code];
     this.gameState.productionTiers.update((tiers) => {
       const updatedTiers = { ...tiers };
-      updatedTiers[tier.code].owned += this.purchaseMultiplier();
+      updatedTiers[tier.code] += this.purchaseMultiplier();
       return updatedTiers;
     });
     const totalPurchaseCost = this.tierService.computeProductionTierCost(

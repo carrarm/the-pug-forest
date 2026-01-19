@@ -7,8 +7,8 @@ import {
   REQUIRED_OWNED_UPGRADES,
   UPGRADE_COST_SCALING_FACTOR,
 } from '@core/game-config';
-import { PRODUCTION_TIERS } from '@data/production-tiers.data';
-import { ProductionTier } from '@model';
+import { PRODUCTION_TIER_BY_CODE, PRODUCTION_TIERS } from '@data/production-tiers.data';
+import { UPGRADE_TIER_BY_CODE, UPGRADE_TIERS } from '@data/upgrade-tiers.data';
 
 @Injectable({
   providedIn: 'root',
@@ -17,25 +17,26 @@ export class TierService {
   private readonly gameState = inject(GameStateService);
 
   public readonly clickProduction = computed(() => {
-    const clickUpgrade = this.gameState.upgradeTiers()['TRAVELER_AURA'];
-    return Math.pow(clickUpgrade.multiplier, clickUpgrade.owned);
+    const ownedUpgrades = this.gameState.upgradeTiers()['TRAVELER_AURA'];
+    return Math.pow(UPGRADE_TIER_BY_CODE['TRAVELER_AURA'].multiplier, ownedUpgrades);
   });
 
   public readonly productionPerSecond = computed(() => {
     let production = 0;
     const productionTiers = this.gameState.productionTiers();
-    for (const tier in productionTiers) {
-      production += productionTiers[tier].owned * this.computeBaseProduction(productionTiers[tier]);
+    for (const tierCode in productionTiers) {
+      production += productionTiers[tierCode] * this.computeBaseProduction(tierCode);
     }
     return production;
   });
 
-  public computeBaseProduction(tier: ProductionTier): number {
-    const upgrade = Object.values(this.gameState.upgradeTiers()).find(
-      (upgrade) => upgrade.affects === tier.code,
-    );
-    const upgradeMultiplier = upgrade ? Math.pow(upgrade.multiplier, upgrade.owned) : 1;
-    return tier.production * upgradeMultiplier;
+  public computeBaseProduction(tierCode: string): number {
+    const productionTier = PRODUCTION_TIER_BY_CODE[tierCode];
+    const upgradeTier = UPGRADE_TIERS.find((u) => u.affects === tierCode)!;
+    const upgradeMultiplier = upgradeTier
+      ? Math.pow(upgradeTier.multiplier, this.gameState.upgradeTiers()[upgradeTier.code])
+      : 1;
+    return productionTier.production * upgradeMultiplier;
   }
 
   public computeOfflineProduction(): number {
@@ -74,6 +75,6 @@ export class TierService {
       return true;
     }
     const previousCode = PRODUCTION_TIERS[previousTierIndex].code;
-    return this.gameState.productionTiers()[previousCode].owned >= NB_TIERS_TO_DISCOVER;
+    return this.gameState.productionTiers()[previousCode] >= NB_TIERS_TO_DISCOVER;
   }
 }
