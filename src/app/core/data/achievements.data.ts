@@ -1,7 +1,7 @@
 import { Achievement, GameState } from '@model';
 
 function hasTierAmount(state: GameState, tierCode: string, howMany: number): boolean {
-  return state.productionTiers[tierCode].owned >= howMany;
+  return state.productionTiers[tierCode] >= howMany;
 }
 
 function hasPrestige(state: GameState, prestigeCode: string, howMany: number): boolean {
@@ -58,9 +58,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: 'Your pug-collecting efficiency is beginning to soar',
     unlockText: 'Purchase any 3 upgrades',
     unlocked: (state: GameState) => {
-      const totalOwned = Object.values(state.upgradeTiers)
-        .map((tier) => tier.owned)
-        .reduce((total, nb) => total + nb, 0);
+      const totalOwned = Object.values(state.upgradeTiers).reduce((total, nb) => total + nb, 0);
       return totalOwned >= 3;
     },
   },
