@@ -36,6 +36,6 @@ export class ProductionTierCard {
   });
 
   protected readonly currentProduction = computed(() => {
-    return this.tier().production * this.owned();
+    return this.baseProduction() * this.owned();
   });
 }
