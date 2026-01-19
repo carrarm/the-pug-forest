@@ -7,7 +7,7 @@
   overflow: hidden;
 
   grid-area: main;
-  background-image: url('../../../../public/pug-forest-background.png');
+  background-image: url('../../../../public/pug-forest-background.webp');
   background-size: cover;
   background-position: bottom;
   height: var(--main-panel-height, 500px);

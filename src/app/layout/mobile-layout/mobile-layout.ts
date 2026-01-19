@@ -26,16 +26,16 @@ export class MobileLayout {
   );
 
   protected readonly menuButtons = [
-    { icon: 'icons/MENU_PUGS.png', alt: 'Pugs menu', label: 'Pugs', view: 'MAIN' },
+    { icon: 'icons/MENU_PUGS.svg', alt: 'Pugs menu', label: 'Pugs', view: 'MAIN' },
     {
-      icon: 'icons/MENU_PURCHASES.png',
+      icon: 'icons/MENU_PURCHASES.svg',
       alt: 'Purchases menu',
       label: 'Purchases',
       view: 'PURCHASES',
     },
-    { icon: 'icons/MENU_PRESTIGE.png', alt: 'Prestige menu', label: 'Prestige', view: 'PRESTIGE' },
-    { icon: 'icons/MENU_STATS.png', alt: 'Stats menu', label: 'Stats', view: 'STATS' },
-    { icon: 'icons/MENU_SETTINGS.png', alt: 'Settings menu', label: 'Settings', view: 'SETTINGS' },
+    { icon: 'icons/MENU_PRESTIGE.svg', alt: 'Prestige menu', label: 'Prestige', view: 'PRESTIGE' },
+    { icon: 'icons/MENU_STATS.svg', alt: 'Stats menu', label: 'Stats', view: 'STATS' },
+    { icon: 'icons/MENU_SETTINGS.svg', alt: 'Settings menu', label: 'Settings', view: 'SETTINGS' },
   ] as const;
 
   protected changeActiveView(view: View): void {
