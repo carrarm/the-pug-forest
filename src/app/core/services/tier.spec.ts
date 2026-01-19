@@ -14,11 +14,11 @@ function configureTier(
   ownedUpgrades: number,
 ): void {
   tier.owned = ownedProduction;
-  mock.productionTiers.update((tiers) => ({ ...tiers, [tier.code]: tier }));
+  mock.productionTiers.update((tiers) => ({ ...tiers, [tier.code]: ownedProduction }));
 
   const upgradeTier = UPGRADE_TIERS.find((u) => u.affects === tier.code)!;
   upgradeTier.owned = ownedUpgrades;
-  mock.upgradeTiers.update((tiers) => ({ ...tiers, [upgradeTier.code]: upgradeTier }));
+  mock.upgradeTiers.update((tiers) => ({ ...tiers, [upgradeTier.code]: ownedUpgrades }));
 }
 
 describe.shuffle('TierService', () => {
@@ -42,7 +42,7 @@ describe.shuffle('TierService', () => {
     const testedTier = PRODUCTION_TIERS[0];
     configureTier(gameStateMock, testedTier, 10, 0);
 
-    const baseProduction = service.computeBaseProduction(testedTier);
+    const baseProduction = service.computeBaseProduction(testedTier.code);
     expect(baseProduction).toBe(testedTier.production);
   });
 
@@ -52,7 +52,7 @@ describe.shuffle('TierService', () => {
     const ownedUpgrades = 10;
     configureTier(gameStateMock, testedTier, 10, ownedUpgrades);
 
-    const baseProduction = service.computeBaseProduction(testedTier);
+    const baseProduction = service.computeBaseProduction(testedTier.code);
     expect(baseProduction).toBe(testedTier.production * Math.pow(upgradeMultiplier, ownedUpgrades));
   });
 
@@ -82,7 +82,7 @@ describe.shuffle('TierService', () => {
     });
 
     const tierProduction = testedTiers.reduce(
-      (total, tier) => total + service.computeBaseProduction(tier) * tier.owned,
+      (total, tier) => total + service.computeBaseProduction(tier.code) * tier.owned,
       0,
     );
 
