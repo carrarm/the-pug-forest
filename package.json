@@ -1,6 +1,6 @@
 {
   "name": "pug-forest",
-  "version": "1.0.2",
+  "version": "1.0.2-dev.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
