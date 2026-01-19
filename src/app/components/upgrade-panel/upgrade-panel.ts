@@ -1,8 +1,9 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 
 import { UpgradeTierCard } from '@components/upgrade-panel/upgrade-tier-card/upgrade-tier-card';
 import { GameStateService } from '@core/services/game-state';
 import { TierService } from '@core/services/tier';
+import { UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
 import { UpgradeTier } from '@model';
 
 @Component({
@@ -16,20 +17,21 @@ export class UpgradePanel {
   protected readonly tierService = inject(TierService);
 
   protected readonly upgradeTiers = computed(() => {
-    return Object.values(this.gameState.upgradeTiers()).map((tier: UpgradeTier) => {
+    return Object.entries(this.gameState.upgradeTiers()).map(([tierCode, owned]) => {
       let isDiscovered = true;
-      if (tier.affects && tier.affects !== 'NEIGHBORHOOD_KIDS') {
-        isDiscovered = this.tierService.productionTierDiscovered(tier.affects);
+      const upgradeTier = UPGRADE_TIER_BY_CODE[tierCode];
+      if (upgradeTier.affects && upgradeTier.affects !== 'NEIGHBORHOOD_KIDS') {
+        isDiscovered = this.tierService.productionTierDiscovered(upgradeTier.affects);
       }
-      return { ...tier, isDiscovered };
+      return { ...upgradeTier, owned, isDiscovered };
     });
   });
 
   protected purchaseUpgradeTier(tier: UpgradeTier): void {
-    const owned = this.gameState.upgradeTiers()[tier.code].owned;
+    const owned = this.gameState.upgradeTiers()[tier.code];
     this.gameState.upgradeTiers.update((tiers) => {
       const updatedTiers = { ...tiers };
-      updatedTiers[tier.code].owned++;
+      updatedTiers[tier.code]++;
       return updatedTiers;
     });
     const totalPurchaseCost = this.tierService.computeProductionTierCost(1, tier.baseCost, owned);

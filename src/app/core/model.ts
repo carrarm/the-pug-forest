@@ -1,8 +1,8 @@
 export interface GameState {
   ownedPugs: number;
   lastProductionDate: number;
-  productionTiers: Record<string, ProductionTier>;
-  upgradeTiers: Record<string, UpgradeTier>;
+  productionTiers: Record<string, number>;
+  upgradeTiers: Record<string, number>;
   prestiges: Record<string, number>;
   achievements: Record<string, boolean>;
   offlineGainPercent: number;

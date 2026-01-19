@@ -32,7 +32,7 @@ export class ProductionTierCard {
   );
 
   protected readonly baseProduction = computed(() => {
-    return this.tierService.computeBaseProduction(this.tier());
+    return this.tierService.computeBaseProduction(this.tier().code);
   });
 
   protected readonly currentProduction = computed(() => {

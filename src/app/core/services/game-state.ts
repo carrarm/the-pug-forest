@@ -1,9 +1,9 @@
 import { Injectable, signal } from '@angular/core';
-import { version } from '@root/package.json';
 
-import { PRODUCTION_TIER_BY_CODE } from '@data/production-tiers.data';
-import { UPGRADE_TIER_BY_CODE } from '@data/upgrade-tiers.data';
-import { GameState, ProductionTier, RunStatistics, Statistics, UpgradeTier } from '@model';
+import { PRODUCTION_TIERS } from '@data/production-tiers.data';
+import { UPGRADE_TIERS } from '@data/upgrade-tiers.data';
+import { GameState, RunStatistics, Statistics } from '@model';
+import { version } from '@root/package.json';
 
 const STORAGE_KEY = 'gameState';
 
@@ -19,8 +19,8 @@ export interface ExportedData {
 export class GameStateService {
   public readonly appVersion = signal('');
   public readonly ownedPugs = signal(0);
-  public readonly productionTiers = signal<Record<string, ProductionTier>>({});
-  public readonly upgradeTiers = signal<Record<string, UpgradeTier>>({});
+  public readonly productionTiers = signal<Record<string, number>>({});
+  public readonly upgradeTiers = signal<Record<string, number>>({});
   public readonly prestiges = signal<Record<string, number>>({});
   public readonly achievements = signal<Record<string, boolean>>({});
   public readonly offlineGainPercent = signal(60);
@@ -129,8 +129,8 @@ export class GameStateService {
 
   private initGameState(): void {
     this.ownedPugs.set(0);
-    this.productionTiers.set(structuredClone(PRODUCTION_TIER_BY_CODE));
-    this.upgradeTiers.set(structuredClone(UPGRADE_TIER_BY_CODE));
+    this.productionTiers.set(Object.fromEntries(PRODUCTION_TIERS.map((tier) => [tier.code, 0])));
+    this.upgradeTiers.set(Object.fromEntries(UPGRADE_TIERS.map((tier) => [tier.code, 0])));
     this.prestiges.set({});
     this.achievements.set({});
     this.offlineGainPercent.set(60);

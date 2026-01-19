@@ -38,7 +38,7 @@ export class UpgradeTierCard {
     if (!this.tier().affects) {
       return true;
     }
-    const ownedUnits = this.gameState.productionTiers()[this.tier().affects].owned;
+    const ownedUnits = this.gameState.productionTiers()[this.tier().affects];
     return ownedUnits >= this.requiredUnits();
   });
   protected readonly totalEffect = computed(() => this.tier().multiplier * this.owned());
