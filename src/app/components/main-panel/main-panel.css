@@ -25,9 +25,8 @@ app-pug-counter-panel, .visit-forest-container {
 }
 
 
-button {
-  background-color: #247119;
-  border: solid 3px #112f11;
+.help-click-text {
+  background-color: rgba(36, 113, 25, 0.8);
   border-radius: var(--border-radius);
   padding: 0.5rem 1rem;
 
