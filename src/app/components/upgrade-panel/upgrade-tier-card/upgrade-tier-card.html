@@ -23,7 +23,9 @@
     @if (levelTier().owned < maxOwned) {
       <div class="requirement">
         Requires
-        <span [class.matched]="requirementMatched()">{{ requiredUnits() }} units</span>
+        <span [class.matched]="requirementMatched()">
+          {{ requiredUnits() }} {{ tier().affects ? 'units' : 'clicks' }}
+        </span>
       </div>
     }
   </div>
