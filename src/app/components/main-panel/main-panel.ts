@@ -61,8 +61,10 @@ export class MainPanel {
   }
 
   protected visitForest(): void {
-    this.animateGainsText();
-    this.gameState.ownedPugs.update((owned) => owned + this.tierService.clickProduction());
+    const generatedPugs =
+      this.tierService.clickProduction() * this.tierService.getBonusProductionFactor();
+    this.animateGainsText(generatedPugs);
+    this.gameState.ownedPugs.update((owned) => owned + generatedPugs);
     this.gameState.statistics.update(({ allTimes, currentRun }) => ({
       allTimes: {
         ...allTimes,
@@ -77,8 +79,9 @@ export class MainPanel {
     }));
   }
 
-  private animateGainsText(): void {
+  private animateGainsText(gains: number): void {
     const animatedText = this.visitForestText().nativeElement as HTMLDivElement;
+    animatedText.innerText = `+${gains} pug(s)`;
     animatedText.animate(
       [
         { transform: 'translate(-50%, 0)', opacity: 0 },

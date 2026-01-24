@@ -28,17 +28,17 @@ export class UpgradeTierCard {
     tier.description = UPGRADE_TIER_BY_CODE[this.tier().code].levelDescription[this.owned()];
     return tier;
   });
-  protected readonly requiredUnits = computed(() =>
-    this.tierService.computeUpgradeTierRequirement(this.owned()),
-  );
+  protected readonly requiredUnits = computed(() => {
+    const baseRequirement = this.tierService.computeUpgradeTierRequirement(this.owned());
+    return this.isClickUpgrade() ? baseRequirement * 10 : baseRequirement;
+  });
   protected readonly requirementMatched = computed(() => {
     if (this.owned() >= MAX_LEVEL) {
       return false;
     }
-    if (!this.tier().affects) {
-      return true;
-    }
-    const ownedUnits = this.gameState.productionTiers()[this.tier().affects];
+    const ownedUnits = this.isClickUpgrade()
+      ? this.gameState.statistics().currentRun.totalClicks
+      : this.gameState.productionTiers()[this.tier().affects];
     return ownedUnits >= this.requiredUnits();
   });
   protected readonly totalEffect = computed(() => this.tier().multiplier * this.owned());
@@ -50,4 +50,6 @@ export class UpgradeTierCard {
   );
 
   protected readonly maxOwned = MAX_LEVEL;
+
+  private readonly isClickUpgrade = computed(() => !this.tier().affects);
 }
