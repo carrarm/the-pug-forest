@@ -6,3 +6,5 @@ export const PRODUCTION_COST_SCALING_FACTOR = 1.2;
 export const UPGRADE_COST_SCALING_FACTOR = 3;
 // How many units of the affected tier must be owned to buy the next upgrade level
 export const REQUIRED_OWNED_UPGRADES = [10, 50, 100, 150, 200, 300, 400, 500, 700, 800];
+// Bonus applied to the click production
+export const BONUS_PRODUCTION_FACTOR = 2;

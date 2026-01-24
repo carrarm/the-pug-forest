@@ -2,6 +2,7 @@ import { computed, inject, Injectable } from '@angular/core';
 
 import { GameStateService } from '@core/services/game-state';
 import {
+  BONUS_PRODUCTION_FACTOR,
   NB_TIERS_TO_DISCOVER,
   PRODUCTION_COST_SCALING_FACTOR,
   REQUIRED_OWNED_UPGRADES,
@@ -66,6 +67,10 @@ export class TierService {
 
   public computeUpgradeTierRequirement(ownedUpgrades: number): number {
     return REQUIRED_OWNED_UPGRADES[ownedUpgrades];
+  }
+
+  public getBonusProductionFactor(): number {
+    return Math.random() <= 0.1 ? BONUS_PRODUCTION_FACTOR : 1;
   }
 
   public productionTierDiscovered(tierCode: string): boolean {

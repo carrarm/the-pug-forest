@@ -89,4 +89,17 @@ describe.shuffle('TierService', () => {
     const productionPerSecond = service.productionPerSecond();
     expect(productionPerSecond).toBe(tierProduction);
   });
+
+  it('should trigger roughly 10% production bonuses', () => {
+    const runs = 10_000;
+    let critical = 0;
+    for (let i = 0; i < runs; i++) {
+      if (service.getBonusProductionFactor() > 1) {
+        critical++;
+      }
+    }
+    const ratio = critical / runs;
+    expect(ratio).toBeGreaterThan(0.08);
+    expect(ratio).toBeLessThan(0.12);
+  });
 });
