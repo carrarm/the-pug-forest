@@ -6,7 +6,9 @@
   <app-pug-counter-panel />
 
   <div class="visit-forest-container">
-    <button class="app-unselectable-text">Visit the forest</button>
+    @if (!gameState.statistics().allTimes.totalClicks) {
+      <div class="help-click-text">Click anywhere in the forest to adopt pugs</div>
+    }
     <div class="gained-pug-animation" #visitForestText>
       <!-- Generated -->
     </div>
